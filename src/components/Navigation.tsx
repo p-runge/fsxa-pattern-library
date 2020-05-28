@@ -1,6 +1,6 @@
 import { FSXANavigation } from "fsxa-ui";
 import { Component, Prop } from "vue-property-decorator";
-import { ComposedNavigationProps } from "@/types/navigation";
+import { NavigationProps } from "@/types/navigation";
 import { NavigationData } from "fsxa-api";
 import { FSXAActions, FSXAGetters } from "@/store";
 import BaseComponent from "./BaseComponent";
@@ -8,11 +8,11 @@ import BaseComponent from "./BaseComponent";
 @Component({
   name: "ComposedNavigation"
 })
-class ComposedNavigation extends BaseComponent<ComposedNavigationProps> {
+class NavigationContainer extends BaseComponent<NavigationProps> {
   @Prop({ required: true, type: Function })
-  handleNavClick!: ComposedNavigationProps["handleNavClick"];
+  handleNavClick!: NavigationProps["handleNavClick"];
   @Prop({ type: Function })
-  isActiveItem: ComposedNavigationProps["isActiveItem"];
+  isActiveItem: NavigationProps["isActiveItem"];
 
   serverPrefetch() {
     return this.fetchData();
@@ -43,4 +43,4 @@ class ComposedNavigation extends BaseComponent<ComposedNavigationProps> {
     );
   }
 }
-export default ComposedNavigation;
+export default NavigationContainer;

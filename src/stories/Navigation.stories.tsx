@@ -1,4 +1,4 @@
-import ComposedNavigation from "@/components/ComposedNavigation";
+import Navigation from "@/components/Navigation";
 import { CreateElement } from "vue";
 import { NavigationItemBase, InteractiveComponent } from "fsxa-ui";
 import ConfigProvider from "@/components/ConfigProvider";
@@ -9,8 +9,8 @@ import createStore from "@/store";
 export type NavigationItem = NavigationItemBase<NavigationItem>;
 
 export default {
-  title: "ComposedNavigation",
-  component: ComposedNavigation
+  title: "Navigation",
+  component: Navigation
 };
 
 const store = createStore({
@@ -59,7 +59,7 @@ export const withNavigationData = () => ({
         renderComponent={props => {
           return (
             <ConfigProvider config={props}>
-              <ComposedNavigation
+              <Navigation
                 handleNavClick={item => console.log("Clicked", item)}
               />
             </ConfigProvider>

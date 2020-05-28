@@ -1,16 +1,14 @@
-import { ComposedNavigationProps } from "./navigation";
+import { NavigationProps } from "./navigation";
 import { ConfigProviderProps } from "./config-provider";
 import { Module } from "vuex";
 import { RootState, FSXAVuexState } from "./store";
 import * as tsx from "vue-tsx-support";
 import FSXAApi from "fsxa-api";
-import { ComposedPageProps, BaseSectionProps } from "./page";
+import { PageProps, BaseSectionProps } from "./page";
 
-export class FSXAComposedNavigation extends tsx.Component<
-  ComposedNavigationProps
-> {}
+export class FSXANavigation extends tsx.Component<NavigationProps> {}
 export class FSXAConfigProvider extends tsx.Component<ConfigProviderProps> {}
-export class FSXAComposedPage extends tsx.Component<ComposedPageProps> {}
+export class FSXAPage extends tsx.Component<PageProps> {}
 export class FSXABaseSection<Payload = {}> extends tsx.Component<
   BaseSectionProps<Payload>
 > {

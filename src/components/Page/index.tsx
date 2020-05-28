@@ -1,59 +1,69 @@
-import { Prop, Component } from "vue-property-decorator";
-import Layout from "@/components/Layout";
-import { Fragment } from "vue-fragment";
+import { Component, Prop } from "vue-property-decorator";
 import BaseComponent from "@/components/BaseComponent";
-import { RenderNavigationHook } from "@/types/page";
-import { Body } from "fsxa-api";
+import { PageProps } from "@/types/page";
+import Page from "./Page";
+import { Page as APIPage } from "fsxa-api";
+import ComposedNavigation from "@/components/Navigation";
+import TPP_SNAP from "fs-tpp-api/snap";
 
-export interface PageProps {
-  id: string;
-  previewId: string;
-  layoutType: string;
-  body: Body[];
-  data: any;
-  meta: any;
-  renderNavigation: RenderNavigationHook;
-}
 @Component({
-  name: "Page"
+  name: "PageContainer"
 })
-class Page extends BaseComponent<PageProps> {
+class PageContainer extends BaseComponent<PageProps> {
   @Prop({ required: true }) id!: PageProps["id"];
-  @Prop({ required: true }) previewId!: PageProps["previewId"];
-  @Prop({ required: true }) layoutType!: PageProps["layoutType"];
-  @Prop({ required: true }) body!: PageProps["body"];
-  @Prop({ required: false, default: {} }) data!: PageProps["data"];
-  @Prop({ required: false, default: {} }) meta!: PageProps["meta"];
-  @Prop({ required: true }) renderNavigation!: PageProps["renderNavigation"];
+  @Prop() renderNavigation: PageProps["renderNavigation"];
+  // TODO: In PreviewMode: Register with tpp-snap and reload page-data or even better --> only replace changed sections content
+
+  serverPrefetch() {
+    return this.fetchData();
+  }
+
+  get pageData(): APIPage | null {
+    return this.getStoredItem(this.key);
+  }
+
+  get key() {
+    return `${this.id}.${this.locale}`;
+  }
+
+  mounted() {
+    this.fetchData();
+    if (this.isEditMode) {
+      TPP_SNAP.onRequestPreviewElement((previewId: string) => {
+        console.log("Reqesting preview Element", previewId);
+      });
+    }
+    // initialize TPP-SNAP if we are in preview mode
+  }
+
+  updated() {
+    this.fetchData();
+  }
+
+  async fetchData(force = false) {
+    const storedItem = this.getStoredItem(this.key);
+    if (!storedItem || force) {
+      const response = await this.$fsxaAPI.fetchPage(this.id);
+      this.setStoredItem(this.key, response);
+    }
+  }
 
   render() {
-    const layout = (
-      <Layout
-        type={this.layoutType}
-        content={this.body}
-        data={this.data}
-        meta={this.meta}
+    if (!this.pageData) return null;
+    return (
+      <Page
+        id={this.id}
+        renderNavigation={
+          this.renderNavigation ||
+          (() => <ComposedNavigation handleNavClick={console.log} />)
+        }
+        layoutType={this.pageData.layout}
+        previewId={this.pageData.previewId}
+        data={this.pageData.data}
+        meta={this.pageData.meta}
+        body={this.pageData.children}
       />
     );
-    return (
-      <div class="w-full">
-        <div class="w-full relative">
-          <div class="fixed top-0 left-0 w-full z-10">
-            <div class="w-full bg-white px-12">
-              {this.renderNavigation(this.data.id)}
-            </div>
-          </div>
-        </div>
-        <div class="w-full mt-24">
-          {this.isEditMode ? (
-            <div data-preview-id={this.previewId}>{layout}</div>
-          ) : (
-            <Fragment>{layout}</Fragment>
-          )}
-        </div>
-      </div>
-    );
-    return;
   }
 }
-export default Page;
+export default PageContainer;

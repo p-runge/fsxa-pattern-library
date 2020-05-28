@@ -1,7 +1,7 @@
-import { NavigationProps } from "fsxa-ui";
+import { NavigationProps as UINavigationProps } from "fsxa-ui";
 import { NavigationItem } from "fsxa-api";
 
-export type ComposedNavigationProps = Pick<
-  NavigationProps<NavigationItem>,
+export type NavigationProps = Pick<
+  UINavigationProps<NavigationItem>,
   "handleNavClick" | "isActiveItem"
 >;

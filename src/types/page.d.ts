@@ -1,4 +1,4 @@
-export interface ComposedPageProps {
+export interface PageProps {
   id: string;
   renderNavigation?: RenderNavigationHook;
 }

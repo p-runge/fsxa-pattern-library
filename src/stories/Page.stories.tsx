@@ -3,11 +3,11 @@ import { InteractiveComponent } from "fsxa-ui";
 import ConfigProvider from "@/components/ConfigProvider";
 import { FSXAConfiguration } from "@/types/store";
 import createStore from "@/store";
-import ComposedPage from "@/components/ComposedPage";
+import Page from "@/components/Page";
 
 export default {
-  title: "ComposedPage",
-  component: ComposedPage
+  title: "Page",
+  component: Page
 };
 const store = createStore({
   apiKey: "f5a14f78-d8b8-4525-a814-63b49e0436ee",
@@ -61,7 +61,7 @@ export const withCaasData = () => ({
         renderComponent={({ id, ...props }) => {
           return (
             <ConfigProvider config={props}>
-              <ComposedPage id={id} />
+              <Page id={id} />
             </ConfigProvider>
           );
         }}
