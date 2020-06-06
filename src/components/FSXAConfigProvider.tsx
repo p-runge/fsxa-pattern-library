@@ -1,26 +1,26 @@
-import { ConfigProviderProps } from "@/types/config-provider";
 import Component from "vue-class-component";
 import { Prop, Provide } from "vue-property-decorator";
 import * as tsx from "vue-tsx-support";
-import { FSXAActions } from "@/store";
+import { FSXAActions, FSXAGetters } from "@/store";
 import {
   FSXA_INJECT_KEY_LAYOUTS,
   FSXA_INJECT_KEY_SECTIONS,
   FSXA_INJECT_KEY_DEBUG_MODE,
-  FSXA_INJECT_KEY_EDIT_MODE
+  FSXA_INJECT_KEY_EDIT_MODE,
 } from "@/constants";
+import { FSXAConfigProviderProps } from "@/types/components";
 
 @Component({
-  name: "ConfigProvider"
+  name: "FSXAConfigProvider",
 })
-class ConfigProvider extends tsx.Component<ConfigProviderProps> {
-  @Prop() config!: ConfigProviderProps["config"];
-  @Prop({ default: false }) debugMode!: ConfigProviderProps["debugMode"];
-  @Prop({ default: false }) editMode!: ConfigProviderProps["editMode"];
+class FSXAConfigProvider extends tsx.Component<FSXAConfigProviderProps> {
+  @Prop() config!: FSXAConfigProviderProps["config"];
+  @Prop({ default: false }) debugMode!: FSXAConfigProviderProps["debugMode"];
+  @Prop({ default: false }) editMode!: FSXAConfigProviderProps["editMode"];
   // eslint-disable-next-line
-  @Prop({ default: () => {} }) layouts!: ConfigProviderProps["layouts"];
+  @Prop({ default: () => {} }) layouts!: FSXAConfigProviderProps["layouts"];
   // eslint-disable-next-line
-  @Prop({ default: () => {} }) sections!: ConfigProviderProps["sections"];
+  @Prop({ default: () => {} }) sections!: FSXAConfigProviderProps["sections"];
 
   @Provide(FSXA_INJECT_KEY_LAYOUTS) injectedLayouts = this.layouts;
   @Provide(FSXA_INJECT_KEY_SECTIONS) injectedSections = this.sections;
@@ -35,8 +35,13 @@ class ConfigProvider extends tsx.Component<ConfigProviderProps> {
     this.setConfiguration();
   }
 
+  get currentFSXAConfiguration() {
+    return this.$store.getters[FSXAGetters.configuration];
+  }
+
   setConfiguration() {
     if (this.config) {
+      console.log("Will update configuration");
       this.$store.dispatch(FSXAActions.setConfiguration, this.config);
     }
   }
@@ -45,4 +50,4 @@ class ConfigProvider extends tsx.Component<ConfigProviderProps> {
     return this.$slots.default;
   }
 }
-export default ConfigProvider;
+export default FSXAConfigProvider;

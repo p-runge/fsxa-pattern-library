@@ -1,22 +1,16 @@
 import { CreateElement } from "vue";
-import { InteractiveComponent } from "fsxa-ui";
-import ConfigProvider from "@/components/ConfigProvider";
-import { FSXAConfiguration } from "@/types/store";
 import createStore from "@/store";
-import Page from "@/components/Page";
+import FSXAPage from "@/components/FSXAPage";
+import { FSXAConfiguration } from "fsxa-api";
+import { getFSXAConfigFromEnvFile } from "@/utils/config";
+import { InteractiveComponent } from "fsxa-ui";
+import FSXAConfigProvider from "@/components/FSXAConfigProvider";
 
 export default {
-  title: "Page",
-  component: Page
+  title: "FSXAPage",
+  component: FSXAPage,
 };
-const store = createStore({
-  apiKey: "f5a14f78-d8b8-4525-a814-63b49e0436ee",
-  caas:
-    "https://caas.staging.delivery-platform.e-spirit.live/0b975076-5061-44e6-bbce-c1d9f73f6606/preview.content",
-  navigationService:
-    "https://do-caas-core02.navigation.prod.delivery-platform.e-spirit.live/navigation/preview.0b975076-5061-44e6-bbce-c1d9f73f6606",
-  locale: "de_DE"
-});
+const store = createStore(getFSXAConfigFromEnvFile());
 export const withCaasData = () => ({
   store,
   // TODO: Check if we can auto-inject h into the render function as this is done with vue-cli as well
@@ -31,41 +25,41 @@ export const withCaasData = () => ({
             key: "apiKey",
             default: store.state.fsxa.configuration?.apiKey,
             label: "API-Key",
-            type: "string"
+            type: "string",
           },
           {
             key: "caas",
             default: store.state.fsxa.configuration?.caas,
             label: "CaaS",
-            type: "string"
+            type: "string",
           },
           {
             key: "navigationService",
             default: store.state.fsxa.configuration?.navigationService,
             label: "Navigation-Service",
-            type: "string"
+            type: "string",
           },
           {
             key: "locale",
             default: store.state.fsxa.configuration?.locale,
             label: "Locale",
-            type: "string"
+            type: "string",
           },
           {
             key: "id",
             default: "c8a158a3-2ba3-427c-a7e4-7d41d9844464",
             label: "Page-Id",
-            type: "string"
-          }
+            type: "string",
+          },
         ]}
         renderComponent={({ id, ...props }) => {
           return (
-            <ConfigProvider config={props}>
-              <Page id={id} />
-            </ConfigProvider>
+            <FSXAConfigProvider config={props}>
+              <FSXAPage id={id} handleRouteChange={console.log} />
+            </FSXAConfigProvider>
           );
         }}
       />
     </div>
-  )
+  ),
 });

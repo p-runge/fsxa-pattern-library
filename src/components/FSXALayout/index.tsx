@@ -1,32 +1,26 @@
 import Component from "vue-class-component";
 import { Prop, Inject } from "vue-property-decorator";
-import BaseComponent from "@/components/BaseComponent";
 import Layouts from "./components";
 import { FSXA_INJECT_KEY_LAYOUTS } from "@/constants";
-import { Body } from "fsxa-api";
+import FSXABaseComponent from "@/components/FSXABaseComponent";
+import { FSXALayoutProps } from "@/types/components";
 
-export interface LayoutProps {
-  type: string;
-  content: Body[];
-  data: any;
-  meta: any;
-}
 @Component({
-  name: "Layout"
+  name: "FSXALayout",
 })
-class Layout extends BaseComponent<LayoutProps> {
+class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
   @Inject({ from: FSXA_INJECT_KEY_LAYOUTS, default: {} }) layouts!: {};
   @Prop({ required: true })
-  data!: LayoutProps["data"];
-  @Prop({ required: true }) type!: LayoutProps["type"];
-  @Prop({ required: true }) content!: LayoutProps["content"];
+  data!: FSXALayoutProps["data"];
+  @Prop({ required: true }) type!: FSXALayoutProps["type"];
+  @Prop({ required: true }) content!: FSXALayoutProps["content"];
   @Prop({ required: true })
-  meta!: LayoutProps["meta"];
+  meta!: FSXALayoutProps["meta"];
 
   get mappedLayouts(): { [key: string]: any } {
     return {
       ...Layouts,
-      ...(this.layouts || {})
+      ...(this.layouts || {}),
     };
   }
 
@@ -45,7 +39,7 @@ class Layout extends BaseComponent<LayoutProps> {
               You can easily register new layouts by adding them to your
               <pre class="inline bg-gray-900 text-white px-2 py-1 rounded-lg">
                 src/fsxa/layouts
-              </pre>{" "}
+              </pre>
               Folder. <br />
               <br />
               The following Payload will be passed to it:
@@ -55,10 +49,10 @@ class Layout extends BaseComponent<LayoutProps> {
                     {
                       content: this.content,
                       data: this.data,
-                      meta: this.meta
+                      meta: this.meta,
                     },
                     undefined,
-                    2
+                    2,
                   )}
                 </code>
               </pre>
@@ -68,7 +62,11 @@ class Layout extends BaseComponent<LayoutProps> {
       }
       return null;
     }
-    return <Layout content={this.content} data={this.data} meta={this.meta} />;
+    return (
+      <div>
+        <Layout content={this.content} data={this.data} meta={this.meta} />
+      </div>
+    );
   }
 }
-export default Layout;
+export default FSXALayout;

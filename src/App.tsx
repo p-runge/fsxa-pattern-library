@@ -1,20 +1,34 @@
 import Component from "vue-class-component";
-import "fsxa-ui/dist/fsxa-ui.css";
-import * as tsx from "vue-tsx-support";
-import Page from "./components/Page";
+import FSXAPage from "./components/FSXAPage";
 import "./assets/tailwind.css";
-import ConfigProvider from "./components/ConfigProvider";
+import FSXAConfigProvider from "./components/FSXAConfigProvider";
+import FSXABaseComponent from "./components/FSXABaseComponent";
 
 @Component({
-  name: "App"
+  name: "App",
 })
-class App extends tsx.Component<{}> {
+class App extends FSXABaseComponent<{}> {
+  route = location.pathname;
+
+  changeRoute(route: string) {
+    history.pushState(null, "Title", route);
+    this.route = route;
+  }
+
   render() {
     return (
       <div>
-        <ConfigProvider debugMode={true}>
-          <Page id="c8a158a3-2ba3-427c-a7e4-7d41d9844464" />
-        </ConfigProvider>
+        <FSXAConfigProvider
+          debugMode
+          editMode={this.fsxaConfiguration?.mode === "preview"}
+        >
+          <FSXAPage
+            path={this.route}
+            handleRouteChange={route => {
+              if (route) this.changeRoute(route);
+            }}
+          />
+        </FSXAConfigProvider>
       </div>
     );
   }

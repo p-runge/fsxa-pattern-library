@@ -1,9 +1,4 @@
-export interface FSXAConfiguration {
-  caas: string;
-  navigationService: string;
-  apiKey: string;
-  locale: string;
-}
+import { FSXAConfiguration } from "fsxa-api";
 
 export interface FSXAVuexState {
   configuration?: FSXAConfiguration;

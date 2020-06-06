@@ -1,17 +1,16 @@
 import Vue from "vue";
 import Vuex, { Module } from "vuex";
 import { isEqual } from "lodash";
-import { RootState, FSXAConfiguration, FSXAVuexState } from "../types/store";
-import FSXAApi, { NavigationData } from "fsxa-api";
+import { RootState, FSXAVuexState } from "../types/store";
+import FSXAApi, { NavigationData, FSXAConfiguration } from "fsxa-api";
 import axios from "axios";
 
-// TODO: Split up store into separate chunks: getters, mutations, actions, state and use constants for the action names
 // check if we can require the config folder
 Vue.use(Vuex);
 
 const prefix = "fsxa";
 
-const NAVIGATION_DATA_KEY = "navigationData";
+export const NAVIGATION_DATA_KEY = "navigationData";
 
 const ACTION_FETCH_NAVIGATION = "fetchNavigation";
 const ACTION_SET_CONFIGURATION = "setConfiguration";
@@ -22,7 +21,7 @@ export const FSXAActions = {
   [ACTION_FETCH_NAVIGATION]: `${prefix}/${ACTION_FETCH_NAVIGATION}`,
   [ACTION_SET_CONFIGURATION]: `${prefix}/${ACTION_SET_CONFIGURATION}`,
   [ACTION_SET_INITIAL_STATE_FROM_SERVER]: `${prefix}/${ACTION_SET_INITIAL_STATE_FROM_SERVER}`,
-  [ACTION_SET_STORED_ITEM]: `${prefix}/${ACTION_SET_STORED_ITEM}`
+  [ACTION_SET_STORED_ITEM]: `${prefix}/${ACTION_SET_STORED_ITEM}`,
 };
 
 const GETTER_NAVIGATION_DATA = "navigationData";
@@ -36,21 +35,21 @@ export const FSXAGetters = {
   [GETTER_CONFIGURATION]: `${prefix}/${GETTER_CONFIGURATION}`,
   [GETTER_LOCALE]: `${prefix}/${GETTER_LOCALE}`,
   [GETTER_ITEM]: `${prefix}/${GETTER_ITEM}`,
-  [GETTER_PAGE_BY_URL]: `${prefix}/${GETTER_PAGE_BY_URL}`
+  [GETTER_PAGE_BY_URL]: `${prefix}/${GETTER_PAGE_BY_URL}`,
 };
 
 export function getFSXAModule<R extends RootState>(
-  fsxaAPI: FSXAApi
+  fsxaAPI: FSXAApi,
 ): Module<FSXAVuexState, R> {
   return {
     state: () => ({
       stored: {},
-      configuration: fsxaAPI.getConfiguration()
+      configuration: fsxaAPI.getConfiguration(),
     }),
     actions: {
       [ACTION_SET_INITIAL_STATE_FROM_SERVER]: function(
         { commit },
-        payload: FSXAVuexState
+        payload: FSXAVuexState,
       ) {
         commit("setInitialStateFromServer", payload);
       },
@@ -67,25 +66,31 @@ export function getFSXAModule<R extends RootState>(
       },
       [ACTION_SET_CONFIGURATION]: async function(
         { commit, dispatch },
-        payload: FSXAConfiguration
+        payload: FSXAConfiguration,
       ) {
         if (!isEqual(this.state.fsxa.configuration || {}, payload)) {
+          const nextConfig = {
+            ...this.state.fsxa.configuration,
+            ...payload,
+          };
           // check if navigation-data has to be fetched again
           const refetchNavigation =
-            this.state.fsxa.configuration?.locale !== payload.locale ||
+            this.state.fsxa.configuration?.locale !== nextConfig.locale ||
             this.state.fsxa.configuration?.navigationService !==
-              payload.navigationService;
-          fsxaAPI.setConfiguration(payload);
-          commit("setConfiguration", payload);
-          if (refetchNavigation) dispatch("fetchNavigation");
+              nextConfig.navigationService;
+          if (!isEqual(nextConfig, this.state.fsxa.configuration)) {
+            fsxaAPI.setConfiguration(nextConfig);
+            commit("setConfiguration", nextConfig);
+            if (refetchNavigation) dispatch("fetchNavigation");
+          }
         }
       },
       [ACTION_SET_STORED_ITEM]: async function(
         { commit },
-        { key, value }: { key: string; value: any }
+        { key, value }: { key: string; value: any },
       ) {
         commit("setItem", { key, value });
-      }
+      },
     },
     mutations: {
       setItem(state, { key, value }) {
@@ -97,7 +102,7 @@ export function getFSXAModule<R extends RootState>(
       setInitialStateFromServer(state, initialStateFromServer: FSXAVuexState) {
         Vue.set(state, "configuration", initialStateFromServer.configuration);
         Vue.set(state, "stored", initialStateFromServer.stored);
-      }
+      },
     },
     getters: {
       [GETTER_NAVIGATION_DATA]: function(state): NavigationData | null {
@@ -114,8 +119,8 @@ export function getFSXAModule<R extends RootState>(
         const navigationData = getters[FSXAGetters[GETTER_NAVIGATION_DATA]];
         if (!navigationData) return null;
         return (navigationData as NavigationData).pathMap[url] || null;
-      }
-    }
+      },
+    },
   };
 }
 const createStore = (fxsaConfiguration?: FSXAConfiguration) => {
@@ -123,9 +128,9 @@ const createStore = (fxsaConfiguration?: FSXAConfiguration) => {
     modules: {
       fsxa: {
         namespaced: true,
-        ...getFSXAModule<RootState>(new FSXAApi(axios, fxsaConfiguration))
-      }
-    }
+        ...getFSXAModule<RootState>(new FSXAApi(axios, fxsaConfiguration)),
+      },
+    },
   });
   return store;
 };

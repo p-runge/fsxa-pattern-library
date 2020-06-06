@@ -1,8 +1,7 @@
 import "vue-tsx-support/enable-check";
-export { default as FSXANavigation } from "./components/Navigation";
-export { default as FSXAConfigProvider } from "./components/ConfigProvider";
-export { default as FSXAPage } from "./components/Page";
-export { default as FSXABaseSection } from "./components/Section/components/BaseSection";
-export { default as FSXABaseComponent } from "./components/BaseComponent";
+export { default as FSXAConfigProvider } from "./components/FSXAConfigProvider";
+export { default as FSXAPage } from "./components/FSXAPage";
+export { default as FSXABaseSection } from "./components/FSXASection/components/FSXABaseSection";
+export { default as FSXABaseComponent } from "./components/FSXABaseComponent";
 export { getFSXAModule, FSXAActions, FSXAGetters } from "./store";
 export { default as FSXAApi } from "fsxa-api";

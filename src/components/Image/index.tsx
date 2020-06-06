@@ -1,5 +1,5 @@
 import { FSXAImage as UIFSXAImage } from "fsxa-ui";
-import BaseComponent from "../BaseComponent";
+import BaseComponent from "../FSXABaseComponent";
 import { Prop, Component } from "vue-property-decorator";
 
 export interface FSXAImageProps {
@@ -8,7 +8,7 @@ export interface FSXAImageProps {
   previewId: string;
 }
 @Component({
-  name: "FSXAImage"
+  name: "FSXAImage",
 })
 class FSXAImage extends BaseComponent<FSXAImageProps> {
   @Prop({ required: true }) caasUrl!: FSXAImageProps["caasUrl"];
@@ -17,10 +17,6 @@ class FSXAImage extends BaseComponent<FSXAImageProps> {
 
   imageUrl: string | null = null;
 
-  serverPrefetch() {
-    this.fetchImage();
-  }
-
   mounted() {
     this.fetchImage();
   }
@@ -28,11 +24,11 @@ class FSXAImage extends BaseComponent<FSXAImageProps> {
   async fetchImage() {
     const storedItem = this.getStoredItem(`${this.caasUrl}.${this.resolution}`);
     if (storedItem) {
-      this.imageUrl = window.URL.createObjectURL(storedItem);
+      this.imageUrl = URL.createObjectURL(storedItem);
     } else {
       const response = await this.$fsxaAPI.fetchImageBlob(
         this.caasUrl,
-        this.resolution
+        this.resolution,
       );
       if (response !== null) {
         this.setStoredItem(`${this.caasUrl}.${this.resolution}`, response);
@@ -43,7 +39,7 @@ class FSXAImage extends BaseComponent<FSXAImageProps> {
 
   render() {
     if (!this.imageUrl) return null;
-    return <UIFSXAImage src={this.imageUrl} previewId={this.previewId} />;
+    return <UIFSXAImage src={this.imageUrl} data-preview-id={this.previewId} />;
   }
 }
 export default FSXAImage;

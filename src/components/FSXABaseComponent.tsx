@@ -1,17 +1,17 @@
 import * as tsx from "vue-tsx-support";
-import FSXAApi from "fsxa-api";
+import FSXAApi, { FSXAConfiguration } from "fsxa-api";
 import { FSXAGetters, FSXAActions } from "@/store";
 import axios from "axios";
 import { Inject, Component } from "vue-property-decorator";
 import {
   FSXA_INJECT_KEY_DEBUG_MODE,
-  FSXA_INJECT_KEY_EDIT_MODE
+  FSXA_INJECT_KEY_EDIT_MODE,
 } from "@/constants";
 
 @Component({
-  name: "BaseComponent"
+  name: "FSXABaseComponent",
 })
-class BaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
+class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
   Props,
   Events,
   Slots
@@ -25,8 +25,12 @@ class BaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
     return new FSXAApi(
       // we will inject axios defined in the store
       (this.$store as any).$axios || axios,
-      this.$store.getters[FSXAGetters.configuration]
+      this.$store.getters[FSXAGetters.configuration],
     );
+  }
+
+  get fsxaConfiguration(): FSXAConfiguration | null {
+    return this.$store.getters[FSXAGetters.configuration];
   }
 
   get locale(): string {
@@ -45,4 +49,4 @@ class BaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
     throw new Error("You have to specify your own render-method");
   }
 }
-export default BaseComponent;
+export default FSXABaseComponent;

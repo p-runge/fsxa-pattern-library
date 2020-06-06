@@ -1,3 +1,6 @@
+// eslint-disable-next-line
+const Dotenv = require("dotenv-webpack");
+
 module.exports = {
   stories: ["../../src/**/*.stories.(js|jsx|ts|tsx|mdx)"],
   addons: [
@@ -10,15 +13,19 @@ module.exports = {
             [
               "@vue/cli-plugin-babel/preset",
               {
-                jsx: true
-              }
-            ]
-          ]
-        }
-      }
+                jsx: true,
+              },
+            ],
+          ],
+        },
+      },
     },
     "@storybook/addon-knobs",
     "@storybook/addon-links",
-    "@storybook/addon-notes"
-  ]
+    "@storybook/addon-notes",
+  ],
+  webpackFinal: async config => {
+    config.plugins.push(new Dotenv());
+    return config;
+  },
 };
