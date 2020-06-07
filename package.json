@@ -1,6 +1,6 @@
 {
   "name": "fsxa-pattern-library",
-  "version": "0.1.0",
+  "version": "0.1.8",
   "main": "./dist/fsxa-pattern-library.common.js",
   "types": "src/types/fsxa-pattern-library.d.ts",
   "scripts": {
@@ -14,16 +14,19 @@
   "files": [
     "dist",
     "package.json",
+    "src/types",
+    "src/constants.ts",
+    "src/store",
     "README.md"
   ],
   "dependencies": {
     "axios": "^0.19.2",
-    "core-js": "^3.6.4",
+    "core-js": "^2.6.10",
     "date-fns": "^2.14.0",
     "fs-tpp-api": "^1.2.25",
     "fsxa-api": "^0.1.1",
-    "fsxa-ui": "^0.1.7",
-    "lodash": "^4.17.15",
+    "fsxa-ui": "file:../fsxa-ui",
+    "lodash.isequal": "^4.5.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-fragment": "^1.5.1",
@@ -41,6 +44,7 @@
     "@types/axios": "^0.14.0",
     "@types/jest": "^24.0.19",
     "@types/lodash": "^4.14.150",
+    "@types/lodash.isequal": "^4.5.5",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "@vue/cli-plugin-babel": "^4.3.0",

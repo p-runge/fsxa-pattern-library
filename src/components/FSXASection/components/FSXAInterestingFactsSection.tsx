@@ -26,18 +26,20 @@ export interface Payload {
   name: "FSXAInterestingFactsSection",
 })
 class FSXAInterestingFactsSection extends FSXABaseSection<Payload> {
-  imageSrc: string | null = null;
+  serverPrefetch() {
+    return this.fetchBackgroundImage();
+  }
 
   mounted() {
     this.fetchBackgroundImage();
   }
 
   async fetchBackgroundImage() {
-    const imageData = await this.$fsxaAPI.fetchImageBlob(
-      this.payload.st_background_image.src,
-      "ORIGINAL",
-    );
-    if (imageData) this.imageSrc = URL.createObjectURL(imageData);
+    return this.fetchImage(this.payload.st_background_image.src, "ORIGINAL");
+  }
+
+  get backgroundImage(): string | null {
+    return this.getImage(this.payload.st_background_image.src, "ORIGINAL");
   }
 
   render() {
@@ -51,49 +53,8 @@ class FSXAInterestingFactsSection extends FSXABaseSection<Payload> {
           value: counter.data.st_number,
           label: counter.data.st_text,
         }))}
-        backgroundImage={this.imageSrc || undefined}
+        backgroundImage={this.backgroundImage || undefined}
       />
-    );
-    return (
-      <div
-        class="w-full py-24 relative bg-fixed bg-center bg-cover"
-        style={`background-image: url(${this.payload.st_background_image.src})`}
-      >
-        <FSXAImage
-          class="absolute top-0 left-0 overflow-hidden"
-          caasUrl={this.payload.st_background_image.src}
-          resolution="ORIGINAL"
-          previewId={this.payload.st_background_image.previewId}
-        />
-        <div class="InterestingFactsSection--Background-Overlay" />
-        <div class="container mx-auto flex flex-col items-center md:flex-row px-4 md:px-6 lg:px-8 relative">
-          <div class="md:w-1/2 px-4">
-            <div class="InterestingFactsSection--Content">
-              <span class="font-light text-4xl">{this.payload.st_tagline}</span>
-              <h2 class="text-highlight text-5xl font-bold">
-                {this.payload.st_headline}
-              </h2>
-              <FSXARichText
-                text={this.payload.st_text}
-                class="text-lg font-light mb-6 text-white"
-              />
-            </div>
-          </div>
-          <div class="md:w-1/2 px-4 flex mt-16 md:mt-0">
-            {this.payload.st_counters.map(counter => (
-              <div
-                class={`w-1/${this.payload.st_counters.length}`}
-                data-preview-id={counter.previewId}
-              >
-                <FSXACounter
-                  value={counter.data.st_number}
-                  label={counter.data.st_text}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     );
   }
 }

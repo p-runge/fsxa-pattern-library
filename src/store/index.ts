@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex, { Module } from "vuex";
-import { isEqual } from "lodash";
+import isEqual from "lodash.isequal";
 import { RootState, FSXAVuexState } from "../types/store";
 import FSXAApi, { NavigationData, FSXAConfiguration } from "fsxa-api";
 import axios from "axios";

@@ -74,4 +74,6 @@ export interface FSXABaseSectionProps<Payload> {
 }
 export class FSXABaseSection<Payload> extends FSXABaseComponent<
   FSXABaseSectionProps<Payload>
-> {}
+> {
+  payload: Payload;
+}

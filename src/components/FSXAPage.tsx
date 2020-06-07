@@ -1,4 +1,4 @@
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Provide } from "vue-property-decorator";
 import { PageProps } from "@/types/page";
 import { Page as APIPage, NavigationData, GCAPage } from "fsxa-api";
 import { NAVIGATION_DATA_KEY } from "@/store";
@@ -13,7 +13,11 @@ import {
 } from "fsxa-ui";
 import FSXABaseComponent from "@/components/FSXABaseComponent";
 
-const STORAGE_KEY_GLOBAL_FOOTER = "FSXAPage.GLOBAL_FOOTER";
+export interface RequestRouteChangeParams {
+  pageId?: string;
+  route?: string;
+}
+
 const STORAGE_KEY_GLOBAL_SETTINGS = "FSXAPage.GLOBAL_SETTINGS";
 
 const getCurrentPage = (
@@ -54,12 +58,19 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
   @Prop() renderNavigation: PageProps["renderNavigation"];
   @Prop() handleRouteChange!: PageProps["handleRouteChange"];
 
-  logoSrc: string | null = null;
-
-  // TODO: In PreviewMode: Register with tpp-snap and reload page-data or even better --> only replace changed sections content
-
   serverPrefetch() {
     return this.fetchData();
+  }
+
+  @Provide("requestRouteChange")
+  requestRouteChange({ pageId, route }: RequestRouteChangeParams): void {
+    let nextPage = null;
+    if (pageId && this.navigationData)
+      nextPage = this.navigationData.idMap[pageId] || null;
+    if (route && this.navigationData)
+      nextPage =
+        this.navigationData.idMap[this.navigationData.pathMap[route]] || null;
+    if (nextPage) this.handleRouteChange(nextPage.path);
   }
 
   get pageData(): APIPage | null {
@@ -116,17 +127,22 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
     }
   }
 
+  get logo(): string | null {
+    if (!this.globalSettings) return null;
+    return this.getImage(this.globalSettings.data.gs_logo.src, "ORIGINAL");
+  }
+
   async fetchGlobalSettings(force = false) {
     const globalSettings = this.getStoredItem(STORAGE_KEY_GLOBAL_SETTINGS);
     if (!globalSettings) {
       const globalSettings = await this.$fsxaAPI.fetchGCAPages(
         "global_settings",
       );
-      if (globalSettings && !this.logoSrc) {
-        const url = (globalSettings[0] as GCAPage<{ gs_logo: { src: string } }>)
-          .data.gs_logo.src;
-        const result = await this.$fsxaAPI.fetchImageBlob(url, "ORIGINAL");
-        this.logoSrc = URL.createObjectURL(result);
+      if (globalSettings) {
+        this.fetchImage(
+          (globalSettings[0] as GCAPage<GlobalSettings>).data.gs_logo.src,
+          "ORIGINAL",
+        );
       }
       if (globalSettings)
         this.setStoredItem(STORAGE_KEY_GLOBAL_SETTINGS, globalSettings[0]);
@@ -143,23 +159,6 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       this.fetchGlobalSettings(force),
       this.fetchPageData(force),
     ]);
-  }
-
-  handleRouteChangeRequest({
-    pageId,
-    seoRoute,
-  }: {
-    pageId?: string;
-    seoRoute?: string;
-  }) {
-    let nextPage = null;
-    if (pageId && this.navigationData)
-      nextPage = this.navigationData.idMap[pageId] || null;
-    if (seoRoute && this.navigationData)
-      nextPage =
-        this.navigationData.idMap[this.navigationData.pathMap[seoRoute]] ||
-        null;
-    if (nextPage) this.handleRouteChange(nextPage.path);
   }
 
   renderContent() {
@@ -184,14 +183,14 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       return this.renderNavigation({
         activePageId: this.currentPage?.id || "",
         activeSeoRoute: this.path || "",
-        handleRouteChange: this.handleRouteChangeRequest,
+        handleRouteChange: this.requestRouteChange,
       });
     return (
       <FSXANavigation
         items={this.navigationData?.structure || []}
         isActiveItem={item => item.id === this.pageData?.refId}
         handleNavClick={({ id }) =>
-          this.handleRouteChangeRequest({
+          this.requestRouteChange({
             pageId: id,
           })
         }
@@ -222,7 +221,7 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
         links={links}
         handleClick={handleLinkClick}
       >
-        {this.logoSrc ? <img src={this.logoSrc} /> : null}
+        {this.logo ? <img src={this.logo} /> : null}
       </FSXAFooter>
     ) : null;
   }
@@ -235,9 +234,9 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
           <div class="fixed top-0 left-0 w-full z-10 bg-white">
             <FSXAContainer paddingOnly class="flex items-center">
               <div class="flex-1">
-                {this.logoSrc ? (
+                {this.logo ? (
                   <img
-                    src={this.logoSrc}
+                    src={this.logo}
                     data-preview-id={
                       this.globalSettings?.data.gs_logo.previewId
                     }
