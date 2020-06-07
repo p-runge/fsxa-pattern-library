@@ -24,7 +24,7 @@
     "core-js": "^2.6.10",
     "date-fns": "^2.14.0",
     "fs-tpp-api": "^1.2.25",
-    "fsxa-api": "^0.1.1",
+    "fsxa-api": "^0.1.2",
     "fsxa-ui": "file:../fsxa-ui",
     "lodash.isequal": "^4.5.0",
     "vue": "^2.6.11",

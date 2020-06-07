@@ -169,6 +169,7 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
         content={this.pageData.children}
         data={this.pageData.data}
         meta={this.pageData.meta}
+        pageId={this.pageData.refId}
       />
     );
     return this.isEditMode ? (

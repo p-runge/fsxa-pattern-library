@@ -50,6 +50,7 @@ export class FSXAConfigProvider extends FSXABaseComponent<
 > {}
 
 export interface FSXALayoutProps {
+  pageId: string;
   type: string;
   content: Body[];
   data: any;
@@ -58,12 +59,13 @@ export interface FSXALayoutProps {
 export class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {}
 
 export interface FSXABaseLayoutProps<Data = {}, Meta = {}> {
+  pageId: string;
   content: Body[];
   data: Data;
   meta: Meta;
 }
 export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
-  FSXABaseLayoutProps
+  FSXABaseLayoutProps<Data, Meta>
 > {
   renderContentElement(content: BodyContent): JSX.Element;
   renderContentElements(contentElements: BodyContent[]): JSX.Element[];

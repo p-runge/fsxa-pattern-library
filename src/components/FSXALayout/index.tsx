@@ -16,6 +16,7 @@ class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
   @Prop({ required: true }) content!: FSXALayoutProps["content"];
   @Prop({ required: true })
   meta!: FSXALayoutProps["meta"];
+  @Prop({ required: true }) pageId!: FSXALayoutProps["pageId"];
 
   get mappedLayouts(): { [key: string]: any } {
     return {
@@ -64,7 +65,12 @@ class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
     }
     return (
       <div>
-        <Layout content={this.content} data={this.data} meta={this.meta} />
+        <Layout
+          content={this.content}
+          data={this.data}
+          meta={this.meta}
+          pageId={this.pageId}
+        />
       </div>
     );
   }

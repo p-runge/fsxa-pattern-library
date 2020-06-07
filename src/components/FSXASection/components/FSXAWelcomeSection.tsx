@@ -12,7 +12,7 @@ export interface Payload {
   };
   st_picture_alt: string | null;
   st_text: string;
-  st_button: {
+  st_button?: {
     data: {
       lt_button_text: string;
       lt_internal: {
@@ -52,10 +52,10 @@ class FSXAWelcomeSection extends FSXABaseSection<Payload> {
         jumboHeadline={this.payload.st_jumbo_headline}
         kicker={this.payload.st_kicker}
         text={this.payload.st_text}
-        buttonText={this.payload.st_button.data.lt_button_text}
+        buttonText={this.payload.st_button?.data.lt_button_text}
         handleButtonClick={() => {
           this.handleRouteChangeRequest({
-            pageId: this.payload.st_button.data.lt_internal.referenceId,
+            pageId: this.payload.st_button?.data.lt_internal.referenceId,
           });
         }}
         image={{
