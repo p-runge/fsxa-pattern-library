@@ -45,7 +45,6 @@ class FSXAWelcomeSection extends FSXABaseSection<Payload> {
   }
 
   render() {
-    console.log(this.payload);
     return (
       <Sections.WelcomeSection
         headline={this.payload.st_headline}

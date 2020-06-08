@@ -1,8 +1,12 @@
 {
   "name": "fsxa-pattern-library",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "main": "./dist/fsxa-pattern-library.common.js",
   "types": "src/types/fsxa-pattern-library.d.ts",
+  "author": {
+    "name": "Tobias Golbs",
+    "email": "golbs@e-spirit.com"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name fsxa-pattern-library src/index.ts",
@@ -25,7 +29,7 @@
     "date-fns": "^2.14.0",
     "fs-tpp-api": "^1.2.25",
     "fsxa-api": "^0.1.2",
-    "fsxa-ui": "file:../fsxa-ui",
+    "fsxa-ui": "^0.1.14",
     "lodash.isequal": "^4.5.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",

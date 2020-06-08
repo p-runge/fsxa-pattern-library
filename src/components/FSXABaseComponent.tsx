@@ -8,6 +8,7 @@ import {
   FSXA_INJECT_KEY_EDIT_MODE,
 } from "@/constants";
 import { RequestRouteChangeParams } from "./FSXAPage";
+import { inBrowser } from "@/utils";
 
 @Component({
   name: "FSXABaseComponent",
@@ -65,8 +66,7 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
 
   getImage(url: string, resolution: string) {
     const storedItem = this.getStoredItem(`${url}.${resolution}`);
-    if (storedItem && typeof URL !== "undefined")
-      return URL.createObjectURL(storedItem);
+    if (storedItem && inBrowser()) return URL.createObjectURL(storedItem);
     return null;
   }
 
