@@ -106,11 +106,15 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       });
     }
     this.fetchLogo();
+    if (this.path === "/" && this.navigationData)
+      this.requestRouteChange({ pageId: this.navigationData.indexPage.id });
   }
 
   updated() {
     this.fetchData();
     this.fetchLogo();
+    if (this.path === "/" && this.navigationData)
+      this.requestRouteChange({ pageId: this.navigationData.indexPage.id });
   }
 
   async fetchPageData(force = false) {
@@ -252,7 +256,7 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
                   />
                 ) : null}
               </div>
-              <div class="flex-grow-0 pr-20">{this.renderNav()}</div>
+              <div class="flex-grow-0 pr-0 lg:pr-20">{this.renderNav()}</div>
             </FSXAContainer>
           </div>
         </div>
