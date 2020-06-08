@@ -4,7 +4,7 @@ import { Page as APIPage, NavigationData, GCAPage } from "fsxa-api";
 import { NAVIGATION_DATA_KEY } from "@/store";
 import FSXALayout from "@/components/FSXALayout";
 import { Fragment } from "vue-fragment";
-import { FSXAPageProps } from "@/types/components";
+import { FSXAPageProps, RequestRouteChangeParams } from "@/types/components";
 import {
   FSXANavigation,
   FSXAFooter,
@@ -12,11 +12,7 @@ import {
   FSXAContainer,
 } from "fsxa-ui";
 import FSXABaseComponent from "@/components/FSXABaseComponent";
-
-export interface RequestRouteChangeParams {
-  pageId?: string;
-  route?: string;
-}
+import { isClient } from "@/utils";
 
 const STORAGE_KEY_GLOBAL_SETTINGS = "FSXAPage.GLOBAL_SETTINGS";
 
@@ -58,6 +54,8 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
   @Prop() renderNavigation: PageProps["renderNavigation"];
   @Prop() handleRouteChange!: PageProps["handleRouteChange"];
 
+  logoSrc: string | null = null;
+
   serverPrefetch() {
     return this.fetchData();
   }
@@ -70,7 +68,14 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
     if (route && this.navigationData)
       nextPage =
         this.navigationData.idMap[this.navigationData.pathMap[route]] || null;
-    if (nextPage) this.handleRouteChange(nextPage.path);
+    if (nextPage) {
+      if (isClient() && this.isEditMode) {
+        // eslint-disable-next-line
+        const TPP_SNAP = require("fs-tpp-api/snap");
+        TPP_SNAP.setPreviewElement(`${nextPage.id}.${this.locale}`);
+      }
+      this.handleRouteChange(nextPage.path);
+    }
   }
 
   get pageData(): APIPage | null {
@@ -95,14 +100,17 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       // eslint-disable-next-line
       const TPP_SNAP = require("fs-tpp-api/snap");
       TPP_SNAP.onRequestPreviewElement((previewId: string) => {
-        console.log("Reqesting preview Element", previewId);
+        const pageId = previewId.split(".")[0];
+        const nextPage = this.navigationData?.idMap[pageId];
+        if (nextPage) this.requestRouteChange({ route: nextPage.path });
       });
     }
-    // initialize TPP-SNAP if we are in preview mode
+    this.fetchLogo();
   }
 
   updated() {
     this.fetchData();
+    this.fetchLogo();
   }
 
   async fetchPageData(force = false) {
@@ -127,9 +135,14 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
     }
   }
 
-  get logo(): string | null {
-    if (!this.globalSettings) return null;
-    return this.getImage(this.globalSettings.data.gs_logo.src, "ORIGINAL");
+  async fetchLogo() {
+    // fetch logo
+    if (this.globalSettings?.data.gs_logo.src && !this.logoSrc) {
+      this.logoSrc = await this.fetchImage(
+        this.globalSettings?.data.gs_logo.src,
+        "ORIGINAL",
+      );
+    }
   }
 
   async fetchGlobalSettings(force = false) {
@@ -138,12 +151,6 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       const globalSettings = await this.$fsxaAPI.fetchGCAPages(
         "global_settings",
       );
-      if (globalSettings) {
-        this.fetchImage(
-          (globalSettings[0] as GCAPage<GlobalSettings>).data.gs_logo.src,
-          "ORIGINAL",
-        );
-      }
       if (globalSettings)
         this.setStoredItem(STORAGE_KEY_GLOBAL_SETTINGS, globalSettings[0]);
     }
@@ -221,8 +228,9 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
         copyright={this.globalSettings.data.gc_copyright}
         links={links}
         handleClick={handleLinkClick}
+        data-preview-id={this.globalSettings.id}
       >
-        {this.logo ? <img src={this.logo} /> : null}
+        {this.logoSrc ? <img src={this.logoSrc} /> : null}
       </FSXAFooter>
     ) : null;
   }
@@ -235,9 +243,9 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
           <div class="fixed top-0 left-0 w-full z-10 bg-white">
             <FSXAContainer paddingOnly class="flex items-center">
               <div class="flex-1">
-                {this.logo ? (
+                {this.logoSrc ? (
                   <img
-                    src={this.logo}
+                    src={this.logoSrc}
                     data-preview-id={
                       this.globalSettings?.data.gs_logo.previewId
                     }

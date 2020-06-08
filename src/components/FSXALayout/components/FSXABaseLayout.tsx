@@ -27,7 +27,7 @@ class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
             data={content.data}
             meta={content.meta}
             id={content.id}
-            previewId={content.id}
+            previewId={content.previewId}
           />
         );
       case "DatasetReference":

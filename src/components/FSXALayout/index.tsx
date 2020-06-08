@@ -28,7 +28,7 @@ class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
   render() {
     const Layout = this.mappedLayouts[this.type];
     if (!Layout) {
-      if (this.isDebugMode) {
+      if (this.isDevMode) {
         console.log(`Could not find layout for given key: ${this.type}`);
         return (
           <div class="w-full p-4 md:p-5 lg:p-10 bg-gray-200 border-gray-400 border-b border-t text-sm">

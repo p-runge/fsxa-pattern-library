@@ -2,8 +2,16 @@ import FSXAApi, { FSXAConfiguration, Body, BodyContent } from "fsxa-api";
 import * as tsx from "vue-tsx-support";
 
 export class FSXABaseComponent<Props> extends tsx.Component<Props> {
+  isDevMode: boolean;
+  get isEditMode(): boolean;
+  handleRouteChangeRequest: (params: RequestRouteChangeParams) => void;
   get $fsxaAPI(): FSXAApi;
+  get fsxaConfiguration(): FSXAConfiguration | null;
   get locale(): string;
+  fetchImage(url: string, resolution: string): Promise<string | null>;
+  fetchImages(
+    images: Array<{ url: string; resolution: string }>,
+  ): Promise<Array<string | null>[]>;
   getStoredItem<Type = any>(key: string): Type | null;
   setStoredItem<Type = any>(key: string, data: Type): void;
 }
@@ -26,6 +34,11 @@ export type RenderNavigationHook = (
   params: RenderNavigationHookParams,
 ) => JSX.Element;
 
+export interface RequestRouteChangeParams {
+  pageId?: string;
+  route?: string;
+}
+
 export interface FSXAPageProps {
   id?: string;
   path?: string;
@@ -42,8 +55,7 @@ export interface FSXAConfigProviderProps {
   layouts?: {
     [key: string]: any;
   };
-  debugMode?: boolean;
-  editMode?: boolean;
+  devMode?: boolean;
 }
 export class FSXAConfigProvider extends FSXABaseComponent<
   FSXAConfigProviderProps

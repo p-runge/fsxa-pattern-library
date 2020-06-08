@@ -2,13 +2,9 @@ import * as tsx from "vue-tsx-support";
 import FSXAApi, { FSXAConfiguration } from "fsxa-api";
 import { FSXAGetters, FSXAActions } from "@/store";
 import axios from "axios";
-import { Inject, Component, Emit } from "vue-property-decorator";
-import {
-  FSXA_INJECT_KEY_DEBUG_MODE,
-  FSXA_INJECT_KEY_EDIT_MODE,
-} from "@/constants";
-import { RequestRouteChangeParams } from "./FSXAPage";
-import { isClient } from "@/utils";
+import { Inject, Component } from "vue-property-decorator";
+import { FSXA_INJECT_KEY_DEV_MODE } from "@/constants";
+import { RequestRouteChangeParams } from "@/types/components";
 
 @Component({
   name: "FSXABaseComponent",
@@ -18,13 +14,11 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
   Events,
   Slots
 > {
-  @Inject({ from: FSXA_INJECT_KEY_DEBUG_MODE, default: false })
-  isDebugMode!: boolean;
-  @Inject({ from: FSXA_INJECT_KEY_EDIT_MODE, default: false })
-  isEditMode!: boolean;
+  @Inject({ from: FSXA_INJECT_KEY_DEV_MODE, default: false })
+  isDevMode!: boolean;
   @Inject({
     from: "requestRouteChange",
-    default: (params: RequestRouteChangeParams) =>
+    default: () => (params: RequestRouteChangeParams) =>
       console.log(
         "Could not perform route change, since this component is not a child of an FSXAPage",
         params,
@@ -40,6 +34,10 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
     );
   }
 
+  get isEditMode() {
+    return this.fsxaConfiguration?.mode === "preview";
+  }
+
   get fsxaConfiguration(): FSXAConfiguration | null {
     return this.$store.getters[FSXAGetters.configuration];
   }
@@ -50,11 +48,8 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
 
   async fetchImage(url: string, resolution: string) {
     // check if image already exists
-    const key = `${url}.${resolution}`;
-    const storedItem = this.getStoredItem(key);
-    if (storedItem) return storedItem;
     const response = await this.$fsxaAPI.fetchImageBlob(url, resolution);
-    if (response) this.setStoredItem(key, response);
+    if (response) return URL.createObjectURL(response);
     return null;
   }
 
@@ -62,12 +57,6 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
     return await Promise.all(
       images.map(image => this.fetchImage(image.url, image.resolution)),
     );
-  }
-
-  getImage(url: string, resolution: string) {
-    const storedItem = this.getStoredItem(`${url}.${resolution}`);
-    if (storedItem && isClient()) return URL.createObjectURL(storedItem);
-    return null;
   }
 
   getStoredItem(key: string) {

@@ -28,20 +28,18 @@ export interface Payload {
 class FSXAWelcomeSection extends FSXABaseSection<Payload> {
   imageSrc: string | null = null;
 
-  serverPrefetch() {
-    return this.fetchData();
+  async fetchImageData() {
+    // fetch logo
+    if (this.payload.st_picture.src && !this.imageSrc) {
+      this.imageSrc = await this.fetchImage(
+        this.payload.st_picture.src,
+        "ORIGINAL",
+      );
+    }
   }
 
   mounted() {
-    this.fetchData();
-  }
-
-  async fetchData() {
-    return this.fetchImage(this.payload.st_picture.src, "ORIGINAL");
-  }
-
-  get image(): string | null {
-    return this.getImage(this.payload.st_picture.src, "ORIGINAL");
+    this.fetchImageData();
   }
 
   render() {
@@ -58,7 +56,7 @@ class FSXAWelcomeSection extends FSXABaseSection<Payload> {
           });
         }}
         image={{
-          src: this.image || "",
+          src: this.imageSrc || "",
           previewId: this.payload.st_picture.previewId || "",
         }}
       />

@@ -5,8 +5,7 @@ import { FSXAActions, FSXAGetters } from "@/store";
 import {
   FSXA_INJECT_KEY_LAYOUTS,
   FSXA_INJECT_KEY_SECTIONS,
-  FSXA_INJECT_KEY_DEBUG_MODE,
-  FSXA_INJECT_KEY_EDIT_MODE,
+  FSXA_INJECT_KEY_DEV_MODE,
 } from "@/constants";
 import { FSXAConfigProviderProps } from "@/types/components";
 
@@ -15,8 +14,7 @@ import { FSXAConfigProviderProps } from "@/types/components";
 })
 class FSXAConfigProvider extends tsx.Component<FSXAConfigProviderProps> {
   @Prop() config!: FSXAConfigProviderProps["config"];
-  @Prop({ default: false }) debugMode!: FSXAConfigProviderProps["debugMode"];
-  @Prop({ default: false }) editMode!: FSXAConfigProviderProps["editMode"];
+  @Prop({ default: false }) devMode!: FSXAConfigProviderProps["devMode"];
   // eslint-disable-next-line
   @Prop({ default: () => {} }) layouts!: FSXAConfigProviderProps["layouts"];
   // eslint-disable-next-line
@@ -24,8 +22,7 @@ class FSXAConfigProvider extends tsx.Component<FSXAConfigProviderProps> {
 
   @Provide(FSXA_INJECT_KEY_LAYOUTS) injectedLayouts = this.layouts;
   @Provide(FSXA_INJECT_KEY_SECTIONS) injectedSections = this.sections;
-  @Provide(FSXA_INJECT_KEY_DEBUG_MODE) injectedDebugMode = this.debugMode;
-  @Provide(FSXA_INJECT_KEY_EDIT_MODE) injectedEditMode = this.editMode;
+  @Provide(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
 
   beforeMount() {
     this.setConfiguration();
@@ -41,7 +38,6 @@ class FSXAConfigProvider extends tsx.Component<FSXAConfigProviderProps> {
 
   setConfiguration() {
     if (this.config) {
-      console.log("Will update configuration");
       this.$store.dispatch(FSXAActions.setConfiguration, this.config);
     }
   }

@@ -34,7 +34,7 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
     if (!this.data) return null;
     const Component = this.mappedSections[this.type];
     if (!Component) {
-      if (this.isDebugMode) {
+      if (this.isDevMode) {
         console.log(`Could not find section for given key: ${this.type}`);
         return (
           <FSXAContainer
@@ -74,7 +74,7 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
       return null;
     }
     return (
-      <div data-preview-id={this.previewId}>
+      <div class="relative" data-preview-id={this.previewId}>
         <Component payload={this.data} previewId={this.previewId} />
       </div>
     );

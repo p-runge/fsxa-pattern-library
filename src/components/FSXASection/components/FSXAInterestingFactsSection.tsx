@@ -1,6 +1,4 @@
 import Component from "vue-class-component";
-import { FSXARichText, FSXACounter } from "fsxa-ui";
-import FSXAImage from "@/components/Image";
 import { Sections } from "fsxa-ui";
 import FSXABaseSection from "./FSXABaseSection";
 
@@ -26,20 +24,20 @@ export interface Payload {
   name: "FSXAInterestingFactsSection",
 })
 class FSXAInterestingFactsSection extends FSXABaseSection<Payload> {
-  serverPrefetch() {
-    return this.fetchBackgroundImage();
+  backgroundImageSrc: string | null = null;
+
+  async fetchBackgroundImage() {
+    // fetch logo
+    if (this.payload.st_background_image.src && !this.backgroundImageSrc) {
+      this.backgroundImageSrc = await this.fetchImage(
+        this.payload.st_background_image.src,
+        "ORIGINAL",
+      );
+    }
   }
 
   mounted() {
     this.fetchBackgroundImage();
-  }
-
-  async fetchBackgroundImage() {
-    return this.fetchImage(this.payload.st_background_image.src, "ORIGINAL");
-  }
-
-  get backgroundImage(): string | null {
-    return this.getImage(this.payload.st_background_image.src, "ORIGINAL");
   }
 
   render() {
@@ -53,7 +51,7 @@ class FSXAInterestingFactsSection extends FSXABaseSection<Payload> {
           value: counter.data.st_number,
           label: counter.data.st_text,
         }))}
-        backgroundImage={this.backgroundImage || undefined}
+        backgroundImage={this.backgroundImageSrc || undefined}
       />
     );
   }

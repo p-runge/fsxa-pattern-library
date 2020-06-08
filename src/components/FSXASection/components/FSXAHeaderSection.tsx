@@ -15,6 +15,18 @@ export interface Payload {
   name: "FSXAHeaderSection",
 })
 class FSXAHeaderSection extends FSXABaseSection<Payload> {
+  backgroundImageSrc: string | null = null;
+
+  async fetchBackgroundImage() {
+    // fetch logo
+    if (this.payload.pt_picture.src && !this.backgroundImageSrc) {
+      this.backgroundImageSrc = await this.fetchImage(
+        this.payload.pt_picture.src,
+        "ORIGINAL",
+      );
+    }
+  }
+
   serverPrefetch() {
     return this.fetchBackgroundImage();
   }
@@ -25,14 +37,6 @@ class FSXAHeaderSection extends FSXABaseSection<Payload> {
 
   get navigationData(): NavigationData {
     return this.$store.getters[FSXAGetters.navigationData];
-  }
-
-  async fetchBackgroundImage() {
-    return this.fetchImage(this.payload.pt_picture.src, "ORIGINAL");
-  }
-
-  get backgroundImage(): string | null {
-    return this.getImage(this.payload.pt_picture.src, "ORIGINAL");
   }
 
   render() {
@@ -49,7 +53,7 @@ class FSXAHeaderSection extends FSXABaseSection<Payload> {
               }))
             : []
         }
-        backgroundImage={this.backgroundImage || undefined}
+        backgroundImage={this.backgroundImageSrc || undefined}
         handleItemClick={item =>
           this.handleRouteChangeRequest({ pageId: item.referenceId })
         }

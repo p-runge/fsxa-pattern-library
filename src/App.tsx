@@ -18,10 +18,7 @@ class App extends FSXABaseComponent<{}> {
   render() {
     return (
       <div>
-        <FSXAConfigProvider
-          debugMode
-          editMode={this.fsxaConfiguration?.mode === "preview"}
-        >
+        <FSXAConfigProvider devMode>
           <FSXAPage
             path={this.route}
             handleRouteChange={route => {

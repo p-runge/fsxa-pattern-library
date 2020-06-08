@@ -37,7 +37,6 @@ class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
       const response = await this.$fsxaAPI.fetchFragments(
         this.payload.st_news.value,
       );
-      console.log("RESPONSE", response);
       this.setStoredItem(FRAGMENT_STORE_KEY, response);
     }
   }
@@ -47,7 +46,6 @@ class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
   }
 
   render() {
-    console.log(this.payload);
     const items = this.fragments
       ? (this.fragments.map(fragment => ({
           date: format(parseISO(fragment?.data.creationDate), "dd LLL yyyy", {
