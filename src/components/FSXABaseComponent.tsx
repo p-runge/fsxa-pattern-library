@@ -47,7 +47,6 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
   }
 
   async fetchImage(url: string, resolution: string) {
-    // check if image already exists
     const response = await this.$fsxaAPI.fetchImageBlob(url, resolution);
     if (response) return URL.createObjectURL(response);
     return null;

@@ -27,10 +27,6 @@ class FSXAHeaderSection extends FSXABaseSection<Payload> {
     }
   }
 
-  serverPrefetch() {
-    return this.fetchBackgroundImage();
-  }
-
   mounted() {
     this.fetchBackgroundImage();
   }

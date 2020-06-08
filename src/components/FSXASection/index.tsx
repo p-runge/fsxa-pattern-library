@@ -3,7 +3,13 @@ import Component from "vue-class-component";
 import { Prop, Inject } from "vue-property-decorator";
 import BaseComponent from "@/components/FSXABaseComponent";
 import { FSXA_INJECT_KEY_SECTIONS } from "@/constants";
-import { FSXAContainer } from "fsxa-ui";
+import { FSXAContainer, FSXADevInfo } from "fsxa-ui";
+
+const getProgrammingHint = (type: string) => {
+  return `<FSXAProviderConfig sections={{ ${type}: Your_Component_Class }}>
+  ... your fsxa-content ...
+</FSXAProviderConfig>`;
+};
 
 export interface FSXASectionProps {
   id: string;
@@ -46,25 +52,16 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
                 <h2 class="text-xl">
                   Could not find registered Section with type <i>{this.type}</i>
                 </h2>
-                This error message is only displayed in DebugMode. <br />
-                You can easily register new sections by adding them to your
-                <pre class="inline-block bg-gray-900 text-white px-2 py-1 rounded-lg mx-2">
-                  src/fsxa/sections
+                This error message is only displayed in DevMode. <br />
+                You can easily register new Sections by providing a
+                key-Component map to the FSXAProviderConfig
+                <pre class="bg-gray-900 text-white p-3 rounded-lg mt-1 whitespace-pre-wrap break-normal">
+                  <code>{getProgrammingHint(this.type)}</code>
                 </pre>
-                Folder. <br />
                 <br />
                 The following Payload will be passed to it:
                 <pre class="bg-gray-900 text-white p-3 rounded-lg mt-1 whitespace-pre-wrap break-normal">
-                  <code>
-                    {JSON.stringify(
-                      {
-                        payload: this.data,
-                        previewId: this.previewId,
-                      },
-                      undefined,
-                      2,
-                    )}
-                  </code>
+                  <code>{JSON.stringify(this.data, undefined, 2)}</code>
                 </pre>
               </div>
             </div>
@@ -76,6 +73,17 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
     return (
       <div class="relative" data-preview-id={this.previewId}>
         <Component payload={this.data} previewId={this.previewId} />
+        {this.isDevMode && (
+          <FSXADevInfo>
+            <pre class="bg-white text-gray-900 p-3 rounded-lg whitespace-pre-wrap break-normal h-full overflow-hidden overflow-y-auto">
+              <code>
+                <strong>Payload</strong>
+                <br />
+                {JSON.stringify(this.data, undefined, 2)}
+              </code>
+            </pre>
+          </FSXADevInfo>
+        )}
       </div>
     );
   }
