@@ -56,7 +56,7 @@ class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
           console.log(fragment);
           const data = fragment.data.pictures.value[0];
           return {
-            id: data.id,
+            id: data.id + ".original",
             remote: data.remote,
           };
         }),
