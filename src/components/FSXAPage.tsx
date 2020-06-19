@@ -104,6 +104,10 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
         const nextPage = this.navigationData?.idMap[pageId];
         if (nextPage) this.requestRouteChange({ route: nextPage.path });
       });
+      TPP_SNAP.onRerenderView(() => {
+        window.setTimeout(() => this.fetchData(true), 300);
+        return false;
+      });
     }
     this.fetchLogo();
     if (this.path === "/" && this.navigationData)
