@@ -79,8 +79,12 @@ export interface FSXABaseLayoutProps<Data = {}, Meta = {}> {
 export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
   FSXABaseLayoutProps<Data, Meta>
 > {
+  pageId: FSXABaseLayoutProps["pageId"];
+  data: FSXABaseLayoutProps["data"];
+  meta: FSXABaseLayoutProps["meta"];
+  content: FSXABaseLayoutProps["content"];
   renderContentElement(content: BodyContent): JSX.Element;
-  renderContentElements(contentElements: BodyContent[]): JSX.Element[];
+  renderContentElements(index: number): JSX.Element[];
 }
 
 export interface FSXABaseSectionProps<Payload> {

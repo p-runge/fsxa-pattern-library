@@ -153,7 +153,7 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
     }
   }
 
-  async fetchGlobalSettings(force = false) {
+  async fetchGlobalSettings() {
     const globalSettings = this.getStoredItem(STORAGE_KEY_GLOBAL_SETTINGS);
     if (!globalSettings) {
       const globalSettings = await this.$fsxaAPI.fetchGCAPages(
@@ -170,10 +170,7 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
 
   async fetchData(force = false) {
     // fetch global_footer
-    await Promise.all([
-      this.fetchGlobalSettings(force),
-      this.fetchPageData(force),
-    ]);
+    await Promise.all([this.fetchGlobalSettings(), this.fetchPageData(force)]);
   }
 
   renderContent() {

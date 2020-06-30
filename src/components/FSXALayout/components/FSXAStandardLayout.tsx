@@ -19,8 +19,7 @@ class FSXAStandardLayout extends FSXABaseLayout<FSXAHeaderSectionPayload> {
             pageId: this.pageId,
           }}
         />
-        {this.content.length > 0 &&
-          this.renderContentElements(this.content[0].children)}
+        {this.content.length > 0 && this.renderContentElements(0)}
       </div>
     );
   }

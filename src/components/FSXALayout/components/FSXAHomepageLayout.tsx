@@ -20,8 +20,7 @@ class FSXAHomepageLayout extends FSXABaseLayout<Data> {
         {/**<div class="w-full p-20 -mt-20 h-screen">
           <Slider slides={this.pt_slider} />
     </div>**/}
-        {this.content.length > 0 &&
-          this.renderContentElements(this.content[0].children)}
+        {this.content.length > 0 && this.renderContentElements(0)}
       </div>
     );
   }

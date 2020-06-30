@@ -37,8 +37,8 @@ class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
     }
   }
 
-  renderContentElements(contentElements: BodyContent[]) {
-    return contentElements.map(this.renderContentElement);
+  renderContentElements(index: number) {
+    return this.content[index].children.map(this.renderContentElement);
   }
 }
 export default FSXABaseLayout;
