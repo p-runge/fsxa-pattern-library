@@ -1,6 +1,6 @@
 {
   "name": "fsxa-pattern-library",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "main": "./dist/fsxa-pattern-library.common.js",
   "types": "src/types/fsxa-pattern-library.d.ts",
   "author": {
