@@ -24,6 +24,7 @@ class App extends FSXABaseComponent<{}> {
             handleRouteChange={route => {
               if (route) this.changeRoute(route);
             }}
+            renderLayout={content => <div>Das ist mein Layout {content}</div>}
           />
         </FSXAConfigProvider>
       </div>

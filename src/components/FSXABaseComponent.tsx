@@ -1,10 +1,15 @@
 import * as tsx from "vue-tsx-support";
-import FSXAApi, { FSXAConfiguration } from "fsxa-api";
-import { FSXAGetters, FSXAActions } from "@/store";
-import axios from "axios";
+import FSXAApi, { FSXAConfiguration, NavigationData } from "fsxa-api";
+import {
+  FSXAGetters,
+  FSXAActions,
+  NAVIGATION_DATA_KEY,
+  GLOBAL_SETTINGS_KEY,
+} from "@/store";
 import { Inject, Component } from "vue-property-decorator";
 import { FSXA_INJECT_KEY_DEV_MODE } from "@/constants";
 import { RequestRouteChangeParams } from "@/types/components";
+import axios from "axios";
 
 @Component({
   name: "FSXABaseComponent",
@@ -28,7 +33,6 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
 
   get $fsxaAPI(): FSXAApi {
     return new FSXAApi(
-      // we will inject axios defined in the store
       (this.$store as any).$axios || axios,
       this.$store.getters[FSXAGetters.configuration],
     );
@@ -46,16 +50,12 @@ class FSXABaseComponent<Props, Events = {}, Slots = {}> extends tsx.Component<
     return this.$store.getters[FSXAGetters.locale];
   }
 
-  async fetchImage(url: string, resolution: string) {
-    const response = await this.$fsxaAPI.fetchImageBlob(url, resolution);
-    if (response) return URL.createObjectURL(response);
-    return null;
+  get navigationData(): NavigationData | null {
+    return this.getStoredItem(NAVIGATION_DATA_KEY);
   }
 
-  async fetchImages(images: Array<{ url: string; resolution: string }>) {
-    return await Promise.all(
-      images.map(image => this.fetchImage(image.url, image.resolution)),
-    );
+  get globalSettings(): any | null {
+    return this.getStoredItem(GLOBAL_SETTINGS_KEY);
   }
 
   getStoredItem(key: string) {

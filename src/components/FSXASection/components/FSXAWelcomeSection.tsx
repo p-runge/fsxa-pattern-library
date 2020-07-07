@@ -1,15 +1,13 @@
 import Component from "vue-class-component";
 import FSXABaseSection from "./FSXABaseSection";
 import { Sections } from "fsxa-ui";
+import { CAASImageReference } from "fsxa-api";
 
 export interface Payload {
   st_headline: string;
   st_jumbo_headline: string;
   st_kicker: string;
-  st_picture: {
-    previewId: string;
-    src: string;
-  };
+  st_picture?: CAASImageReference;
   st_picture_alt: string | null;
   st_text: string;
   st_button?: {
@@ -26,22 +24,6 @@ export interface Payload {
   name: "FSXAWelcomeSection",
 })
 class FSXAWelcomeSection extends FSXABaseSection<Payload> {
-  imageSrc: string | null = null;
-
-  async fetchImageData() {
-    // fetch logo
-    if (this.payload.st_picture.src && !this.imageSrc) {
-      this.imageSrc = await this.fetchImage(
-        this.payload.st_picture.src,
-        "ORIGINAL",
-      );
-    }
-  }
-
-  mounted() {
-    this.fetchImageData();
-  }
-
   render() {
     return (
       <Sections.WelcomeSection
@@ -56,8 +38,8 @@ class FSXAWelcomeSection extends FSXABaseSection<Payload> {
           });
         }}
         image={{
-          src: this.imageSrc || "",
-          previewId: this.payload.st_picture.previewId || "",
+          src: this.payload.st_picture?.resolutions.ORIGINAL.url || "",
+          previewId: this.payload.st_picture?.previewId || "",
         }}
       />
     );

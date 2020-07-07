@@ -1,10 +1,17 @@
-import FSXAApi, { FSXAConfiguration, Body, BodyContent } from "fsxa-api";
+import FSXAApi, {
+  FSXAConfiguration,
+  Body,
+  BodyContent,
+  NavigationData,
+} from "fsxa-api";
 import * as tsx from "vue-tsx-support";
 
 export class FSXABaseComponent<Props> extends tsx.Component<Props> {
   isDevMode: boolean;
   get isEditMode(): boolean;
   handleRouteChangeRequest: (params: RequestRouteChangeParams) => void;
+  get navigationData(): NavigationData | null;
+  get globalSettings(): any;
   get $fsxaAPI(): FSXAApi;
   get fsxaConfiguration(): FSXAConfiguration | null;
   get locale(): string;
@@ -25,10 +32,6 @@ export interface RenderNavigationHookParams {
    * The seoRoute of the currently active page
    */
   activeSeoRoute: string;
-  /**
-   * You have to either pass the pageId or seoRoute of the page that should be displayed.
-   */
-  handleRouteChange: (params: { pageId?: string; seoRoute?: string }) => void;
 }
 export type RenderNavigationHook = (
   params: RenderNavigationHookParams,
@@ -39,10 +42,18 @@ export interface RequestRouteChangeParams {
   route?: string;
 }
 
+export type RenderLayoutHook<Settings = any> = (params: {
+  navigationData: NavigationData;
+  currentPageId: string;
+  currentPageRoute: string;
+  settings: Settings;
+}) => JSX.Element;
+
 export interface FSXAPageProps {
   id?: string;
   path?: string;
   renderNavigation?: RenderNavigationHook;
+  renderLayout?: (content: JSX.Element | null) => JSX.Element;
   handleRouteChange: (nextRoute: string) => void;
 }
 export class FSXAPage extends FSXABaseComponent<FSXAPageProps> {}
@@ -79,10 +90,10 @@ export interface FSXABaseLayoutProps<Data = {}, Meta = {}> {
 export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
   FSXABaseLayoutProps<Data, Meta>
 > {
-  pageId: FSXABaseLayoutProps["pageId"];
-  data: FSXABaseLayoutProps["data"];
-  meta: FSXABaseLayoutProps["meta"];
-  content: FSXABaseLayoutProps["content"];
+  pageId: string;
+  data: Data;
+  meta: Meta;
+  content: Body[];
   renderContentElement(content: BodyContent): JSX.Element;
   renderContentElements(index: number): JSX.Element[];
 }

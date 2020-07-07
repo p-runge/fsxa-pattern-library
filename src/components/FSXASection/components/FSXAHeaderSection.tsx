@@ -1,36 +1,18 @@
 import Component from "vue-class-component";
 import { Sections } from "fsxa-ui";
 import FSXABaseSection from "./FSXABaseSection";
-import { NavigationData } from "fsxa-api";
+import { NavigationData, CAASImageReference } from "fsxa-api";
 import { FSXAGetters } from "@/store";
 
 export interface Payload {
   pt_text: string;
-  pt_picture: {
-    src: string;
-  };
+  pt_picture?: CAASImageReference;
   pageId: string;
 }
 @Component({
   name: "FSXAHeaderSection",
 })
 class FSXAHeaderSection extends FSXABaseSection<Payload> {
-  backgroundImageSrc: string | null = null;
-
-  async fetchBackgroundImage() {
-    // fetch logo
-    if (this.payload.pt_picture.src && !this.backgroundImageSrc) {
-      this.backgroundImageSrc = await this.fetchImage(
-        this.payload.pt_picture.src,
-        "ORIGINAL",
-      );
-    }
-  }
-
-  mounted() {
-    this.fetchBackgroundImage();
-  }
-
   get navigationData(): NavigationData {
     return this.$store.getters[FSXAGetters.navigationData];
   }
@@ -49,7 +31,9 @@ class FSXAHeaderSection extends FSXABaseSection<Payload> {
               }))
             : []
         }
-        backgroundImage={this.backgroundImageSrc || undefined}
+        backgroundImage={
+          this.payload.pt_picture?.resolutions.ORIGINAL.url || undefined
+        }
         handleItemClick={item =>
           this.handleRouteChangeRequest({ pageId: item.referenceId })
         }

@@ -11,6 +11,7 @@ Vue.use(Vuex);
 const prefix = "fsxa";
 
 export const NAVIGATION_DATA_KEY = "navigationData";
+export const GLOBAL_SETTINGS_KEY = "globalSettings";
 
 const ACTION_FETCH_NAVIGATION = "fetchNavigation";
 const ACTION_SET_CONFIGURATION = "setConfiguration";

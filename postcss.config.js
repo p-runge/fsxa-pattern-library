@@ -2,5 +2,5 @@
 const tailwindcss = require("tailwindcss");
 
 module.exports = {
-  plugins: [tailwindcss("node_modules/fsxa-ui/tailwind.config.js")]
+  plugins: [tailwindcss("node_modules/fsxa-ui/tailwind.config.js")],
 };

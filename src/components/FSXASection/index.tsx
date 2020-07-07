@@ -3,12 +3,13 @@ import Component from "vue-class-component";
 import { Prop, Inject } from "vue-property-decorator";
 import BaseComponent from "@/components/FSXABaseComponent";
 import { FSXA_INJECT_KEY_SECTIONS } from "@/constants";
-import { FSXAContainer, FSXADevInfo } from "fsxa-ui";
+import { FSXADevInfo, FSXACode } from "fsxa-ui";
+import ErrorBoundary from "../ErrorBoundary";
 
 const getProgrammingHint = (type: string) => {
-  return `<FSXAProviderConfig sections={{ ${type}: Your_Component_Class }}>
-  ... your fsxa-content ...
-</FSXAProviderConfig>`;
+  return `<FSXAConfigProvider sections={{ ${type}: Your_Section_Component }}>
+  <FSXAPage ...>
+</FSXAConfigProvider>`;
 };
 
 export interface FSXASectionProps {
@@ -36,36 +37,34 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
     };
   }
 
+  get mappedComponent() {
+    return this.mappedSections[this.type];
+  }
+
   renderSection() {
     if (!this.data) return null;
-    const Component = this.mappedSections[this.type];
+    const Component = this.mappedComponent;
     if (!Component) {
       if (this.isDevMode) {
         console.log(`Could not find section for given key: ${this.type}`);
         return (
-          <FSXAContainer
-            paddingOnly
-            class="bg-gray-200 border-b border-t border-gray-400 py-10"
+          <FSXADevInfo
+            headline={`Could not find registered Section: ${this.type}`}
+            isOverlay={false}
+            devModeHint="This information is only visible if DevMode is active"
           >
-            <div class="w-full text-sm" data-preview-id={this.previewId}>
-              <div class="w-full p-5 bg-gray-100 border border-gray-700 rounded-lg">
-                <h2 class="text-xl">
-                  Could not find registered Section with type <i>{this.type}</i>
-                </h2>
-                This error message is only displayed in DevMode. <br />
-                You can easily register new Sections by providing a
-                key-Component map to the FSXAProviderConfig
-                <pre class="bg-gray-900 text-white p-3 rounded-lg mt-1 whitespace-pre-wrap break-normal">
-                  <code>{getProgrammingHint(this.type)}</code>
-                </pre>
-                <br />
-                The following Payload will be passed to it:
-                <pre class="bg-gray-900 text-white p-3 rounded-lg mt-1 whitespace-pre-wrap break-normal">
-                  <code>{JSON.stringify(this.data, undefined, 2)}</code>
-                </pre>
-              </div>
-            </div>
-          </FSXAContainer>
+            You can easily register new Sections by providing a key-Component
+            map to the FSXAProviderConfig
+            <FSXACode
+              code={getProgrammingHint(this.type)}
+              language="typescript"
+            />
+            The following Payload will be passed to it:
+            <FSXACode
+              code={JSON.stringify(this.data, undefined, 2)}
+              language="json"
+            />
+          </FSXADevInfo>
         );
       }
       return null;
@@ -74,24 +73,39 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
       <div class="relative" data-preview-id={this.previewId}>
         <Component payload={this.data} previewId={this.previewId} />
         {this.isDevMode && (
-          <FSXADevInfo>
-            <pre class="bg-white text-gray-900 p-3 rounded-lg whitespace-pre-wrap break-normal h-full overflow-hidden overflow-y-auto">
-              <code>
-                <strong>Payload</strong>
-                <br />
-                {JSON.stringify(this.data, undefined, 2)}
-              </code>
-            </pre>
+          <FSXADevInfo
+            headline={`Section: ${this.type}`}
+            isOverlay
+            devModeHint="This information is only visible if DevMode is active"
+          >
+            The following payload is passed to the section:
+            <FSXACode code={JSON.stringify(this.data, undefined, 2)} />
           </FSXADevInfo>
         )}
       </div>
     );
   }
 
+  renderErrorBoundaryInfo() {
+    return (
+      <div>
+        The following payload is passed to the section:
+        <FSXACode code={JSON.stringify(this.data, undefined, 2)} />
+      </div>
+    );
+  }
+
   render() {
     if (!this.data) return null;
-    // TODO: Should we even render this kind of information if we are not in preview-mode?
-    return this.renderSection();
+    return (
+      <ErrorBoundary
+        title={`Error rendering Section: ${this.mappedComponent &&
+          this.mappedComponent.name}`}
+        additionalInfo={this.renderErrorBoundaryInfo()}
+      >
+        {this.renderSection()}
+      </ErrorBoundary>
+    );
   }
 }
 export default FSXASection;

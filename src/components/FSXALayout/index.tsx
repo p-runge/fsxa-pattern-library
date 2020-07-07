@@ -4,6 +4,19 @@ import Layouts from "./components";
 import { FSXA_INJECT_KEY_LAYOUTS } from "@/constants";
 import FSXABaseComponent from "@/components/FSXABaseComponent";
 import { FSXALayoutProps } from "@/types/components";
+import { FSXADevInfo, FSXACode } from "fsxa-ui";
+import ErrorBoundary from "../ErrorBoundary";
+
+const getProgrammingHint = (type: string) => {
+  return `<FSXAConfigProvider sections={{ ${type}: Your_Section_Component }}>
+  <FSXAPage ...>
+</FSXAConfigProvider>`;
+};
+
+const getDevModeContent = (key: string, code: string) => {
+  return `// ${key}
+${code}`;
+};
 
 @Component({
   name: "FSXALayout",
@@ -25,53 +38,81 @@ class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
     };
   }
 
+  renderDevInfo() {
+    return (
+      <div>
+        The following Data, Meta and Content will be passed to it:
+        <FSXACode
+          code={getDevModeContent(
+            "data",
+            JSON.stringify(this.data, undefined, 2),
+          )}
+          language="json"
+        />
+        <FSXACode
+          code={getDevModeContent(
+            "meta",
+            JSON.stringify(this.meta, undefined, 2),
+          )}
+          language="json"
+        />
+        <FSXACode
+          code={getDevModeContent(
+            "content",
+            JSON.stringify(this.content, undefined, 2),
+          )}
+          language="json"
+        />
+      </div>
+    );
+  }
+
   render() {
     const Layout = this.mappedLayouts[this.type];
     if (!Layout) {
       if (this.isDevMode) {
         console.log(`Could not find layout for given key: ${this.type}`);
         return (
-          <div class="w-full p-4 md:p-5 lg:p-10 bg-gray-200 border-gray-400 border-b border-t text-sm">
-            <div class="w-full p-5 bg-gray-100 border border-gray-700 rounded-lg">
-              <h2 class="text-xl">
-                Could not find registered Layout with type <i>{this.type}</i>
-              </h2>
-              This error message is only displayed in DebugMode. <br />
-              You can easily register new layouts by adding them to your
-              <pre class="inline bg-gray-900 text-white px-2 py-1 rounded-lg">
-                src/fsxa/layouts
-              </pre>
-              Folder. <br />
-              <br />
-              The following Payload will be passed to it:
-              <pre class="bg-gray-900 text-white p-3 rounded-lg mt-1 whitespace-pre-wrap break-normal">
-                <code>
-                  {JSON.stringify(
-                    {
-                      content: this.content,
-                      data: this.data,
-                      meta: this.meta,
-                    },
-                    undefined,
-                    2,
-                  )}
-                </code>
-              </pre>
-            </div>
-          </div>
+          <FSXADevInfo
+            headline={`Could not find registered Layout: ${this.type}`}
+            isOverlay={false}
+            devModeHint="This information is only visible if DevMode is active"
+          >
+            You can easily register new Layouts by providing a key-Component map
+            to the FSXAConfigProvider
+            <FSXACode
+              code={getProgrammingHint(this.type)}
+              language="typescript"
+            />
+            {this.renderDevInfo()}
+          </FSXADevInfo>
         );
       }
       return null;
     }
     return (
-      <div>
-        <Layout
-          content={this.content}
-          data={this.data}
-          meta={this.meta}
-          pageId={this.pageId}
-        />
-      </div>
+      <ErrorBoundary
+        title={`Error rendering Layout: ${Layout && Layout.name}`}
+        additionalInfo={this.renderDevInfo()}
+      >
+        <div class="relative">
+          <Layout
+            content={this.content}
+            data={this.data}
+            meta={this.meta}
+            pageId={this.pageId}
+          />
+          {this.isDevMode && (
+            <FSXADevInfo
+              headline={`Layout: ${this.type}`}
+              isOverlay
+              devModeHint="This information is only visible if DevMode is active"
+            >
+              {this.renderDevInfo()}
+            </FSXADevInfo>
+          )}
+        </div>
+      </ErrorBoundary>
     );
   }
 }

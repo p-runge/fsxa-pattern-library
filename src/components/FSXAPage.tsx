@@ -1,20 +1,13 @@
 import { Component, Prop, Provide } from "vue-property-decorator";
-import { PageProps } from "@/types/page";
-import { Page as APIPage, NavigationData, GCAPage } from "fsxa-api";
-import { NAVIGATION_DATA_KEY } from "@/store";
+import { Page as APIPage, NavigationData, CAASImageReference } from "fsxa-api";
+import { NAVIGATION_DATA_KEY, GLOBAL_SETTINGS_KEY } from "@/store";
 import FSXALayout from "@/components/FSXALayout";
 import { Fragment } from "vue-fragment";
 import { FSXAPageProps, RequestRouteChangeParams } from "@/types/components";
-import {
-  FSXANavigation,
-  FSXAFooter,
-  FSXAFooterLink,
-  FSXAContainer,
-} from "fsxa-ui";
+import { FSXANavigation, FSXAFooter, FSXAFooterLink } from "fsxa-ui";
 import FSXABaseComponent from "@/components/FSXABaseComponent";
 import { isClient } from "@/utils";
-
-const STORAGE_KEY_GLOBAL_SETTINGS = "FSXAPage.GLOBAL_SETTINGS";
+import { FSXADevInfoTarget, FSXAPage as UIFSXAPage } from "fsxa-ui";
 
 const getCurrentPage = (
   navigationData: NavigationData,
@@ -28,7 +21,7 @@ const getCurrentPage = (
 
 interface GlobalSettings {
   gc_copyright: string;
-  gc_footer_links: Array<{
+  gc_footer_links?: Array<{
     identifier: string;
     previewId: string;
     data: {
@@ -39,22 +32,18 @@ interface GlobalSettings {
       lt_text: string;
     };
   }>;
-  gs_logo: {
-    previewId: string;
-    src: string;
-  };
+  gs_logo?: CAASImageReference;
 }
 
 @Component({
   name: "FSXAPage",
 })
 class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
-  @Prop() id: PageProps["id"];
-  @Prop() path: PageProps["path"];
-  @Prop() renderNavigation: PageProps["renderNavigation"];
-  @Prop() handleRouteChange!: PageProps["handleRouteChange"];
-
-  logoSrc: string | null = null;
+  @Prop() id: FSXAPageProps["id"];
+  @Prop() path: FSXAPageProps["path"];
+  @Prop() renderNavigation: FSXAPageProps["renderNavigation"];
+  @Prop() handleRouteChange!: FSXAPageProps["handleRouteChange"];
+  @Prop() renderLayout: FSXAPageProps["renderLayout"];
 
   serverPrefetch() {
     return this.fetchData();
@@ -84,10 +73,6 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       : null;
   }
 
-  get navigationData(): NavigationData | null {
-    return this.getStoredItem(NAVIGATION_DATA_KEY);
-  }
-
   get currentPage() {
     const navigationData = this.navigationData;
     if (!navigationData) return null;
@@ -109,14 +94,12 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
         return false;
       });
     }
-    this.fetchLogo();
     if (this.path === "/" && this.navigationData)
       this.requestRouteChange({ pageId: this.navigationData.indexPage.id });
   }
 
   updated() {
     this.fetchData();
-    this.fetchLogo();
     if (this.path === "/" && this.navigationData)
       this.requestRouteChange({ pageId: this.navigationData.indexPage.id });
   }
@@ -143,29 +126,15 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
     }
   }
 
-  async fetchLogo() {
-    // fetch logo
-    if (this.globalSettings?.data.gs_logo.src && !this.logoSrc) {
-      this.logoSrc = await this.fetchImage(
-        this.globalSettings?.data.gs_logo.src,
-        "ORIGINAL",
-      );
-    }
-  }
-
   async fetchGlobalSettings() {
-    const globalSettings = this.getStoredItem(STORAGE_KEY_GLOBAL_SETTINGS);
+    const globalSettings = this.getStoredItem(GLOBAL_SETTINGS_KEY);
     if (!globalSettings) {
       const globalSettings = await this.$fsxaAPI.fetchGCAPages(
         "global_settings",
       );
       if (globalSettings)
-        this.setStoredItem(STORAGE_KEY_GLOBAL_SETTINGS, globalSettings[0]);
+        this.setStoredItem(GLOBAL_SETTINGS_KEY, globalSettings[0]);
     }
-  }
-
-  get globalSettings(): GCAPage<GlobalSettings> | null {
-    return this.getStoredItem(STORAGE_KEY_GLOBAL_SETTINGS) || null;
   }
 
   async fetchData(force = false) {
@@ -196,7 +165,6 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       return this.renderNavigation({
         activePageId: this.currentPage?.id || "",
         activeSeoRoute: this.path || "",
-        handleRouteChange: this.requestRouteChange,
       });
     return (
       <FSXANavigation
@@ -216,18 +184,21 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
       const nextPage = this.navigationData?.idMap[link.referenceId];
       if (nextPage) this.handleRouteChange(nextPage?.path);
     };
-    const links: FSXAFooterLink[] = this.globalSettings
-      ? this.globalSettings.data.gc_footer_links.map(link => ({
-          isActive:
-            link.data.lt_link.referenceType === "PageRef" &&
-            link.data.lt_link.referenceId === this.currentPage?.id,
-          label: link.data.lt_text,
-          previewId: link.previewId,
-          referenceId: link.data.lt_link.referenceId,
-          referenceType:
-            link.data.lt_link.referenceType === "PageRef" ? "page" : "fragment",
-        }))
-      : [];
+    const links: FSXAFooterLink[] =
+      this.globalSettings && this.globalSettings.data.gc_footer_links
+        ? this.globalSettings.data.gc_footer_links.map((link: any) => ({
+            isActive:
+              link.data.lt_link.referenceType === "PageRef" &&
+              link.data.lt_link.referenceId === this.currentPage?.id,
+            label: link.data.lt_text,
+            previewId: link.previewId,
+            referenceId: link.data.lt_link.referenceId,
+            referenceType:
+              link.data.lt_link.referenceType === "PageRef"
+                ? "page"
+                : "fragment",
+          }))
+        : [];
     return this.globalSettings ? (
       <FSXAFooter
         copyright={this.globalSettings.data.gc_copyright}
@@ -235,34 +206,30 @@ class FSXAPage extends FSXABaseComponent<FSXAPageProps> {
         handleClick={handleLinkClick}
         data-preview-id={this.globalSettings.id}
       >
-        {this.logoSrc ? <img src={this.logoSrc} /> : null}
+        {this.globalSettings && this.globalSettings.data.gs_logo ? (
+          <img
+            src={this.globalSettings.data.gs_logo.resolutions.ORIGINAL.url}
+          />
+        ) : null}
       </FSXAFooter>
     ) : null;
   }
 
   render() {
     return (
-      <div class={`w-full ${this.globalSettings ? "pb-64" : ""} relative`}>
-        {this.renderFooter()}
-        <div class="w-full relative">
-          <div class="fixed top-0 left-0 w-full z-10 bg-white">
-            <FSXAContainer paddingOnly class="flex items-center">
-              <div class="flex-1">
-                {this.logoSrc ? (
-                  <img
-                    src={this.logoSrc}
-                    data-preview-id={
-                      this.globalSettings?.data.gs_logo.previewId
-                    }
-                  />
-                ) : null}
-              </div>
-              <div class="flex-grow-0 pr-0 lg:pr-20">{this.renderNav()}</div>
-            </FSXAContainer>
-          </div>
-        </div>
-        <div class="w-full mt-24 bg-white relative">{this.renderContent()}</div>
-      </div>
+      <Fragment>
+        {this.isDevMode && <FSXADevInfoTarget />}
+        {this.renderLayout ? (
+          this.renderLayout(this.renderContent())
+        ) : (
+          <UIFSXAPage
+            renderFooter={this.renderFooter}
+            renderNavigation={this.renderNav}
+          >
+            {this.renderContent()}
+          </UIFSXAPage>
+        )}
+      </Fragment>
     );
   }
 }

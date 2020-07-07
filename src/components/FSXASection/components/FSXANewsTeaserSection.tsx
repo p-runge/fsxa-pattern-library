@@ -1,5 +1,5 @@
 import Component from "vue-class-component";
-import { Fragment, FragmentPayload } from "fsxa-api";
+import { Fragment } from "fsxa-api";
 import FSXABaseSection from "./FSXABaseSection";
 import { Sections } from "fsxa-ui";
 import { format, parseISO } from "date-fns";
@@ -31,11 +31,6 @@ class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
 
   mounted() {
     this.fetchData();
-    this.fetchImageFragments();
-  }
-
-  updated() {
-    this.fetchImageFragments();
   }
 
   async fetchData() {
@@ -45,23 +40,6 @@ class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
         this.payload.st_news.value,
       );
       this.setStoredItem(FRAGMENT_STORE_KEY, response);
-      console.log(response);
-    }
-  }
-
-  async fetchImageFragments() {
-    if (this.fragments && !this.images) {
-      const response = await this.$fsxaAPI.fetchFragments(
-        this.fragments.map(fragment => {
-          console.log(fragment);
-          const data = fragment.data.pictures.value[0];
-          return {
-            id: data.id + ".original",
-            remote: data.remote,
-          };
-        }),
-      );
-      console.log("Images", response);
     }
   }
 
