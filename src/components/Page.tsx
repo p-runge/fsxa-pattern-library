@@ -196,7 +196,13 @@ class Page extends BaseComponent<PageProps> {
       <div class="flex flex-row items-center justify-center">
         <Navigation
           items={this.navigationData?.structure || []}
-          isActiveItem={item => item.id === this.currentPage?.content.refId}
+          isActiveItem={item =>
+            Boolean(
+              this.currentPage &&
+                this.currentPage.content &&
+                item.id === this.currentPage.content.refId,
+            )
+          }
           handleNavClick={({ id }) =>
             this.requestRouteChange({
               pageId: id,
