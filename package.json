@@ -2,6 +2,7 @@
   "name": "fsxa-pattern-library",
   "version": "0.1.52",
   "main": "./dist/fsxa-pattern-library.common.js",
+  "license": "Apache-2.0",
   "types": "src/types/fsxa-pattern-library.d.ts",
   "author": {
     "name": "Tobias Golbs",
