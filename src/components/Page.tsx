@@ -166,7 +166,7 @@ class Page extends BaseComponent<PageProps> {
   }
 
   renderContent() {
-    if (!this.currentPage) return null;
+    if (!this.currentPage || !this.currentPage.content) return null;
     const layout = (
       <Layout
         type={this.currentPage.content.layout}

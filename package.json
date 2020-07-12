@@ -29,7 +29,7 @@
     "date-fns": "^2.14.0",
     "fs-tpp-api": "1.2.24",
     "fsxa-api": "^0.1.20",
-    "fsxa-ui": "^0.1.29",
+    "fsxa-ui": "^0.1.30",
     "lodash.isequal": "^4.5.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
