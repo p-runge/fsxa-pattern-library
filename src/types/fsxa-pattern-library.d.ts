@@ -1,13 +1,20 @@
 import { Module } from "vuex";
-import { RootState, FSXAVuexState } from "./store";
-import FSXAApi from "fsxa-api";
+import { FSXAConfiguration } from "fsxa-api";
+import { RootState, FSXAVuexState } from "./../store";
+import { AxiosStatic } from "axios";
 
 export function getFSXAModule<R extends RootState>(
-  fsxaAPI?: FSXAApi,
+  configuration: FSXAConfiguration,
+  axiosToUse?: AxiosStatic,
 ): Module<FSXAVuexState, R>;
 
-export { FSXAActions, FSXAGetters } from "./../store";
-export { default as FSXAApi } from "fsxa-api";
+export {
+  FSXAActions,
+  FSXAGetters,
+  RootState,
+  FSXAAppError,
+  FSXAAppState,
+  FSXAVuexState,
+} from "./../store";
 export * from "./components";
-export * from "./store";
 export * from "./../constants";

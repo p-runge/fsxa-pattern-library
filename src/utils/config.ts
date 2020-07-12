@@ -6,7 +6,6 @@ export const getFSXAConfigFromEnvFile = (): FSXAConfiguration => {
     caas: process.env.VUE_APP_CAAS,
     projectId: process.env.VUE_APP_PROJECT_ID,
     navigationService: process.env.VUE_APP_NAVIGATION_SERVICE,
-    locale: process.env.VUE_APP_LOCALE,
     mode: process.env.VUE_APP_MODE,
     remotes: process.env.VUE_APP_REMOTES
       ? process.env.VUE_APP_REMOTES.split(";").reduce(
@@ -29,7 +28,6 @@ export const getFSXAConfigForStorybook = (): FSXAConfiguration => {
     caas: process.env.STORYBOOK_CAAS,
     projectId: process.env.STORYBOOK_PROJECT_ID,
     navigationService: process.env.STORYBOOK_NAVIGATION_SERVICE,
-    locale: process.env.STORYBOOK_LOCALE,
     mode: process.env.STORYBOOK_MODE,
     remotes: process.env.STORYBOOK_REMOTES
       ? process.env.STORYBOOK_REMOTES.split(";").reduce(

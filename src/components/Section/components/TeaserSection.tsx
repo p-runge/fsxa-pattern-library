@@ -1,7 +1,8 @@
 import Component from "vue-class-component";
-import FSXABaseSection from "./FSXABaseSection";
+import BaseSection from "./BaseSection";
 import { Sections } from "fsxa-ui";
 import { CAASImageReference } from "fsxa-api";
+import { ImageRef } from "fsxa-ui/src/types/utils";
 
 export interface Payload {
   st_headline: string;
@@ -23,12 +24,21 @@ export interface Payload {
 @Component({
   name: "FSXAWelcomeSection",
 })
-class FSXAWelcomeSection extends FSXABaseSection<Payload> {
+class TeaserSection extends BaseSection<Payload> {
   render() {
+    const imageRef: ImageRef | undefined = this.payload.st_picture
+      ? {
+          src: this.payload.st_picture.resolutions.ORIGINAL.url,
+          dimensions: {
+            width: this.payload.st_picture.resolutions.ORIGINAL.width,
+            height: this.payload.st_picture.resolutions.ORIGINAL.height,
+          },
+          previewId: this.payload.st_picture.previewId,
+        }
+      : undefined;
     return (
-      <Sections.WelcomeSection
+      <Sections.TeaserSection
         headline={this.payload.st_headline}
-        jumboHeadline={this.payload.st_jumbo_headline}
         kicker={this.payload.st_kicker}
         text={this.payload.st_text}
         buttonText={this.payload.st_button?.data.lt_button_text}
@@ -37,12 +47,9 @@ class FSXAWelcomeSection extends FSXABaseSection<Payload> {
             pageId: this.payload.st_button?.data.lt_internal.referenceId,
           });
         }}
-        image={{
-          src: this.payload.st_picture?.resolutions.ORIGINAL.url || "",
-          previewId: this.payload.st_picture?.previewId || "",
-        }}
+        image={imageRef}
       />
     );
   }
 }
-export default FSXAWelcomeSection;
+export default TeaserSection;

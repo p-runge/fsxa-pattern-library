@@ -1,5 +1,5 @@
 import Component from "vue-class-component";
-import FSXABaseLayout from "./FSXABaseLayout";
+import BaseLayout from "./BaseLayout";
 
 export interface Slide {
   previewId: string;
@@ -11,9 +11,9 @@ export interface Data {
   pt_slider: Slide[];
 }
 @Component({
-  name: "FSXAHomepageLayout",
+  name: "HomepageLayout",
 })
-class FSXAHomepageLayout extends FSXABaseLayout<Data> {
+class HomepageLayout extends BaseLayout<Data> {
   render() {
     return (
       <div data-preview-id={this.content[0].previewId}>
@@ -25,4 +25,4 @@ class FSXAHomepageLayout extends FSXABaseLayout<Data> {
     );
   }
 }
-export default FSXAHomepageLayout;
+export default HomepageLayout;

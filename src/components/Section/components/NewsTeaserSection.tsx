@@ -1,6 +1,6 @@
 import Component from "vue-class-component";
 import { Fragment } from "fsxa-api";
-import FSXABaseSection from "./FSXABaseSection";
+import BaseSection from "./BaseSection";
 import { Sections } from "fsxa-ui";
 import { format, parseISO } from "date-fns";
 import { de, enGB } from "date-fns/locale";
@@ -22,7 +22,7 @@ export interface NewsTeaserSectionPayload {
 @Component({
   name: "FSXANewsTeaserSection",
 })
-class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
+class NewsTeaserSection extends BaseSection<NewsTeaserSectionPayload> {
   images: Array<string | null>[] | null = null;
 
   serverPrefetch() {
@@ -34,13 +34,14 @@ class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
   }
 
   async fetchData() {
-    const storedItem = this.getStoredItem(FRAGMENT_STORE_KEY);
+    /**const storedItem = this.getStoredItem(FRAGMENT_STORE_KEY);
     if (!storedItem) {
       const response = await this.$fsxaAPI.fetchFragments(
         this.payload.st_news.value,
+        this.locale,
       );
       this.setStoredItem(FRAGMENT_STORE_KEY, response);
-    }
+    }**/
   }
 
   get fragments(): Fragment[] {
@@ -66,4 +67,4 @@ class FSXANewsTeaserSection extends FSXABaseSection<NewsTeaserSectionPayload> {
     );
   }
 }
-export default FSXANewsTeaserSection;
+export default NewsTeaserSection;

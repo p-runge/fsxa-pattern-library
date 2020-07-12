@@ -1,9 +1,44 @@
 import Vue from "vue";
 import Vuex, { Module } from "vuex";
-import isEqual from "lodash.isequal";
-import { RootState, FSXAVuexState } from "../types/store";
-import FSXAApi, { NavigationData, FSXAConfiguration } from "fsxa-api";
-import axios from "axios";
+import FSXAApi, {
+  NavigationData,
+  FSXAConfiguration,
+  Page,
+  MappedNavigationItem,
+} from "fsxa-api";
+import axios, { AxiosStatic } from "axios";
+
+export interface CurrentPage extends MappedNavigationItem {
+  content: Page;
+}
+export interface FSXAAppError {
+  message: string;
+  description: string;
+  stacktrace?: string;
+}
+export enum FSXAAppState {
+  not_initialized = "not_initialized",
+  initializing = "initializing",
+  ready = "ready",
+  fetching = "fetching",
+  fetching_error = "fetching_error",
+  error = "error",
+}
+export interface FSXAVuexState {
+  locale?: string;
+  configuration?: FSXAConfiguration;
+  appState: FSXAAppState;
+  currentPageId: string | null;
+  navigation: NavigationData | null;
+  settings: any | null;
+  error: FSXAAppError | null;
+  stored: {
+    [key: string]: any;
+  };
+}
+export interface RootState {
+  fsxa: FSXAVuexState;
+}
 
 // check if we can require the config folder
 Vue.use(Vuex);
@@ -11,18 +46,31 @@ Vue.use(Vuex);
 const prefix = "fsxa";
 
 export const NAVIGATION_DATA_KEY = "navigationData";
-export const GLOBAL_SETTINGS_KEY = "globalSettings";
+export const GLOBAL_SETTINGS_KEY = "global_settings";
 
-const ACTION_FETCH_NAVIGATION = "fetchNavigation";
-const ACTION_SET_CONFIGURATION = "setConfiguration";
-const ACTION_SET_INITIAL_STATE_FROM_SERVER = "setInitialStateFromServer";
-const ACTION_SET_STORED_ITEM = "setStoredItem";
+const Actions = {
+  initialize: "initialize",
+  fetchNavigation: "fetchNavigation",
+  fetchPage: "fetchPage",
+  hydrateClient: "hydrateClient",
+  setStoredItem: "setStoredItem",
+  fetchSettings: "fetchSettings",
+  pathChanged: "pathChanged",
+};
+
+const Getters = {
+  appState: "appState",
+  error: "error",
+  currentPage: "currentPage",
+};
 
 export const FSXAActions = {
-  [ACTION_FETCH_NAVIGATION]: `${prefix}/${ACTION_FETCH_NAVIGATION}`,
-  [ACTION_SET_CONFIGURATION]: `${prefix}/${ACTION_SET_CONFIGURATION}`,
-  [ACTION_SET_INITIAL_STATE_FROM_SERVER]: `${prefix}/${ACTION_SET_INITIAL_STATE_FROM_SERVER}`,
-  [ACTION_SET_STORED_ITEM]: `${prefix}/${ACTION_SET_STORED_ITEM}`,
+  initialize: `${prefix}/${Actions.initialize}`,
+  fetchNavigation: `${prefix}/${Actions.fetchNavigation}`,
+  fetchPage: `${prefix}/${Actions.fetchPage}`,
+  hydrateClient: `${prefix}/${Actions.hydrateClient}`,
+  setStoredItem: `${prefix}/${Actions.setStoredItem}`,
+  fetchSettings: `${prefix}/${Actions.fetchSettings}`,
 };
 
 const GETTER_NAVIGATION_DATA = "navigationData";
@@ -32,6 +80,9 @@ const GETTER_ITEM = "item";
 const GETTER_PAGE_BY_URL = "getPageIdByUrl";
 
 export const FSXAGetters = {
+  [Getters.appState]: `${prefix}/${Getters.appState}`,
+  [Getters.error]: `${prefix}/${Getters.error}`,
+  [Getters.currentPage]: `${prefix}/${Getters.currentPage}`,
   [GETTER_NAVIGATION_DATA]: `${prefix}/${GETTER_NAVIGATION_DATA}`,
   [GETTER_CONFIGURATION]: `${prefix}/${GETTER_CONFIGURATION}`,
   [GETTER_LOCALE]: `${prefix}/${GETTER_LOCALE}`,
@@ -40,53 +91,168 @@ export const FSXAGetters = {
 };
 
 export function getFSXAModule<R extends RootState>(
-  fsxaAPI: FSXAApi,
+  configuration: FSXAConfiguration,
+  axiosToUse?: AxiosStatic,
 ): Module<FSXAVuexState, R> {
+  const fsxaAPI = new FSXAApi(axiosToUse || axios, configuration);
   return {
+    namespaced: true,
     state: () => ({
       stored: {},
+      currentPageId: null,
+      navigation: null,
+      settings: null,
+      appState: FSXAAppState.not_initialized,
+      error: null,
       configuration: fsxaAPI.getConfiguration(),
     }),
     actions: {
-      [ACTION_SET_INITIAL_STATE_FROM_SERVER]: function(
+      [Actions.initialize]: async function(
         { commit },
-        payload: FSXAVuexState,
+        payload: {
+          locale: string;
+          path?: string;
+          pageId?: string;
+          isClient: string;
+        },
       ) {
+        // Set app state to initializing
+        commit("startInitialization", payload.locale);
+        try {
+          // fetch navigation data
+          const [navigationData, settings] = await Promise.all([
+            fsxaAPI.fetchNavigation(payload.locale),
+            fsxaAPI.fetchGCAPage(payload.locale, GLOBAL_SETTINGS_KEY),
+          ]);
+          if (!navigationData && !settings) {
+            commit("setError", {
+              appState: FSXAAppState.error,
+              error: {
+                message:
+                  "Could not load navigation-data and global settings GCAPage",
+                description:
+                  "Neither the data from the navigation service nor the global settings page in the CaaS could be loaded. Please check your configuration.",
+              },
+            });
+            return;
+          } else if (!navigationData) {
+            commit("setError", {
+              appState: FSXAAppState.error,
+              error: {
+                message:
+                  "Could not fetch navigation-data from NavigationService",
+                description:
+                  "Please make sure that the Navigation-Service is available and your config is correct. See Documentation (link goes here) for more information.",
+              },
+            });
+            return;
+          } else if (!settings) {
+            commit("setError", {
+              appState: FSXAAppState.error,
+              error: {
+                message: "Could not fetch global settings via GCAPage",
+                description: `Please make sure that you do have a GCAPage defined in your project. The identifier that is searched for is: ${GLOBAL_SETTINGS_KEY}. See Documentation (link goes here) for more information.`,
+              },
+            });
+            return;
+          }
+          commit("setGlobalData", {
+            navigationData,
+            settings,
+          });
+        } catch (error) {
+          commit("setAppState", FSXAAppState.error);
+          commit("setError", {
+            message: error.message,
+            stacktrace: error.stack,
+          });
+          return;
+        }
+        // dispatch fetchPage action
+        return await this.dispatch(FSXAActions.fetchPage, {
+          locale: payload.locale,
+          path: payload.path,
+          pageId: payload.pageId,
+          isClient: payload.isClient,
+        });
+      },
+      [Actions.fetchPage]: async function(
+        { commit },
+        payload: {
+          locale?: string;
+          path?: string;
+          pageId?: string;
+          isClient: boolean;
+        },
+      ) {
+        console.log("FETCHING page", payload);
+        const locale = payload.locale || this.state.fsxa.locale;
+        if (!locale) throw new Error("No locale could be found.");
+        try {
+          const navigationData = this.state.fsxa.navigation;
+          if (!navigationData) return;
+          if (!payload.pageId && !payload.path)
+            throw new Error("You have to pass pageId or path");
+          let requestedPageId = null;
+          if (payload.path)
+            requestedPageId = navigationData.pathMap[payload.path];
+          if (payload.pageId) requestedPageId = payload.pageId;
+
+          if (
+            !requestedPageId &&
+            payload.path &&
+            ["", "/"].indexOf(payload.path) !== -1
+          )
+            requestedPageId = navigationData.indexPage.id;
+          if (requestedPageId) {
+            // do not load data if page already exists
+            if (this.state.fsxa.stored[requestedPageId + "." + locale]) {
+              commit("setCurrentPage", requestedPageId);
+              return navigationData.idMap[requestedPageId].path;
+            }
+            commit("setAppState", FSXAAppState.fetching);
+            const contentReferenceId =
+              navigationData.idMap[requestedPageId].contentReferenceId;
+            const [page] = await Promise.all([
+              fsxaAPI.fetchPage(contentReferenceId, locale),
+              new Promise(resolve =>
+                setTimeout(resolve, payload.isClient ? 300 : 0),
+              ),
+            ]);
+            if (!page) {
+              commit("setError", {
+                appState: FSXAAppState.fetching_error,
+                error: {
+                  message: "Could not fetch page",
+                  description: "We were not able to fetch your requested page.",
+                },
+              });
+              return;
+            }
+            commit("setFetchedPage", {
+              pageId: requestedPageId,
+              locale: locale,
+              data: page,
+            });
+            return navigationData.idMap[requestedPageId].path;
+          } else {
+            // if we did not find any valid page, we set appState to fetching_error so the application can show an error
+            commit("setError", {
+              appState: FSXAAppState.fetching_error,
+              error: {
+                message: `Could not find page for given path: ${payload.path}`,
+                description: "",
+              },
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      [Actions.hydrateClient]: function({ commit }, payload: FSXAVuexState) {
         commit("setInitialStateFromServer", payload);
       },
-      [ACTION_FETCH_NAVIGATION]: async function({ commit }) {
-        if (!this.state.fsxa.configuration) {
-          throw new Error("No FSXAConfiguration could be found.");
-        }
-        try {
-          const response = await fsxaAPI.fetchNavigation();
-          commit("setItem", { key: NAVIGATION_DATA_KEY, value: response });
-        } catch (error) {
-          commit("setItem", { key: NAVIGATION_DATA_KEY, value: null });
-        }
-      },
-      [ACTION_SET_CONFIGURATION]: async function(
-        { commit, dispatch },
-        payload: FSXAConfiguration,
-      ) {
-        if (!isEqual(this.state.fsxa.configuration || {}, payload)) {
-          const nextConfig = {
-            ...this.state.fsxa.configuration,
-            ...payload,
-          };
-          // check if navigation-data has to be fetched again
-          const refetchNavigation =
-            this.state.fsxa.configuration?.locale !== nextConfig.locale ||
-            this.state.fsxa.configuration?.navigationService !==
-              nextConfig.navigationService;
-          if (!isEqual(nextConfig, this.state.fsxa.configuration)) {
-            fsxaAPI.setConfiguration(nextConfig);
-            commit("setConfiguration", nextConfig);
-            if (refetchNavigation) dispatch("fetchNavigation");
-          }
-        }
-      },
-      [ACTION_SET_STORED_ITEM]: async function(
+      [Actions.setStoredItem]: async function(
         { commit },
         { key, value }: { key: string; value: any },
       ) {
@@ -94,26 +260,88 @@ export function getFSXAModule<R extends RootState>(
       },
     },
     mutations: {
-      setItem(state, { key, value }) {
+      setFetchedPage(
+        state,
+        payload: { pageId: string; locale: string; data: any },
+      ) {
+        Vue.set(state, "stored", {
+          ...state.stored,
+          [payload.pageId + "." + payload.locale]: payload.data,
+        });
+        Vue.set(state, "currentPageId", payload.pageId);
+        Vue.set(state, "appState", FSXAAppState.ready);
+      },
+      setCurrentPage(state, pageId: string) {
+        Vue.set(state, "currentPageId", pageId);
+      },
+      startInitialization(state, locale: string) {
+        Vue.set(state, "appState", FSXAAppState.initializing);
+        Vue.set(state, "locale", locale);
+        // we reset all stored data
+        Vue.set(state, "stored", {});
+      },
+      setGlobalData(
+        state,
+        payload: { navigationData: NavigationData; settings: any },
+      ) {
+        Vue.set(state, "navigation", payload.navigationData);
+        Vue.set(state, "settings", payload.settings);
+      },
+      setStoredItem(state, { key, value }) {
         Vue.set(state.stored, key, value);
       },
-      setConfiguration(state, configuration: FSXAConfiguration) {
+      setStoredItems(state, payload: { [key: string]: any }) {
+        Vue.set(state, "stored", {
+          ...state.stored,
+          ...payload,
+        });
+      },
+      setConfiguration(state, configuration) {
         Vue.set(state, "configuration", configuration);
       },
       setInitialStateFromServer(state, initialStateFromServer: FSXAVuexState) {
         Vue.set(state, "configuration", initialStateFromServer.configuration);
         Vue.set(state, "stored", initialStateFromServer.stored);
       },
+      setLocale(state, locale) {
+        Vue.set(state, "locale", locale);
+      },
+      setAppState(state, appState) {
+        Vue.set(state, "appState", appState);
+      },
+      setError(
+        state,
+        payload: {
+          error: FSXAAppError | null;
+          appState?: FSXAAppState;
+        },
+      ) {
+        if (payload.appState) {
+          Vue.set(state, "appState", payload.appState);
+        }
+        Vue.set(state, "error", payload.error);
+      },
     },
     getters: {
-      [GETTER_NAVIGATION_DATA]: function(state): NavigationData | null {
-        return state.stored[NAVIGATION_DATA_KEY] || null;
+      [Getters.appState]: function(state): FSXAAppState {
+        return state.appState;
       },
-      [GETTER_CONFIGURATION]: function(state): FSXAConfiguration | null {
+      [Getters.currentPage]: function(state): CurrentPage | null {
+        if (!state.currentPageId) return null;
+        if (!state.navigation) return null;
+        return {
+          ...state.navigation.idMap[state.currentPageId],
+          content: state.stored[state.currentPageId + "." + state.locale],
+        };
+      },
+      [GETTER_NAVIGATION_DATA]: function(state) {
+        return state.navigation || null;
+      },
+      [GETTER_CONFIGURATION]: function(state) {
         return state.configuration || null;
       },
-      [GETTER_LOCALE]: function(state): string | null {
-        return state.configuration?.locale || null;
+      [GETTER_LOCALE]: function(state) {
+        return state.locale || null;
       },
       [GETTER_ITEM]: (state): any => (id: string) => state.stored[id] || null,
       [GETTER_PAGE_BY_URL]: (state, getters) => (url: string) => {
@@ -124,12 +352,11 @@ export function getFSXAModule<R extends RootState>(
     },
   };
 }
-const createStore = (fxsaConfiguration?: FSXAConfiguration) => {
+const createStore = (fxsaConfiguration: FSXAConfiguration) => {
   const store = new Vuex.Store<RootState>({
     modules: {
       fsxa: {
-        namespaced: true,
-        ...getFSXAModule<RootState>(new FSXAApi(axios, fxsaConfiguration)),
+        ...getFSXAModule<RootState>(fxsaConfiguration),
       },
     },
   });

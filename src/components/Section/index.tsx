@@ -1,9 +1,9 @@
 import Sections from "./components";
 import Component from "vue-class-component";
 import { Prop, Inject } from "vue-property-decorator";
-import BaseComponent from "@/components/FSXABaseComponent";
+import BaseComponent from "@/components/BaseComponent";
 import { FSXA_INJECT_KEY_SECTIONS } from "@/constants";
-import { FSXADevInfo, FSXACode } from "fsxa-ui";
+import { DevInfo, Code } from "fsxa-ui";
 import ErrorBoundary from "../ErrorBoundary";
 
 const getProgrammingHint = (type: string) => {
@@ -12,7 +12,7 @@ const getProgrammingHint = (type: string) => {
 </FSXAConfigProvider>`;
 };
 
-export interface FSXASectionProps {
+export interface SectionProps {
   id: string;
   previewId: string;
   type: string;
@@ -22,13 +22,13 @@ export interface FSXASectionProps {
 @Component({
   name: "FSXASection",
 })
-class FSXASection extends BaseComponent<FSXASectionProps> {
+class Section extends BaseComponent<SectionProps> {
   @Inject({ from: FSXA_INJECT_KEY_SECTIONS, default: {} }) sections!: {};
-  @Prop({ required: true }) id!: FSXASectionProps["id"];
-  @Prop({ required: true }) previewId!: FSXASectionProps["previewId"];
-  @Prop({ required: true }) type!: FSXASectionProps["type"];
-  @Prop({ required: true }) data!: FSXASectionProps["data"];
-  @Prop({ required: true }) meta!: FSXASectionProps["meta"];
+  @Prop({ required: true }) id!: SectionProps["id"];
+  @Prop({ required: true }) previewId!: SectionProps["previewId"];
+  @Prop({ required: true }) type!: SectionProps["type"];
+  @Prop({ required: true }) data!: SectionProps["data"];
+  @Prop({ required: true }) meta!: SectionProps["meta"];
 
   get mappedSections(): { [key: string]: any } {
     return {
@@ -48,23 +48,20 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
       if (this.isDevMode) {
         console.log(`Could not find section for given key: ${this.type}`);
         return (
-          <FSXADevInfo
+          <DevInfo
             headline={`Could not find registered Section: ${this.type}`}
             isOverlay={false}
             devModeHint="This information is only visible if DevMode is active"
           >
             You can easily register new Sections by providing a key-Component
             map to the FSXAProviderConfig
-            <FSXACode
-              code={getProgrammingHint(this.type)}
-              language="typescript"
-            />
+            <Code code={getProgrammingHint(this.type)} language="typescript" />
             The following Payload will be passed to it:
-            <FSXACode
+            <Code
               code={JSON.stringify(this.data, undefined, 2)}
               language="json"
             />
-          </FSXADevInfo>
+          </DevInfo>
         );
       }
       return null;
@@ -73,14 +70,14 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
       <div class="relative" data-preview-id={this.previewId}>
         <Component payload={this.data} previewId={this.previewId} />
         {this.isDevMode && (
-          <FSXADevInfo
+          <DevInfo
             headline={`Section: ${this.type}`}
             isOverlay
             devModeHint="This information is only visible if DevMode is active"
           >
             The following payload is passed to the section:
-            <FSXACode code={JSON.stringify(this.data, undefined, 2)} />
-          </FSXADevInfo>
+            <Code code={JSON.stringify(this.data, undefined, 2)} />
+          </DevInfo>
         )}
       </div>
     );
@@ -90,7 +87,7 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
     return (
       <div>
         The following payload is passed to the section:
-        <FSXACode code={JSON.stringify(this.data, undefined, 2)} />
+        <Code code={JSON.stringify(this.data, undefined, 2)} />
       </div>
     );
   }
@@ -108,4 +105,4 @@ class FSXASection extends BaseComponent<FSXASectionProps> {
     );
   }
 }
-export default FSXASection;
+export default Section;

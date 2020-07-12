@@ -1,6 +1,6 @@
 import Component from "vue-class-component";
 import { Sections } from "fsxa-ui";
-import FSXABaseSection from "./FSXABaseSection";
+import BaseSection from "./BaseSection";
 import { CAASImageReference } from "fsxa-api";
 
 export interface Payload {
@@ -19,9 +19,9 @@ export interface Payload {
   st_text: string;
 }
 @Component({
-  name: "FSXAInterestingFactsSection",
+  name: "InterestingFactsSection",
 })
-class FSXAInterestingFactsSection extends FSXABaseSection<Payload> {
+class InterestingFactsSection extends BaseSection<Payload> {
   render() {
     return (
       <Sections.InterestingFactsSection
@@ -34,11 +34,20 @@ class FSXAInterestingFactsSection extends FSXABaseSection<Payload> {
           label: counter.data.st_text,
         }))}
         backgroundImage={
-          this.payload.st_background_image?.resolutions.ORIGINAL.url ||
-          undefined
+          this.payload.st_background_image?.resolutions.ORIGINAL
+            ? {
+                src: this.payload.st_background_image.resolutions.ORIGINAL.url,
+                dimensions: {
+                  width: this.payload.st_background_image.resolutions.ORIGINAL
+                    .width,
+                  height: this.payload.st_background_image.resolutions.ORIGINAL
+                    .height,
+                },
+              }
+            : undefined
         }
       />
     );
   }
 }
-export default FSXAInterestingFactsSection;
+export default InterestingFactsSection;

@@ -1,13 +1,13 @@
 import Component from "vue-class-component";
-import FSXAPage from "./components/FSXAPage";
 import "./assets/tailwind.css";
-import FSXAConfigProvider from "./components/FSXAConfigProvider";
-import FSXABaseComponent from "./components/FSXABaseComponent";
+import ConfigProvider from "./components/ConfigProvider";
+import BaseComponent from "./components/BaseComponent";
+import Page from "./components/Page";
 
 @Component({
   name: "App",
 })
-class App extends FSXABaseComponent<{}> {
+class App extends BaseComponent<{}> {
   route = location.pathname;
 
   changeRoute(route: string) {
@@ -17,16 +17,17 @@ class App extends FSXABaseComponent<{}> {
 
   render() {
     return (
-      <div>
-        <FSXAConfigProvider devMode>
-          <FSXAPage
-            path={this.route}
+      <div class="h-full">
+        <ConfigProvider devMode>
+          <Page
+            currentPath={this.route}
+            defaultLocale="en_GB"
+            locales={["de_DE", "en_GB"]}
             handleRouteChange={route => {
               if (route) this.changeRoute(route);
             }}
-            renderLayout={content => <div>Das ist mein Layout {content}</div>}
           />
-        </FSXAConfigProvider>
+        </ConfigProvider>
       </div>
     );
   }

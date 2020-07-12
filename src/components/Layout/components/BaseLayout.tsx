@@ -1,22 +1,19 @@
 import { Prop, Component } from "vue-property-decorator";
 import { BodyContent } from "fsxa-api";
-import Section from "@/components/FSXASection";
-import FSXABaseComponent from "@/components/FSXABaseComponent";
-import { FSXABaseLayoutProps } from "@/types/components";
+import Section from "@/components/Section";
+import BaseComponent from "@/components/BaseComponent";
+import { BaseLayoutProps } from "@/types/components";
 
 @Component({
   name: "BaseLayout",
 })
-class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
-  FSXABaseLayoutProps<Data, Meta>
+class BaseLayout<Data = {}, Meta = {}> extends BaseComponent<
+  BaseLayoutProps<Data, Meta>
 > {
-  @Prop({ required: true }) pageId!: FSXABaseLayoutProps<Data, Meta>["pageId"];
-  @Prop({ required: true }) data!: FSXABaseLayoutProps<Data, Meta>["data"];
-  @Prop({ required: true }) meta!: FSXABaseLayoutProps<Data, Meta>["meta"];
-  @Prop({ required: true }) content!: FSXABaseLayoutProps<
-    Data,
-    Meta
-  >["content"];
+  @Prop({ required: true }) pageId!: BaseLayoutProps<Data, Meta>["pageId"];
+  @Prop({ required: true }) data!: BaseLayoutProps<Data, Meta>["data"];
+  @Prop({ required: true }) meta!: BaseLayoutProps<Data, Meta>["meta"];
+  @Prop({ required: true }) content!: BaseLayoutProps<Data, Meta>["content"];
 
   renderContentElement(content: BodyContent) {
     switch (content.type) {
@@ -41,4 +38,4 @@ class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
     return this.content[index].children.map(this.renderContentElement);
   }
 }
-export default FSXABaseLayout;
+export default BaseLayout;

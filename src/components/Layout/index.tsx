@@ -1,11 +1,10 @@
-import Component from "vue-class-component";
-import { Prop, Inject } from "vue-property-decorator";
+import { Component, Prop, Inject } from "vue-property-decorator";
 import Layouts from "./components";
 import { FSXA_INJECT_KEY_LAYOUTS } from "@/constants";
-import FSXABaseComponent from "@/components/FSXABaseComponent";
-import { FSXALayoutProps } from "@/types/components";
-import { FSXADevInfo, FSXACode } from "fsxa-ui";
+import { DevInfo, Code } from "fsxa-ui";
 import ErrorBoundary from "../ErrorBoundary";
+import BaseComponent from "../BaseComponent";
+import { Body } from "fsxa-api";
 
 const getProgrammingHint = (type: string) => {
   return `<FSXAConfigProvider sections={{ ${type}: Your_Section_Component }}>
@@ -18,18 +17,25 @@ const getDevModeContent = (key: string, code: string) => {
 ${code}`;
 };
 
+export interface LayoutProps {
+  pageId: string;
+  type: string;
+  content: Body[];
+  data: any;
+  meta: any;
+}
 @Component({
-  name: "FSXALayout",
+  name: "Layout",
 })
-class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
+class Layout extends BaseComponent<LayoutProps> {
   @Inject({ from: FSXA_INJECT_KEY_LAYOUTS, default: {} }) layouts!: {};
   @Prop({ required: true })
-  data!: FSXALayoutProps["data"];
-  @Prop({ required: true }) type!: FSXALayoutProps["type"];
-  @Prop({ required: true }) content!: FSXALayoutProps["content"];
+  data!: LayoutProps["data"];
+  @Prop({ required: true }) type!: LayoutProps["type"];
+  @Prop({ required: true }) content!: LayoutProps["content"];
   @Prop({ required: true })
-  meta!: FSXALayoutProps["meta"];
-  @Prop({ required: true }) pageId!: FSXALayoutProps["pageId"];
+  meta!: LayoutProps["meta"];
+  @Prop({ required: true }) pageId!: LayoutProps["pageId"];
 
   get mappedLayouts(): { [key: string]: any } {
     return {
@@ -42,21 +48,21 @@ class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
     return (
       <div>
         The following Data, Meta and Content will be passed to it:
-        <FSXACode
+        <Code
           code={getDevModeContent(
             "data",
             JSON.stringify(this.data, undefined, 2),
           )}
           language="json"
         />
-        <FSXACode
+        <Code
           code={getDevModeContent(
             "meta",
             JSON.stringify(this.meta, undefined, 2),
           )}
           language="json"
         />
-        <FSXACode
+        <Code
           code={getDevModeContent(
             "content",
             JSON.stringify(this.content, undefined, 2),
@@ -68,24 +74,21 @@ class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
   }
 
   render() {
-    const Layout = this.mappedLayouts[this.type];
-    if (!Layout) {
+    const LayoutComponent = this.mappedLayouts[this.type];
+    if (!LayoutComponent) {
       if (this.isDevMode) {
         console.log(`Could not find layout for given key: ${this.type}`);
         return (
-          <FSXADevInfo
+          <DevInfo
             headline={`Could not find registered Layout: ${this.type}`}
             isOverlay={false}
             devModeHint="This information is only visible if DevMode is active"
           >
             You can easily register new Layouts by providing a key-Component map
             to the FSXAConfigProvider
-            <FSXACode
-              code={getProgrammingHint(this.type)}
-              language="typescript"
-            />
+            <Code code={getProgrammingHint(this.type)} language="typescript" />
             {this.renderDevInfo()}
-          </FSXADevInfo>
+          </DevInfo>
         );
       }
       return null;
@@ -96,24 +99,24 @@ class FSXALayout extends FSXABaseComponent<FSXALayoutProps> {
         additionalInfo={this.renderDevInfo()}
       >
         <div class="relative">
-          <Layout
+          <LayoutComponent
             content={this.content}
             data={this.data}
             meta={this.meta}
             pageId={this.pageId}
           />
           {this.isDevMode && (
-            <FSXADevInfo
+            <DevInfo
               headline={`Layout: ${this.type}`}
               isOverlay
               devModeHint="This information is only visible if DevMode is active"
             >
               {this.renderDevInfo()}
-            </FSXADevInfo>
+            </DevInfo>
           )}
         </div>
       </ErrorBoundary>
     );
   }
 }
-export default FSXALayout;
+export default Layout;
