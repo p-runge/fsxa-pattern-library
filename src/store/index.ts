@@ -185,9 +185,8 @@ export function getFSXAModule<R extends RootState>(
           isClient: boolean;
         },
       ) {
-        console.log("FETCHING page", payload);
         const locale = payload.locale || this.state.fsxa.locale;
-        if (!locale) throw new Error("No locale could be found.");
+        if (!locale) return null;
         try {
           const navigationData = this.state.fsxa.navigation;
           if (!navigationData) return;

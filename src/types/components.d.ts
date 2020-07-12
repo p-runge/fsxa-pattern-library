@@ -148,6 +148,13 @@ export interface PageProps {
    * Make sure that your AppLayout-Component extends the FSXABaseComponent to access all the cool helpers we are providing for you
    */
   renderLayout?: (params: RenderLayoutParams) => JSX.Element | null;
+
+  /**
+   * You can replace the loading animation that will be displayed during page transitions
+   *
+   * If you do not want some kind of animation just return **null**
+   */
+  renderLoader?: () => JSX.Element | null;
   /**
    * Required callback that will be triggered, when the route should be changed
    *

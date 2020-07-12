@@ -46,6 +46,7 @@ class Page extends BaseComponent<PageProps> {
   @Prop() renderNavigation: PageProps["renderNavigation"];
   @Prop() handleRouteChange!: PageProps["handleRouteChange"];
   @Prop() renderLayout: PageProps["renderLayout"];
+  @Prop() renderLoader: PageProps["renderLoader"];
   @Prop({ required: true }) defaultLocale!: PageProps["defaultLocale"];
   @Prop({ required: true }) locales!: PageProps["locales"];
 
@@ -59,7 +60,6 @@ class Page extends BaseComponent<PageProps> {
 
   @Watch("currentPath", { immediate: true })
   onPathChange(nextPath: string) {
-    console.log("Path did change", nextPath);
     this.$store.dispatch(FSXAActions.fetchPage, {
       path: nextPath,
       isClient: true,
@@ -258,7 +258,7 @@ class Page extends BaseComponent<PageProps> {
     }
     const content =
       this.appState === FSXAAppState.fetching ? (
-        <Loader />
+        <Loader renderLoader={this.renderLoader} />
       ) : (
         this.renderContent()
       );
