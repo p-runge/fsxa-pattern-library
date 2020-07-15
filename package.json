@@ -1,6 +1,6 @@
 {
   "name": "fsxa-pattern-library",
-  "version": "0.1.53",
+  "version": "0.1.54",
   "main": "./dist/fsxa-pattern-library.common.js",
   "license": "Apache-2.0",
   "types": "src/types/fsxa-pattern-library.d.ts",
@@ -29,8 +29,8 @@
     "core-js": "^2.6.10",
     "date-fns": "^2.14.0",
     "fs-tpp-api": "1.2.24",
-    "fsxa-api": "^0.1.20",
-    "fsxa-ui": "^0.1.30",
+    "fsxa-api": "^0.1.22",
+    "fsxa-ui": "^0.1.31",
     "lodash.isequal": "^4.5.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",

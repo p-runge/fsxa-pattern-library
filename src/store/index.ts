@@ -13,7 +13,7 @@ export interface CurrentPage extends MappedNavigationItem {
 }
 export interface FSXAAppError {
   message: string;
-  description: string;
+  description?: string;
   stacktrace?: string;
 }
 export enum FSXAAppState {
@@ -249,7 +249,7 @@ export function getFSXAModule<R extends RootState>(
             appState: FSXAAppState.error,
             error: {
               message: error.message,
-              description: error.stacktrace,
+              stacktrace: error.stacktrace,
             },
           });
         }
