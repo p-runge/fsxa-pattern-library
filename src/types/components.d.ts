@@ -267,7 +267,7 @@ export interface RenderLayoutParams {
    *
    * Make sure to display or log the error and fix it, when it occurs
    */
-  appError: FSXAAppError;
+  appError: FSXAAppError | null;
   /**
    * This is the content that will be displayed inside of your AppLayout
    *

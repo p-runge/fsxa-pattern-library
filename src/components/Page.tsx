@@ -1,5 +1,11 @@
 import { Component, Prop, Provide, Watch } from "vue-property-decorator";
-import { FSXAGetters, FSXAActions, FSXAAppState, CurrentPage } from "@/store";
+import {
+  FSXAGetters,
+  FSXAActions,
+  FSXAAppState,
+  CurrentPage,
+  FSXAAppError,
+} from "@/store";
 import { Fragment } from "vue-fragment";
 import {
   RequestRouteChangeParams,
@@ -15,6 +21,7 @@ import {
   Loader,
   Dropdown,
   Option,
+  DevInfo,
 } from "fsxa-ui";
 import BaseComponent from "@/components/BaseComponent";
 import { NavigationData } from "fsxa-api";
@@ -109,11 +116,11 @@ class Page extends BaseComponent<PageProps> {
     });
   }
 
-  get appState() {
+  get appState(): FSXAAppState {
     return this.$store.getters[FSXAGetters.appState];
   }
 
-  get appError() {
+  get appError(): FSXAAppError | null {
     return this.$store.getters[FSXAGetters.error];
   }
 
@@ -258,36 +265,52 @@ class Page extends BaseComponent<PageProps> {
   }
 
   render() {
-    if (this.appState === FSXAAppState.initializing) return null;
-    if (this.appState === FSXAAppState.error) {
-      return null;
-    }
     const content =
       this.appState === FSXAAppState.fetching ? (
         <Loader renderLoader={this.renderLoader} />
       ) : (
         this.renderContent()
       );
-    return (
-      <Fragment>
-        {this.isDevMode && <DevInfoTarget />}
-        {this.renderLayout ? (
-          this.renderLayout({
+    if (this.renderLayout) {
+      return (
+        <Fragment>
+          {this.isDevMode && <DevInfoTarget />}
+          {this.renderLayout({
             appState: this.appState,
             appError: this.appError,
             content,
             handleLocaleChange: this.requestLocaleChange,
             locale: this.locale || this.defaultLocale,
             locales: this.locales || [],
-          })
-        ) : (
-          <UIPage
-            renderFooter={this.renderFooter}
-            renderNavigation={this.renderNav}
+          })}
+        </Fragment>
+      );
+    }
+    if (this.appState === FSXAAppState.initializing) return null;
+    if (this.appState === FSXAAppState.error) {
+      return (
+        <div class="w-full h-full">
+          <DevInfo
+            class="h-full"
+            devModeHint="This error message is always displayed"
+            headline={
+              this.appError ? this.appError.message : "Unknown error occured"
+            }
           >
-            {content}
-          </UIPage>
-        )}
+            {this.appError?.description}
+          </DevInfo>
+        </div>
+      );
+    }
+    return (
+      <Fragment>
+        {this.isDevMode && <DevInfoTarget />}
+        <UIPage
+          renderFooter={this.renderFooter}
+          renderNavigation={this.renderNav}
+        >
+          {content}
+        </UIPage>
       </Fragment>
     );
   }

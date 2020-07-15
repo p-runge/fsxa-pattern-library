@@ -142,7 +142,7 @@ export function getFSXAModule<R extends RootState>(
                 message:
                   "Could not fetch navigation-data from NavigationService",
                 description:
-                  "Please make sure that the Navigation-Service is available and your config is correct. See Documentation (link goes here) for more information.",
+                  "Please make sure that the Navigation-Service is available and your config is correct. See the documentation for more information.",
               },
             });
             return;
@@ -151,7 +151,7 @@ export function getFSXAModule<R extends RootState>(
               appState: FSXAAppState.error,
               error: {
                 message: "Could not fetch global settings via GCAPage",
-                description: `Please make sure that you do have a GCAPage defined in your project. The identifier that is searched for is: ${GLOBAL_SETTINGS_KEY}. See Documentation (link goes here) for more information.`,
+                description: `Please make sure that you do have a GCAPage defined in your project. The identifier that is searched for is: [${GLOBAL_SETTINGS_KEY}]. See the documentation for more information.`,
               },
             });
             return;
@@ -245,7 +245,13 @@ export function getFSXAModule<R extends RootState>(
             });
           }
         } catch (error) {
-          console.log(error);
+          commit("setError", {
+            appState: FSXAAppState.error,
+            error: {
+              message: error.message,
+              description: error.stacktrace,
+            },
+          });
         }
       },
       [Actions.hydrateClient]: function({ commit }, payload: FSXAVuexState) {
@@ -324,6 +330,9 @@ export function getFSXAModule<R extends RootState>(
     getters: {
       [Getters.appState]: function(state): FSXAAppState {
         return state.appState;
+      },
+      [Getters.error]: function(state) {
+        return state.error;
       },
       [Getters.currentPage]: function(state): CurrentPage | null {
         if (!state.currentPageId) return null;
