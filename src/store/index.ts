@@ -7,6 +7,7 @@ import FSXAApi, {
   MappedNavigationItem,
 } from "fsxa-api";
 import axios, { AxiosStatic } from "axios";
+import { config } from "vue/types/umd";
 
 export interface CurrentPage extends MappedNavigationItem {
   content: Page;
@@ -95,6 +96,7 @@ export function getFSXAModule<R extends RootState>(
   axiosToUse?: AxiosStatic,
 ): Module<FSXAVuexState, R> {
   const fsxaAPI = new FSXAApi(axiosToUse || axios, configuration);
+  console.log("Building FSXA-Module with configuration", configuration);
   return {
     namespaced: true,
     state: () => ({
@@ -104,7 +106,7 @@ export function getFSXAModule<R extends RootState>(
       settings: null,
       appState: FSXAAppState.not_initialized,
       error: null,
-      configuration: fsxaAPI.getConfiguration(),
+      configuration,
     }),
     actions: {
       [Actions.initialize]: async function(
@@ -255,6 +257,7 @@ export function getFSXAModule<R extends RootState>(
         }
       },
       [Actions.hydrateClient]: function({ commit }, payload: FSXAVuexState) {
+        console.log("Hydrating Client with payload", payload);
         commit("setInitialStateFromServer", payload);
       },
       [Actions.setStoredItem]: async function(
@@ -306,6 +309,11 @@ export function getFSXAModule<R extends RootState>(
       },
       setInitialStateFromServer(state, initialStateFromServer: FSXAVuexState) {
         Vue.set(state, "configuration", initialStateFromServer.configuration);
+        Vue.set(state, "currentPageId", initialStateFromServer.currentPageId);
+        Vue.set(state, "navigation", initialStateFromServer.navigation);
+        Vue.set(state, "settings", initialStateFromServer.settings);
+        Vue.set(state, "appState", initialStateFromServer.appState);
+        Vue.set(state, "error", initialStateFromServer.error);
         Vue.set(state, "stored", initialStateFromServer.stored);
       },
       setLocale(state, locale) {
