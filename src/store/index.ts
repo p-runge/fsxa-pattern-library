@@ -95,8 +95,6 @@ export function getFSXAModule<R extends RootState>(
   configuration: FSXAConfiguration,
   axiosToUse?: AxiosStatic,
 ): Module<FSXAVuexState, R> {
-  const fsxaAPI = new FSXAApi(axiosToUse || axios, configuration);
-  console.log("Building FSXA-Module with configuration", configuration);
   return {
     namespaced: true,
     state: () => ({
@@ -121,6 +119,10 @@ export function getFSXAModule<R extends RootState>(
         // Set app state to initializing
         commit("startInitialization", payload.locale);
         try {
+          const fsxaAPI = new FSXAApi(
+            axiosToUse || axios,
+            this.state.fsxa.configuration,
+          );
           // fetch navigation data
           const [navigationData, settings] = await Promise.all([
             fsxaAPI.fetchNavigation(payload.locale),
@@ -214,6 +216,10 @@ export function getFSXAModule<R extends RootState>(
             commit("setAppState", FSXAAppState.fetching);
             const contentReferenceId =
               navigationData.idMap[requestedPageId].contentReferenceId;
+            const fsxaAPI = new FSXAApi(
+              axiosToUse || axios,
+              this.state.fsxa.configuration,
+            );
             const [page] = await Promise.all([
               fsxaAPI.fetchPage(contentReferenceId, locale),
               new Promise(resolve =>
@@ -257,7 +263,6 @@ export function getFSXAModule<R extends RootState>(
         }
       },
       [Actions.hydrateClient]: function({ commit }, payload: FSXAVuexState) {
-        console.log("Hydrating Client with payload", payload);
         commit("setInitialStateFromServer", payload);
       },
       [Actions.setStoredItem]: async function(
