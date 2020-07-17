@@ -91,7 +91,15 @@ class Page extends BaseComponent<PageProps> {
         if (nextPage) this.requestRouteChange({ route: nextPage.path });
       });
       TPP_SNAP.onRerenderView(() => {
-        // window.setTimeout(() => this.fetchData(true), 300);
+        window.setTimeout(
+          () =>
+            this.initialize({
+              isClient: true,
+              locale: this.locale,
+              path: this.currentPath,
+            }),
+          300,
+        );
         return false;
       });
     }
