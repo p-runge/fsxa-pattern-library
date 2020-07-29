@@ -27,6 +27,11 @@ import BaseComponent from "@/components/BaseComponent";
 import { NavigationData } from "fsxa-api";
 import { isClient } from "@/utils";
 import Layout from "@/components/Layout";
+import {
+  FSXA_INJECT_KEY_LAYOUTS,
+  FSXA_INJECT_KEY_SECTIONS,
+  FSXA_INJECT_KEY_DEV_MODE,
+} from "@/constants";
 
 const getDropdownOptions = (locales: AppLocale[] = []): Option[] => {
   return locales.map(locale => {
@@ -56,6 +61,16 @@ class Page extends BaseComponent<PageProps> {
   @Prop() renderLoader: PageProps["renderLoader"];
   @Prop({ required: true }) defaultLocale!: PageProps["defaultLocale"];
   @Prop({ required: true }) locales!: PageProps["locales"];
+
+  @Prop({ default: false }) devMode!: PageProps["devMode"];
+  // eslint-disable-next-line
+  @Prop({ default: () => {} }) layouts!: PageProps["layouts"];
+  // eslint-disable-next-line
+  @Prop({ default: () => {} }) sections!: PageProps["sections"];
+
+  @Provide(FSXA_INJECT_KEY_LAYOUTS) injectedLayouts = this.layouts;
+  @Provide(FSXA_INJECT_KEY_SECTIONS) injectedSections = this.sections;
+  @Provide(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
 
   serverPrefetch() {
     return this.initialize({

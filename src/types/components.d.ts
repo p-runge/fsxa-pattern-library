@@ -162,10 +162,6 @@ export interface PageProps {
    * You can use your own routing technology but can be sure that our library will do the heavy lifting for you.
    */
   handleRouteChange: (nextRoute: string) => void;
-}
-export class FSXAPage extends FSXABaseComponent<PageProps> {}
-
-export interface ConfigProviderProps {
   /**
    * You can pass in your own sections configuration
    *
@@ -187,7 +183,7 @@ export interface ConfigProviderProps {
     [key: string]: any;
   };
   /**
-   * When activated, you will be shown useful information with which you can get started developing beautiful ui.
+   * When activated, you will be shown useful information with which you can started developing your beautiful ui.
    *
    * We want to make the entry into frontend development with FirstSpirit as easy as possible. That's why we developed the DevMode.
    *
@@ -203,9 +199,7 @@ export interface ConfigProviderProps {
    */
   devMode?: boolean;
 }
-export class FSXAConfigProvider extends FSXABaseComponent<
-  ConfigProviderProps
-> {}
+export class FSXAPage extends FSXABaseComponent<PageProps> {}
 
 export interface RenderNavigationHookParams {
   /**
