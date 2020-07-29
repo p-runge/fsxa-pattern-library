@@ -7,9 +7,7 @@ import BaseComponent from "../BaseComponent";
 import { Body } from "fsxa-api";
 
 const getProgrammingHint = (type: string) => {
-  return `<FSXAConfigProvider sections={{ ${type}: Your_Section_Component }}>
-  <FSXAPage ...>
-</FSXAConfigProvider>`;
+  return `<FSXAPage layouts={{ ${type}: Your_Layout_Component }} />`;
 };
 
 const getDevModeContent = (key: string, code: string) => {
@@ -85,8 +83,9 @@ class Layout extends BaseComponent<LayoutProps> {
             devModeHint="This information is only visible if DevMode is active"
           >
             You can easily register new Layouts by providing a key-Component map
-            to the FSXAConfigProvider
+            to your FSXAPage
             <Code code={getProgrammingHint(this.type)} language="typescript" />
+            <br />
             {this.renderDevInfo()}
           </DevInfo>
         );

@@ -7,9 +7,7 @@ import { DevInfo, Code } from "fsxa-ui";
 import ErrorBoundary from "../ErrorBoundary";
 
 const getProgrammingHint = (type: string) => {
-  return `<FSXAConfigProvider sections={{ ${type}: Your_Section_Component }}>
-  <FSXAPage ...>
-</FSXAConfigProvider>`;
+  return `<FSXAPage sections={{ ${type}: Your_Section_Component }} />`;
 };
 
 export interface SectionProps {
@@ -53,9 +51,10 @@ class Section extends BaseComponent<SectionProps> {
             isOverlay={false}
             devModeHint="This information is only visible if DevMode is active"
           >
-            You can easily register new Sections by providing a key-Component
-            map to the FSXAProviderConfig
+            ou can easily register new Sections by providing a key-Component map
+            to your FSXAPage
             <Code code={getProgrammingHint(this.type)} language="typescript" />
+            <br />
             The following Payload will be passed to it:
             <Code
               code={JSON.stringify(this.data, undefined, 2)}
