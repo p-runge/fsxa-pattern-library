@@ -1,5 +1,6 @@
 import Component from "vue-class-component";
 import BaseLayout from "./BaseLayout";
+import { Layouts } from "fsxa-ui";
 
 export interface Slide {
   previewId: string;
@@ -16,12 +17,9 @@ export interface Data {
 class HomepageLayout extends BaseLayout<Data> {
   render() {
     return (
-      <div data-preview-id={this.content[0].previewId}>
-        {/**<div class="w-full p-20 -mt-20 h-screen">
-          <Slider slides={this.pt_slider} />
-    </div>**/}
-        {this.content.length > 0 && this.renderContentElements(0)}
-      </div>
+      <Layouts.SingleColumnLayout data-preview-id={this.content[0].previewId}>
+        {this.content.length && this.renderContentElements(0)}
+      </Layouts.SingleColumnLayout>
     );
   }
 }

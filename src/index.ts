@@ -1,4 +1,3 @@
-import "./assets/tailwind.css";
 import "vue-tsx-support/enable-check";
 export { default as FSXAPage } from "./components/Page";
 export { default as FSXABaseSection } from "./components/Section/components/BaseSection";
