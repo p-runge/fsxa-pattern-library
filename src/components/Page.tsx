@@ -223,25 +223,23 @@ class Page extends BaseComponent<PageProps> {
         activeSeoRoute: this.currentPath || "",
       });
     return (
-      <div class="flex flex-row items-center justify-center">
-        <Navigation
-          items={this.navigationData?.structure || []}
-          isActiveItem={item =>
-            Boolean(
-              this.currentPage &&
-                this.currentPage.content &&
-                item.id === this.currentPage.content.refId,
-            )
-          }
-          handleNavClick={({ id }) =>
-            this.requestRouteChange({
-              pageId: id,
-            })
-          }
-        />
+      <Navigation
+        items={this.navigationData?.structure || []}
+        isActiveItem={item =>
+          Boolean(
+            this.currentPage &&
+              this.currentPage.content &&
+              item.id === this.currentPage.content.refId,
+          )
+        }
+        handleNavClick={({ id }) =>
+          this.requestRouteChange({
+            pageId: id,
+          })
+        }
+      >
         {this.locales ? (
           <Dropdown
-            class="ml-10"
             value={this.locale}
             options={getDropdownOptions(this.locales)}
             handleChange={newLocale => this.requestLocaleChange(newLocale.key)}
@@ -249,7 +247,7 @@ class Page extends BaseComponent<PageProps> {
             <i class="fas fa-globe-europe" />
           </Dropdown>
         ) : null}
-      </div>
+      </Navigation>
     );
   }
 
@@ -312,17 +310,15 @@ class Page extends BaseComponent<PageProps> {
     if (this.appState === FSXAAppState.initializing) return null;
     if (this.appState === FSXAAppState.error) {
       return (
-        <div class="w-full h-full">
-          <DevInfo
-            class="h-full"
-            devModeHint="This error message is always displayed"
-            headline={
-              this.appError ? this.appError.message : "Unknown error occured"
-            }
-          >
-            {this.appError?.description}
-          </DevInfo>
-        </div>
+        <DevInfo
+          class="h-full"
+          devModeHint="This error message is always displayed"
+          headline={
+            this.appError ? this.appError.message : "Unknown error occured"
+          }
+        >
+          {this.appError?.description}
+        </DevInfo>
       );
     }
     return (

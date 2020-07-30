@@ -7,7 +7,6 @@ import FSXAApi, {
   MappedNavigationItem,
 } from "fsxa-api";
 import axios, { AxiosStatic } from "axios";
-import { config } from "vue/types/umd";
 
 export interface CurrentPage extends MappedNavigationItem {
   content: Page;

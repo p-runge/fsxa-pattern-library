@@ -1,5 +1,4 @@
 import Component from "vue-class-component";
-import "./assets/tailwind.css";
 import BaseComponent from "./components/BaseComponent";
 import Page from "./components/Page";
 
@@ -16,17 +15,15 @@ class App extends BaseComponent<{}> {
 
   render() {
     return (
-      <div class="h-full">
-        <Page
-          currentPath={this.route}
-          devMode
-          defaultLocale="en_GB"
-          locales={["de_DE", "en_GB"]}
-          handleRouteChange={route => {
-            if (route) this.changeRoute(route);
-          }}
-        />
-      </div>
+      <Page
+        currentPath={this.route}
+        devMode
+        defaultLocale="en_GB"
+        locales={["de_DE", "en_GB"]}
+        handleRouteChange={route => {
+          if (route) this.changeRoute(route);
+        }}
+      />
     );
   }
 }

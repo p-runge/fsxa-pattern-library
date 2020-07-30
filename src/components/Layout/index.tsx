@@ -97,7 +97,7 @@ class Layout extends BaseComponent<LayoutProps> {
         title={`Error rendering Layout: ${Layout && Layout.name}`}
         additionalInfo={this.renderDevInfo()}
       >
-        <div class="relative">
+        <div style={{ position: "relative" }}>
           <LayoutComponent
             content={this.content}
             data={this.data}
