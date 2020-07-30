@@ -12,9 +12,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name fsxa-pattern-library src/index.ts",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
-    "storybook:build": "node -r dotenv/config ./node_modules/.bin/vue-cli-service storybook:build -c config/storybook",
-    "storybook:serve": "node -r dotenv/config ./node_modules/.bin/vue-cli-service storybook:serve -p 6006 -c config/storybook"
+    "lint": "vue-cli-service lint"
   },
   "files": [
     "dist",
