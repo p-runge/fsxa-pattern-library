@@ -51,8 +51,8 @@ class Section extends BaseComponent<SectionProps> {
             isOverlay={false}
             devModeHint="This information is only visible if DevMode is active"
           >
-            ou can easily register new Sections by providing a key-Component map
-            to your FSXAPage
+            You can easily register new Sections by providing a key-Component
+            map to your FSXAPage
             <Code code={getProgrammingHint(this.type)} language="typescript" />
             <br />
             The following Payload will be passed to it:
