@@ -2,11 +2,11 @@ import Vue from "vue";
 import Vuex, { Module } from "vuex";
 import FSXAApi, {
   NavigationData,
-  FSXAConfiguration,
   Page,
   MappedNavigationItem,
+  FSXAApiParams,
+  FSXAContentMode,
 } from "fsxa-api";
-import axios, { AxiosStatic } from "axios";
 
 export interface CurrentPage extends MappedNavigationItem {
   content: Page;
@@ -26,7 +26,7 @@ export enum FSXAAppState {
 }
 export interface FSXAVuexState {
   locale?: string;
-  configuration?: FSXAConfiguration;
+  configuration: FSXAApiParams;
   appState: FSXAAppState;
   currentPageId: string | null;
   navigation: NavigationData | null;
@@ -35,6 +35,7 @@ export interface FSXAVuexState {
   stored: {
     [key: string]: any;
   };
+  mode: "release" | "preview";
 }
 export interface RootState {
   fsxa: FSXAVuexState;
@@ -78,6 +79,7 @@ const GETTER_CONFIGURATION = "configuration";
 const GETTER_LOCALE = "locale";
 const GETTER_ITEM = "item";
 const GETTER_PAGE_BY_URL = "getPageIdByUrl";
+const GETTER_MODE = "mode";
 
 export const FSXAGetters = {
   [Getters.appState]: `${prefix}/${Getters.appState}`,
@@ -88,11 +90,12 @@ export const FSXAGetters = {
   [GETTER_LOCALE]: `${prefix}/${GETTER_LOCALE}`,
   [GETTER_ITEM]: `${prefix}/${GETTER_ITEM}`,
   [GETTER_PAGE_BY_URL]: `${prefix}/${GETTER_PAGE_BY_URL}`,
+  [GETTER_MODE]: `${prefix}/${GETTER_MODE}`,
 };
 
 export function getFSXAModule<R extends RootState>(
-  configuration: FSXAConfiguration,
-  axiosToUse?: AxiosStatic,
+  mode: FSXAContentMode,
+  params: FSXAApiParams,
 ): Module<FSXAVuexState, R> {
   return {
     namespaced: true,
@@ -103,7 +106,8 @@ export function getFSXAModule<R extends RootState>(
       settings: null,
       appState: FSXAAppState.not_initialized,
       error: null,
-      configuration,
+      mode,
+      configuration: params,
     }),
     actions: {
       [Actions.initialize]: async function(
@@ -118,10 +122,11 @@ export function getFSXAModule<R extends RootState>(
         // Set app state to initializing
         commit("startInitialization", payload.locale);
         try {
-          const fsxaAPI = new FSXAApi(
-            axiosToUse || axios,
+          console.log(
+            "Creating API with Params",
             this.state.fsxa.configuration,
           );
+          const fsxaAPI = new FSXAApi(mode, this.state.fsxa.configuration);
           // fetch navigation data
           const [navigationData, settings] = await Promise.all([
             fsxaAPI.fetchNavigation(payload.locale),
@@ -215,10 +220,11 @@ export function getFSXAModule<R extends RootState>(
             commit("setAppState", FSXAAppState.fetching);
             const contentReferenceId =
               navigationData.idMap[requestedPageId].contentReferenceId;
-            const fsxaAPI = new FSXAApi(
-              axiosToUse || axios,
+            console.log(
+              "Creating API with Params",
               this.state.fsxa.configuration,
             );
+            const fsxaAPI = new FSXAApi(mode, this.state.fsxa.configuration);
             const [page] = await Promise.all([
               fsxaAPI.fetchPage(contentReferenceId, locale),
               new Promise(resolve =>
@@ -369,14 +375,15 @@ export function getFSXAModule<R extends RootState>(
         if (!navigationData) return null;
         return (navigationData as NavigationData).pathMap[url] || null;
       },
+      [GETTER_MODE]: (state): FSXAContentMode => state.mode,
     },
   };
 }
-const createStore = (fxsaConfiguration: FSXAConfiguration) => {
+const createStore = (mode: FSXAContentMode, params: FSXAApiParams) => {
   const store = new Vuex.Store<RootState>({
     modules: {
       fsxa: {
-        ...getFSXAModule<RootState>(fxsaConfiguration),
+        ...getFSXAModule<RootState>(mode, params),
       },
     },
   });

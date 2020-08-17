@@ -20,7 +20,7 @@ class BaseComponent<Props> extends TsxComponent<Props> {
   handleRouteChangeRequest!: (params: RequestRouteChangeParams) => void;
 
   get isEditMode() {
-    return this.$store.getters[FSXAGetters.configuration].mode === "preview";
+    return this.$store.getters[FSXAGetters.mode] === "preview";
   }
 
   get locale() {
