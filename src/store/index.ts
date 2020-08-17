@@ -122,10 +122,6 @@ export function getFSXAModule<R extends RootState>(
         // Set app state to initializing
         commit("startInitialization", payload.locale);
         try {
-          console.log(
-            "Creating API with Params",
-            this.state.fsxa.configuration,
-          );
           const fsxaAPI = new FSXAApi(mode, this.state.fsxa.configuration);
           // fetch navigation data
           const [navigationData, settings] = await Promise.all([
@@ -220,10 +216,6 @@ export function getFSXAModule<R extends RootState>(
             commit("setAppState", FSXAAppState.fetching);
             const contentReferenceId =
               navigationData.idMap[requestedPageId].contentReferenceId;
-            console.log(
-              "Creating API with Params",
-              this.state.fsxa.configuration,
-            );
             const fsxaAPI = new FSXAApi(mode, this.state.fsxa.configuration);
             const [page] = await Promise.all([
               fsxaAPI.fetchPage(contentReferenceId, locale),
