@@ -1,6 +1,7 @@
 import { Component } from "vue-tsx-support";
 import { Body, BodyContent, NavigationData } from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
+import BaseAppLayout from "@/components/BaseAppLayout";
 
 export type AppLocale =
   | string
@@ -117,6 +118,27 @@ export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
   renderContentElements(index: number): JSX.Element[];
 }
 
+export class FSXABaseAppLayout<Props = {}> extends Component<
+  RenderLayoutParams & Props
+> {
+  appState: RenderLayoutParams["appState"];
+  appError: RenderLayoutParams["appError"];
+  content: RenderLayoutParams["content"];
+  locale: RenderLayoutParams["locale"];
+  locales: RenderLayoutParams["locales"];
+  handleLocaleChange: RenderLayoutParams["handleLocaleChange"];
+}
+
+export class FSXABaseNavigation<Props = {}> extends Component<
+  RenderNavigationHookParams & Props
+> {
+  activePageId: RenderNavigationHookParams["activePageId"];
+  activeSeoRoute: RenderNavigationHookParams["activeSeoRoute"];
+  handleLocaleChange: RenderNavigationHookParams["handleLocaleChange"];
+  locale: RenderNavigationHookParams["locale"];
+  locales: RenderNavigationHookParams["locales"];
+}
+
 export interface PageProps {
   /**
    * You can specify the id of the page that should be displayed
@@ -141,20 +163,21 @@ export interface PageProps {
   /**
    * You can render your own navigation through this callback and access useful information through the params attribute
    */
-  renderNavigation?: RenderNavigationHook;
+  renderNavigation?: typeof FSXABaseNavigation | RenderNavigationHook;
   /**
    * You can replace the whole application layout through this render prop. Useful information will be injected through the params attribute
    *
    * Make sure that your AppLayout-Component extends the FSXABaseComponent to access all the cool helpers we are providing for you
    */
-  renderLayout?: (params: RenderLayoutParams) => JSX.Element | null;
-
+  renderLayout?:
+    | typeof FSXABaseAppLayout
+    | ((params: RenderLayoutParams) => JSX.Element | null);
   /**
    * You can replace the loading animation that will be displayed during page transitions
    *
    * If you do not want some kind of animation just return **null**
    */
-  renderLoader?: () => JSX.Element | null;
+  renderLoader?: JSX.Element | (() => JSX.Element | null);
   /**
    * Required callback that will be triggered, when the route should be changed
    *
@@ -217,7 +240,7 @@ export interface RenderNavigationHookParams {
   /**
    * The id of the currently active page
    */
-  activePageId: string;
+  activePageId: string | null;
   /**
    * The seoRoute of the currently active page
    */
