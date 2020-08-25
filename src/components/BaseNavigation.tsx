@@ -8,7 +8,6 @@ import { Prop, Component } from "vue-property-decorator";
 class BaseNavigation<Props = {}> extends BaseComponent<
   RenderNavigationHookParams & Props
 > {
-  @Prop({ required: true }) locale!: RenderNavigationHookParams["locale"];
   @Prop({ required: true }) locales!: RenderNavigationHookParams["locales"];
   @Prop({ required: true })
   handleLocaleChange!: RenderNavigationHookParams["handleLocaleChange"];
@@ -19,7 +18,7 @@ class BaseNavigation<Props = {}> extends BaseComponent<
 
   render() {
     throw new Error(
-      "You have to define your own render-component in your Navigation-Component",
+      "You have to define your own render-method in your Navigation-Component",
     );
   }
 }

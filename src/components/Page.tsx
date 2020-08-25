@@ -62,6 +62,9 @@ class Page extends BaseComponent<PageProps> {
   @Prop({ required: true }) defaultLocale!: PageProps["defaultLocale"];
   @Prop({ required: true }) locales!: PageProps["locales"];
 
+  @Prop() appLayoutComponent: PageProps["appLayoutComponent"];
+  @Prop() navigationComponent: PageProps["navigationComponent"];
+
   @Prop({ default: false }) devMode!: PageProps["devMode"];
   // eslint-disable-next-line
   @Prop({ default: () => {} }) layouts!: PageProps["layouts"];
@@ -214,7 +217,19 @@ class Page extends BaseComponent<PageProps> {
   }
 
   renderNav() {
-    if (this.renderNavigation)
+    const NavigationComponent = this.navigationComponent;
+    if (NavigationComponent) {
+      return (
+        <NavigationComponent
+          locale={this.defaultLocale}
+          locales={this.locales || []}
+          handleLocaleChange={this.requestLocaleChange}
+          activePageId={this.currentPage?.id || ""}
+          activeSeoRoute={this.currentPath || ""}
+        />
+      );
+    }
+    if (this.renderNavigation) {
       return this.renderNavigation({
         locale: this.defaultLocale,
         locales: this.locales || [],
@@ -222,6 +237,7 @@ class Page extends BaseComponent<PageProps> {
         activePageId: this.currentPage?.id || "",
         activeSeoRoute: this.currentPath || "",
       });
+    }
     return (
       <Navigation
         items={this.navigationData?.structure || []}
@@ -292,18 +308,28 @@ class Page extends BaseComponent<PageProps> {
       ) : (
         this.renderContent()
       );
-    if (this.renderLayout) {
+
+    // leave rendering to consumer, when renderLayout or AppLayoutComponent is provided
+    const AppLayoutComponent = this.appLayoutComponent;
+    if (this.renderLayout || AppLayoutComponent) {
+      const payload = {
+        appState: this.appState,
+        appError: this.appError,
+        content,
+        handleLocaleChange: this.requestLocaleChange,
+        locale: this.locale || this.defaultLocale,
+        locales: this.locales || [],
+      };
+      const layout = AppLayoutComponent ? (
+        <AppLayoutComponent {...{ props: payload }} />
+      ) : (
+        // eslint-disable-next-line
+        this.renderLayout!(payload)
+      );
       return (
         <Fragment>
           {this.isDevMode && <DevInfoTarget />}
-          {this.renderLayout({
-            appState: this.appState,
-            appError: this.appError,
-            content,
-            handleLocaleChange: this.requestLocaleChange,
-            locale: this.locale || this.defaultLocale,
-            locales: this.locales || [],
-          })}
+          {layout}
         </Fragment>
       );
     }

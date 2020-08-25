@@ -163,21 +163,31 @@ export interface PageProps {
   /**
    * You can render your own navigation through this callback and access useful information through the params attribute
    */
-  renderNavigation?: typeof FSXABaseNavigation | RenderNavigationHook;
+  renderNavigation?: RenderNavigationHook;
+  /**
+   * You can render your own navigation by passing your own Component that is extending the FSXABaseNavigation-Component.
+   *
+   * Useful information will be available through the properties of the FSXABaseNavigation.
+   */
+  navigationComponent?: typeof FSXABaseNavigation;
   /**
    * You can replace the whole application layout through this render prop. Useful information will be injected through the params attribute
    *
    * Make sure that your AppLayout-Component extends the FSXABaseComponent to access all the cool helpers we are providing for you
    */
-  renderLayout?:
-    | typeof FSXABaseAppLayout
-    | ((params: RenderLayoutParams) => JSX.Element | null);
+  renderLayout?: (params: RenderLayoutParams) => JSX.Element | null;
+  /**
+   * You can replace the whole application layout by passing in your Component, that is extending the FSXABaseAppLayout-Component.
+   *
+   * Useful information will be available through the properties of the FSXABaseAppLayout.
+   */
+  appLayoutComponent?: typeof FSXABaseAppLayout;
   /**
    * You can replace the loading animation that will be displayed during page transitions
    *
    * If you do not want some kind of animation just return **null**
    */
-  renderLoader?: JSX.Element | (() => JSX.Element | null);
+  renderLoader?: () => JSX.Element | null;
   /**
    * Required callback that will be triggered, when the route should be changed
    *

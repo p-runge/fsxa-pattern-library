@@ -11,7 +11,6 @@ class BaseAppLayout<Props = {}> extends BaseComponent<
   @Prop({ required: true }) appState!: RenderLayoutParams["appState"];
   @Prop({ required: true }) appError!: RenderLayoutParams["appError"];
   @Prop({ required: true }) content!: RenderLayoutParams["content"];
-  @Prop({ required: true }) locale!: RenderLayoutParams["locale"];
   @Prop({ required: true })
   locales!: RenderLayoutParams["locales"];
   @Prop({ required: true })
@@ -19,7 +18,7 @@ class BaseAppLayout<Props = {}> extends BaseComponent<
 
   render() {
     throw new Error(
-      "You have to define your own render-component in your AppLayout-Component",
+      "You have to define your own render-method in your AppLayout-Component",
     );
   }
 }

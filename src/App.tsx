@@ -1,7 +1,6 @@
 import Component from "vue-class-component";
 import BaseComponent from "./components/BaseComponent";
 import Page from "./components/Page";
-import BaseAppLayout from "./components/BaseAppLayout";
 
 @Component({
   name: "App",
