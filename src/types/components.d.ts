@@ -118,24 +118,22 @@ export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
   renderContentElements(index: number): JSX.Element[];
 }
 
-export class FSXABaseAppLayout<Props = {}> extends Component<
+export class FSXABaseAppLayout<Props = {}> extends FSXABaseComponent<
   RenderLayoutParams & Props
 > {
   appState: RenderLayoutParams["appState"];
   appError: RenderLayoutParams["appError"];
   content: RenderLayoutParams["content"];
-  locale: RenderLayoutParams["locale"];
   locales: RenderLayoutParams["locales"];
   handleLocaleChange: RenderLayoutParams["handleLocaleChange"];
 }
 
-export class FSXABaseNavigation<Props = {}> extends Component<
+export class FSXABaseNavigation<Props = {}> extends FSXABaseComponent<
   RenderNavigationHookParams & Props
 > {
   activePageId: RenderNavigationHookParams["activePageId"];
   activeSeoRoute: RenderNavigationHookParams["activeSeoRoute"];
   handleLocaleChange: RenderNavigationHookParams["handleLocaleChange"];
-  locale: RenderNavigationHookParams["locale"];
   locales: RenderNavigationHookParams["locales"];
 }
 
