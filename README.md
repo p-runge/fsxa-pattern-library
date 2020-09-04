@@ -3,6 +3,14 @@ The FSXA-Pattern-library manages the connection of the FSXA JavaScript Frontend
 to the "outside world", meaning it handles the data coming from the FirstSpirit 
 [CaaS](https://docs.e-spirit.com/module/caas/CaaS_Product_Documentation_EN.html) 
 (via the [FSXA-API](https://github.com/e-Spirit/fsxa-api)) and the NavigationService.
+
+### About the FSXA
+The FirstSpirit Experience Accelerator (FSXA) is the hybrid solution of a digital 
+experience platform, combining a headless approach with enterprise capabilities. 
+If you are interested in the FSXA check this 
+[Overview](https://docs.e-spirit.com/module/fsxa/overview/benefits-hybrid/index.html). You can order 
+a demo [online](https://www.e-spirit.com/us/specialpages/forms/on-demand-demo/).
+
 ## Project setup
 ```
 npm install
@@ -32,7 +40,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Legal Notices
-FSXA-Pattern-library is a product of e-Spirit AG, Dortmund, Germany.
+FSXA-Pattern-library is a product of [e-Spirit AG](http://www.e-spirit.com), Dortmund, Germany.
 The FSXA-Pattern-library is subject to the Apache-2.0 license.
 
 ## Disclaimer
