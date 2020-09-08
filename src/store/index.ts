@@ -6,8 +6,20 @@ import FSXAApi, {
   MappedNavigationItem,
   FSXAApiParams,
   FSXAContentMode,
+  FSXAConfiguration,
 } from "fsxa-api";
-
+export declare type FSXAModuleParams =
+  | {
+      mode: "proxy";
+      baseUrl: {
+        client: string;
+        server: string;
+      };
+    }
+  | {
+      mode: "remote";
+      config: FSXAConfiguration;
+    };
 export interface CurrentPage extends MappedNavigationItem {
   content: Page;
 }
@@ -26,7 +38,7 @@ export enum FSXAAppState {
 }
 export interface FSXAVuexState {
   locale?: string;
-  configuration: FSXAApiParams;
+  configuration: FSXAModuleParams;
   appState: FSXAAppState;
   currentPageId: string | null;
   navigation: NavigationData | null;
@@ -74,6 +86,17 @@ export const FSXAActions = {
   fetchSettings: `${prefix}/${Actions.fetchSettings}`,
 };
 
+const getFSXAConfiguration = (config: FSXAModuleParams): FSXAApiParams => {
+  if (config.mode === "remote") return config;
+  return {
+    mode: config.mode,
+    baseUrl:
+      typeof window !== "undefined"
+        ? config.baseUrl.client
+        : config.baseUrl.server,
+  };
+};
+
 const GETTER_NAVIGATION_DATA = "navigationData";
 const GETTER_CONFIGURATION = "configuration";
 const GETTER_LOCALE = "locale";
@@ -95,7 +118,7 @@ export const FSXAGetters = {
 
 export function getFSXAModule<R extends RootState>(
   mode: FSXAContentMode,
-  params: FSXAApiParams,
+  params: FSXAModuleParams,
 ): Module<FSXAVuexState, R> {
   return {
     namespaced: true,
@@ -122,7 +145,10 @@ export function getFSXAModule<R extends RootState>(
         // Set app state to initializing
         commit("startInitialization", payload.locale);
         try {
-          const fsxaAPI = new FSXAApi(mode, this.state.fsxa.configuration);
+          const fsxaAPI = new FSXAApi(
+            mode,
+            getFSXAConfiguration(this.state.fsxa.configuration),
+          );
           // fetch navigation data
           const [navigationData, settings] = await Promise.all([
             fsxaAPI.fetchNavigation(payload.locale),
@@ -216,7 +242,10 @@ export function getFSXAModule<R extends RootState>(
             commit("setAppState", FSXAAppState.fetching);
             const contentReferenceId =
               navigationData.idMap[requestedPageId].contentReferenceId;
-            const fsxaAPI = new FSXAApi(mode, this.state.fsxa.configuration);
+            const fsxaAPI = new FSXAApi(
+              mode,
+              getFSXAConfiguration(this.state.fsxa.configuration),
+            );
             const [page] = await Promise.all([
               fsxaAPI.fetchPage(contentReferenceId, locale),
               new Promise(resolve =>
@@ -371,7 +400,7 @@ export function getFSXAModule<R extends RootState>(
     },
   };
 }
-const createStore = (mode: FSXAContentMode, params: FSXAApiParams) => {
+const createStore = (mode: FSXAContentMode, params: FSXAModuleParams) => {
   const store = new Vuex.Store<RootState>({
     modules: {
       fsxa: {
