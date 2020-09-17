@@ -28,7 +28,7 @@ class HeaderSection extends BaseSection<Payload> {
                 const page = this.navigationData.idMap[parentId];
                 return {
                   label: page.label || "",
-                  path: page.path,
+                  path: page.seoRoute,
                   referenceId: parentId,
                   referenceType: "PageRef",
                 };

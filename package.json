@@ -45,7 +45,7 @@
     "core-js": "^2.6.10",
     "date-fns": "^2.14.0",
     "fs-tpp-api": "1.2.24",
-    "fsxa-api": "^1.1.0",
+    "fsxa-api": "^2.0.0",
     "lodash.isequal": "^4.5.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",

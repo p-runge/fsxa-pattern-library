@@ -3,10 +3,10 @@ import Vuex, { Module } from "vuex";
 import FSXAApi, {
   NavigationData,
   Page,
-  MappedNavigationItem,
   FSXAApiParams,
   FSXAContentMode,
   FSXAConfiguration,
+  NavigationItem,
 } from "fsxa-api";
 export declare type FSXAModuleParams =
   | {
@@ -20,7 +20,7 @@ export declare type FSXAModuleParams =
       mode: "remote";
       config: FSXAConfiguration;
     };
-export interface CurrentPage extends MappedNavigationItem {
+export interface CurrentPage extends NavigationItem {
   content: Page;
 }
 export interface FSXAAppError {
@@ -137,7 +137,7 @@ export function getFSXAModule<R extends RootState>(
         { commit },
         payload: {
           locale: string;
-          path?: string;
+          path: string;
           pageId?: string;
           isClient: string;
         },
@@ -151,7 +151,7 @@ export function getFSXAModule<R extends RootState>(
           );
           // fetch navigation data
           const [navigationData, settings] = await Promise.all([
-            fsxaAPI.fetchNavigation(payload.locale),
+            fsxaAPI.fetchNavigation(payload.path || null, payload.locale),
             fsxaAPI.fetchGCAPage(payload.locale, GLOBAL_SETTINGS_KEY),
           ]);
           if (!navigationData && !settings) {
@@ -224,7 +224,7 @@ export function getFSXAModule<R extends RootState>(
             throw new Error("You have to pass pageId or path");
           let requestedPageId = null;
           if (payload.path)
-            requestedPageId = navigationData.pathMap[payload.path];
+            requestedPageId = navigationData.seoRouteMap[payload.path];
           if (payload.pageId) requestedPageId = payload.pageId;
 
           if (
@@ -232,16 +232,17 @@ export function getFSXAModule<R extends RootState>(
             payload.path &&
             ["", "/"].indexOf(payload.path) !== -1
           )
-            requestedPageId = navigationData.indexPage.id;
+            requestedPageId =
+              navigationData.seoRouteMap[navigationData.pages.index];
           if (requestedPageId) {
             // do not load data if page already exists
             if (this.state.fsxa.stored[requestedPageId + "." + locale]) {
               commit("setCurrentPage", requestedPageId);
-              return navigationData.idMap[requestedPageId].path;
+              return navigationData.idMap[requestedPageId].seoRoute;
             }
             commit("setAppState", FSXAAppState.fetching);
             const contentReferenceId =
-              navigationData.idMap[requestedPageId].contentReferenceId;
+              navigationData.idMap[requestedPageId].caasDocumentId;
             const fsxaAPI = new FSXAApi(
               mode,
               getFSXAConfiguration(this.state.fsxa.configuration),
@@ -267,7 +268,7 @@ export function getFSXAModule<R extends RootState>(
               locale: locale,
               data: page,
             });
-            return navigationData.idMap[requestedPageId].path;
+            return navigationData.idMap[requestedPageId].seoRoute;
           } else {
             // if we did not find any valid page, we set appState to fetching_error so the application can show an error
             commit("setError", {
@@ -394,7 +395,7 @@ export function getFSXAModule<R extends RootState>(
       [GETTER_PAGE_BY_URL]: (state, getters) => (url: string) => {
         const navigationData = getters[FSXAGetters[GETTER_NAVIGATION_DATA]];
         if (!navigationData) return null;
-        return (navigationData as NavigationData).pathMap[url] || null;
+        return (navigationData as NavigationData).seoRouteMap[url] || null;
       },
       [GETTER_MODE]: (state): FSXAContentMode => state.mode,
     },

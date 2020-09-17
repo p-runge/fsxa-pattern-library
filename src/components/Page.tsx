@@ -25,7 +25,7 @@ import {
 } from "fsxa-ui";
 import BaseComponent from "@/components/BaseComponent";
 import { NavigationData } from "fsxa-api";
-import { isClient } from "@/utils";
+import { isClient, mapStructureItemToNavigationItem } from "@/utils";
 import Layout from "@/components/Layout";
 import {
   FSXA_INJECT_KEY_LAYOUTS,
@@ -106,7 +106,7 @@ class Page extends BaseComponent<PageProps> {
       TPP_SNAP.onRequestPreviewElement((previewId: string) => {
         const pageId = previewId.split(".")[0];
         const nextPage = this.navigationData?.idMap[pageId];
-        if (nextPage) this.requestRouteChange({ route: nextPage.path });
+        if (nextPage) this.requestRouteChange({ route: nextPage.seoRoute });
       });
       TPP_SNAP.onRerenderView(() => {
         window.setTimeout(
@@ -161,14 +161,15 @@ class Page extends BaseComponent<PageProps> {
       nextPage = this.navigationData.idMap[pageId] || null;
     if (route && this.navigationData)
       nextPage =
-        this.navigationData.idMap[this.navigationData.pathMap[route]] || null;
+        this.navigationData.idMap[this.navigationData.seoRouteMap[route]] ||
+        null;
     if (nextPage) {
       if (isClient() && this.isEditMode) {
         // eslint-disable-next-line
         const TPP_SNAP = require("fs-tpp-api/snap");
         TPP_SNAP.setPreviewElement(`${nextPage.id}.${this.locale}`);
       }
-      this.handleRouteChange(nextPage.path);
+      this.handleRouteChange(nextPage.seoRoute);
     }
   }
 
@@ -238,9 +239,18 @@ class Page extends BaseComponent<PageProps> {
         activeSeoRoute: this.currentPath || "",
       });
     }
+    const navItems = [];
+    const navigationData = this.navigationData;
+    if (navigationData !== null) {
+      navItems.push(
+        ...navigationData.structure.map(structure =>
+          mapStructureItemToNavigationItem(structure, navigationData),
+        ),
+      );
+    }
     return (
       <Navigation
-        items={this.navigationData?.structure || []}
+        items={navItems}
         isActiveItem={item =>
           Boolean(
             this.currentPage &&
@@ -270,7 +280,7 @@ class Page extends BaseComponent<PageProps> {
   renderFooter() {
     const handleLinkClick = (link: FooterLink) => {
       const nextPage = this.navigationData?.idMap[link.referenceId];
-      if (nextPage) this.handleRouteChange(nextPage?.path);
+      if (nextPage) this.handleRouteChange(nextPage?.seoRoute);
     };
     const links: FooterLink[] =
       this.settings && this.settings.data.gc_footer_links
