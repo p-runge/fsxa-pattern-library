@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.1.2...v1.2.0) (2020-09-17)
+
+
+### Features
+
+* **i18n:** we now support multi-language projects ([50d8c83](https://github.com/e-Spirit/fsxa-pattern-library/commit/50d8c839089fb7f7a925dcfecad0409ebb493b2e))
+
 ## [1.1.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.1.1...v1.1.2) (2020-09-08)
 
 
