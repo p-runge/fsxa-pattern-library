@@ -1,4 +1,4 @@
-# FSDevTools - Contribution guide lines
+# FSXA-Pattern-Library - Contribution guide lines
 
 ## Contributing
 
