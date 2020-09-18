@@ -143,7 +143,7 @@ export function getFSXAModule<R extends RootState>(
         },
       ) {
         // Set app state to initializing
-        commit("startInitialization", payload.locale);
+        commit("startInitialization");
         try {
           const fsxaAPI = new FSXAApi(
             mode,
@@ -187,6 +187,7 @@ export function getFSXAModule<R extends RootState>(
             return;
           }
           commit("setGlobalData", {
+            locale: navigationData.meta.identifier.languageId,
             navigationData,
             settings,
           });
@@ -314,16 +315,23 @@ export function getFSXAModule<R extends RootState>(
       setCurrentPage(state, pageId: string) {
         Vue.set(state, "currentPageId", pageId);
       },
-      startInitialization(state, locale: string) {
-        Vue.set(state, "appState", FSXAAppState.initializing);
+      setLocale(state, locale: string) {
         Vue.set(state, "locale", locale);
+      },
+      startInitialization(state) {
+        Vue.set(state, "appState", FSXAAppState.initializing);
         // we reset all stored data
         Vue.set(state, "stored", {});
       },
       setGlobalData(
         state,
-        payload: { navigationData: NavigationData; settings: any },
+        payload: {
+          navigationData: NavigationData;
+          settings: any;
+          locale: string;
+        },
       ) {
+        Vue.set(state, "locale", payload.locale);
         Vue.set(state, "navigation", payload.navigationData);
         Vue.set(state, "settings", payload.settings);
       },
@@ -347,9 +355,6 @@ export function getFSXAModule<R extends RootState>(
         Vue.set(state, "appState", initialStateFromServer.appState);
         Vue.set(state, "error", initialStateFromServer.error);
         Vue.set(state, "stored", initialStateFromServer.stored);
-      },
-      setLocale(state, locale) {
-        Vue.set(state, "locale", locale);
       },
       setAppState(state, appState) {
         Vue.set(state, "appState", appState);
