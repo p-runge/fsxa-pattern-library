@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.0...v1.2.1) (2020-09-18)
+
+
+### Bug Fixes
+
+* **multi-language:** fix error, where locale was not set correctly ([5bcd8c8](https://github.com/e-Spirit/fsxa-pattern-library/commit/5bcd8c8cff1e71130435ef9e46d67081e2155554))
+
 # [1.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.1.2...v1.2.0) (2020-09-17)
 
 
