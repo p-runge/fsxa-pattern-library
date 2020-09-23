@@ -1,6 +1,6 @@
 {
   "name": "fsxa-pattern-library",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "./dist/fsxa-pattern-library.common.js",
   "license": "Apache-2.0",
   "types": "src/types/fsxa-pattern-library.d.ts",

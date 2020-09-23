@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.1...v1.2.2) (2020-09-23)
+
+
+### Bug Fixes
+
+* **types:** remove wrong import in types ([c19d7d2](https://github.com/e-Spirit/fsxa-pattern-library/commit/c19d7d290324e0920efa3e8d69e966a2563ea903))
+
 ## [1.2.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.0...v1.2.1) (2020-09-18)
 
 
