@@ -1,7 +1,6 @@
 import { Component } from "vue-tsx-support";
 import { Body, BodyContent, NavigationData } from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
-import BaseAppLayout from "@/components/BaseAppLayout";
 
 export type AppLocale =
   | string
