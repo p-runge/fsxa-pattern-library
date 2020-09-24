@@ -142,6 +142,7 @@ export function getFSXAModule<R extends RootState>(
           isClient: string;
         },
       ) {
+        const path = payload.path ? decodeURI(payload.path) : null;
         // Set app state to initializing
         commit("startInitialization");
         try {
@@ -149,23 +150,11 @@ export function getFSXAModule<R extends RootState>(
             mode,
             getFSXAConfiguration(this.state.fsxa.configuration),
           );
-          // fetch navigation data
-          const [navigationData, settings] = await Promise.all([
-            fsxaAPI.fetchNavigation(payload.path || null, payload.locale),
-            fsxaAPI.fetchGCAPage(payload.locale, GLOBAL_SETTINGS_KEY),
-          ]);
-          if (!navigationData && !settings) {
-            commit("setError", {
-              appState: FSXAAppState.error,
-              error: {
-                message:
-                  "Could not load navigation-data and global settings GCAPage",
-                description:
-                  "Neither the data from the navigation service nor the global settings page in the CaaS could be loaded. Please check your configuration.",
-              },
-            });
-            return;
-          } else if (!navigationData) {
+          const navigationData = await fsxaAPI.fetchNavigation(
+            path || null,
+            payload.locale,
+          );
+          if (!navigationData) {
             commit("setError", {
               appState: FSXAAppState.error,
               error: {
@@ -176,7 +165,12 @@ export function getFSXAModule<R extends RootState>(
               },
             });
             return;
-          } else if (!settings) {
+          }
+          const settings = await fsxaAPI.fetchGCAPage(
+            navigationData.meta.identifier.languageId,
+            GLOBAL_SETTINGS_KEY,
+          );
+          if (!settings) {
             commit("setError", {
               appState: FSXAAppState.error,
               error: {
@@ -191,6 +185,13 @@ export function getFSXAModule<R extends RootState>(
             navigationData,
             settings,
           });
+          // dispatch fetchPage action
+          return await this.dispatch(FSXAActions.fetchPage, {
+            locale: navigationData.meta.identifier.languageId,
+            path: path,
+            pageId: payload.pageId,
+            isClient: payload.isClient,
+          });
         } catch (error) {
           commit("setAppState", FSXAAppState.error);
           commit("setError", {
@@ -199,13 +200,6 @@ export function getFSXAModule<R extends RootState>(
           });
           return;
         }
-        // dispatch fetchPage action
-        return await this.dispatch(FSXAActions.fetchPage, {
-          locale: payload.locale,
-          path: payload.path,
-          pageId: payload.pageId,
-          isClient: payload.isClient,
-        });
       },
       [Actions.fetchPage]: async function(
         { commit },
