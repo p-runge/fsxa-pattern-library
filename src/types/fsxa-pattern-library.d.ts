@@ -1,6 +1,6 @@
 import { Module } from "vuex";
-import { FSXAContentMode } from "fsxa-api";
 import { RootState, FSXAVuexState, FSXAModuleParams } from "./../store";
+import { FSXAContentMode } from "fsxa-api";
 
 export function getFSXAModule<R extends RootState>(
   mode: FSXAContentMode,

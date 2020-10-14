@@ -1,12 +1,12 @@
 import Component from "vue-class-component";
 import { Sections } from "fsxa-ui";
-import { NavigationData, CAASImageReference } from "fsxa-api";
+import { NavigationData, Image } from "fsxa-api";
 import { FSXAGetters } from "@/store";
 import BaseSection from "./BaseSection";
 
 export interface Payload {
   pt_text: string;
-  pt_picture?: CAASImageReference;
+  pt_picture?: Image;
   pageId: string;
 }
 @Component({

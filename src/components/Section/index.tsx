@@ -11,22 +11,22 @@ const getProgrammingHint = (type: string) => {
 };
 
 export interface SectionProps {
-  id: string;
-  previewId: string;
+  id?: string;
+  previewId?: string;
   type: string;
   data: any;
-  meta: any;
+  content: any;
 }
 @Component({
   name: "FSXASection",
 })
 class Section extends BaseComponent<SectionProps> {
   @Inject({ from: FSXA_INJECT_KEY_SECTIONS, default: {} }) sections!: {};
-  @Prop({ required: true }) id!: SectionProps["id"];
-  @Prop({ required: true }) previewId!: SectionProps["previewId"];
+  @Prop() id!: SectionProps["id"];
+  @Prop() previewId!: SectionProps["previewId"];
   @Prop({ required: true }) type!: SectionProps["type"];
   @Prop({ required: true }) data!: SectionProps["data"];
-  @Prop({ required: true }) meta!: SectionProps["meta"];
+  @Prop({ required: true }) content!: SectionProps["content"];
 
   get mappedSections(): { [key: string]: any } {
     return {
@@ -67,7 +67,11 @@ class Section extends BaseComponent<SectionProps> {
     }
     return (
       <div class="relative" data-preview-id={this.previewId}>
-        <Component payload={this.data} previewId={this.previewId} />
+        <Component
+          payload={this.data}
+          previewId={this.previewId}
+          content={this.content}
+        />
         {this.isDevMode && (
           <DevInfo
             headline={`Section: ${this.type}`}

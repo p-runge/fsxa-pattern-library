@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.2...v1.2.3) (2020-09-24)
+
+
+### Bug Fixes
+
+* **i18n:** the page was not showing content on inital load ([17aa294](https://github.com/e-Spirit/fsxa-pattern-library/commit/17aa294e4aed7f6dbe0717196608175c9ae928c7))
+
 ## [1.2.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.1...v1.2.2) (2020-09-23)
 
 

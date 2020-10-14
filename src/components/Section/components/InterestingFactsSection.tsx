@@ -1,10 +1,10 @@
 import Component from "vue-class-component";
 import { Sections } from "fsxa-ui";
 import BaseSection from "./BaseSection";
-import { CAASImageReference } from "fsxa-api";
+import { Image } from "fsxa-api";
 
 export interface Payload {
-  st_background_image?: CAASImageReference;
+  st_background_image?: Image;
   st_counters?: Array<{
     previewId: string;
     identifier: string;

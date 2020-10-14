@@ -1,5 +1,4 @@
 import Component from "vue-class-component";
-import { Fragment } from "fsxa-api";
 import BaseSection from "./BaseSection";
 import { Sections } from "fsxa-ui";
 import { format, parseISO } from "date-fns";
@@ -44,7 +43,7 @@ class NewsTeaserSection extends BaseSection<NewsTeaserSectionPayload> {
     }**/
   }
 
-  get fragments(): Fragment[] {
+  get fragments(): any[] {
     return this.getStoredItem(FRAGMENT_STORE_KEY) || [];
   }
 

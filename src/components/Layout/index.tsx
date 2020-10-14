@@ -4,7 +4,7 @@ import { FSXA_INJECT_KEY_LAYOUTS } from "@/constants";
 import { DevInfo, Code } from "fsxa-ui";
 import ErrorBoundary from "../ErrorBoundary";
 import BaseComponent from "../BaseComponent";
-import { Body } from "fsxa-api";
+import { PageBody } from "fsxa-api";
 
 const getProgrammingHint = (type: string) => {
   return `<FSXAPage layouts={{ ${type}: Your_Layout_Component }} />`;
@@ -18,7 +18,7 @@ ${code}`;
 export interface LayoutProps {
   pageId: string;
   type: string;
-  content: Body[];
+  content: PageBody[];
   data: any;
   meta: any;
 }

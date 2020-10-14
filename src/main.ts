@@ -4,9 +4,10 @@ import Vue from "vue";
 import App from "./App";
 import createStore from "./store";
 import { getFSXAConfigFromEnvFile } from "./utils/config";
+import { FSXAContentMode } from "fsxa-api";
 Vue.config.productionTip = false;
 
-const store = createStore(process.env.VUE_APP_MODE, {
+const store = createStore(process.env.VUE_APP_MODE as FSXAContentMode, {
   mode: "remote",
   config: getFSXAConfigFromEnvFile(),
 });

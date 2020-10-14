@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex, { Module } from "vuex";
-import FSXAApi, {
+import {
+  FSXAApi,
   NavigationData,
   Page,
   FSXAApiParams,
@@ -8,6 +9,7 @@ import FSXAApi, {
   FSXAConfiguration,
   NavigationItem,
 } from "fsxa-api";
+
 export declare type FSXAModuleParams =
   | {
       mode: "proxy";
@@ -166,11 +168,11 @@ export function getFSXAModule<R extends RootState>(
             });
             return;
           }
-          const settings = await fsxaAPI.fetchGCAPage(
+          const settings = await fsxaAPI.fetchGCAPages(
             navigationData.meta.identifier.languageId,
             GLOBAL_SETTINGS_KEY,
           );
-          if (!settings) {
+          if (settings.length === 0) {
             commit("setError", {
               appState: FSXAAppState.error,
               error: {
@@ -183,7 +185,7 @@ export function getFSXAModule<R extends RootState>(
           commit("setGlobalData", {
             locale: navigationData.meta.identifier.languageId,
             navigationData,
-            settings,
+            settings: settings[0],
           });
           // dispatch fetchPage action
           return await this.dispatch(FSXAActions.fetchPage, {
@@ -275,6 +277,7 @@ export function getFSXAModule<R extends RootState>(
             });
           }
         } catch (error) {
+          console.log("ERROR", error);
           commit("setError", {
             appState: FSXAAppState.error,
             error: {
@@ -396,7 +399,7 @@ export function getFSXAModule<R extends RootState>(
         if (!navigationData) return null;
         return (navigationData as NavigationData).seoRouteMap[url] || null;
       },
-      [GETTER_MODE]: (state): FSXAContentMode => state.mode,
+      [GETTER_MODE]: (state): FSXAContentMode => state.mode as FSXAContentMode,
     },
   };
 }

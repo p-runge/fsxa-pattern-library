@@ -1,5 +1,5 @@
 import { Component } from "vue-tsx-support";
-import { Body, BodyContent, NavigationData } from "fsxa-api";
+import { NavigationData, PageBody, PageBodyContent } from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
 
 export type AppLocale =
@@ -54,6 +54,7 @@ export class FSXABaseComponent<Props> extends Component<Props> {
 
 export interface BaseSectionProps<Payload> {
   payload: Payload;
+  content: JSX.Element[];
 }
 export class FSXABaseSection<Payload> extends FSXABaseComponent<
   BaseSectionProps<Payload>
@@ -72,7 +73,7 @@ export interface BaseLayoutProps<Data = {}, Meta = {}> {
   /**
    * The content elements of the layout
    */
-  content: Body[];
+  content: PageBody[];
   /**
    * data that is relevant for your page and layout
    */
@@ -92,7 +93,7 @@ export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
   /**
    * Your content can be seperated into multiple sections that contain your sections created in FirstSpirit
    */
-  content: Body[];
+  content: PageBody[];
   /**
    * Data that is relevant for your page and layout
    */
@@ -107,7 +108,7 @@ export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
    * This includes that sections will be automatically be mapped and rendered via your sections - configuration
    * @param content a single content element that contains your added sections
    */
-  renderContentElement(content: BodyContent): JSX.Element;
+  renderContentElement(content: PageBodyContent): JSX.Element;
   /**
    * By calling this method all your content sections will be automatically rendered
    *

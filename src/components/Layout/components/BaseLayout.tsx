@@ -1,5 +1,5 @@
 import { Prop, Component } from "vue-property-decorator";
-import { BodyContent } from "fsxa-api";
+import { PageBodyContent } from "fsxa-api";
 import Section from "@/components/Section";
 import BaseComponent from "@/components/BaseComponent";
 import { BaseLayoutProps } from "@/types/components";
@@ -15,20 +15,42 @@ class BaseLayout<Data = {}, Meta = {}> extends BaseComponent<
   @Prop({ required: true }) meta!: BaseLayoutProps<Data, Meta>["meta"];
   @Prop({ required: true }) content!: BaseLayoutProps<Data, Meta>["content"];
 
-  renderContentElement(content: BodyContent) {
+  renderContentElement(content: PageBodyContent) {
     switch (content.type) {
       case "Section":
         return (
           <Section
             type={content.sectionType}
             data={content.data}
-            meta={content.meta}
             id={content.id}
             previewId={content.previewId}
+            content={content.children.map(child =>
+              this.renderContentElement(child),
+            )}
           />
         );
-      case "DatasetReference":
-        return <div>Dataset-Reference will go here</div>;
+      case "Content2Section":
+        return (
+          <Section
+            type={content.sectionType}
+            data={content.data}
+            content={content.children.map(child =>
+              this.renderContentElement(child),
+            )}
+          />
+        );
+      case "Dataset":
+        return (
+          <Section
+            type={content.template}
+            data={content.data}
+            id={content.id}
+            previewId={content.previewId}
+            content={content.children.map(child =>
+              this.renderContentElement(child),
+            )}
+          />
+        );
       default:
         return null;
     }

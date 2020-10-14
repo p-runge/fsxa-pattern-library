@@ -1,14 +1,14 @@
 import Component from "vue-class-component";
 import BaseSection from "./BaseSection";
 import { Sections } from "fsxa-ui";
-import { CAASImageReference } from "fsxa-api";
 import { ImageRef } from "fsxa-ui/src/types/utils";
+import { Image } from "fsxa-api";
 
 export interface Payload {
   st_headline: string;
   st_jumbo_headline: string;
   st_kicker: string;
-  st_picture?: CAASImageReference;
+  st_picture?: Image;
   st_picture_alt: string | null;
   st_text: string;
   st_button?: {

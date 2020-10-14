@@ -22,9 +22,10 @@ import {
   Dropdown,
   Option,
   DevInfo,
+  Image,
 } from "fsxa-ui";
 import BaseComponent from "@/components/BaseComponent";
-import { NavigationData } from "fsxa-api";
+import { GCAPage, NavigationData, Image as APIImage } from "fsxa-api";
 import { isClient, mapStructureItemToNavigationItem } from "@/utils";
 import Layout from "@/components/Layout";
 import {
@@ -191,7 +192,8 @@ class Page extends BaseComponent<PageProps> {
     return this.$store.getters[FSXAGetters.currentPage];
   }
 
-  get settings(): any {
+  get settings(): GCAPage {
+    console.log("Settings", this.$store.state.fsxa.settings);
     return this.$store.state.fsxa.settings;
   }
 
@@ -299,7 +301,7 @@ class Page extends BaseComponent<PageProps> {
         : [];
     return this.settings ? (
       <Footer
-        copyright={this.settings.data.gc_copyright}
+        copyright={this.settings.data.gc_copyright as string}
         links={links}
         handleClick={handleLinkClick}
         data-preview-id={this.settings.id}

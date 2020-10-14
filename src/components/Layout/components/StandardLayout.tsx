@@ -19,6 +19,7 @@ class StandardLayout extends FSXABaseLayout<HeaderSectionPayload> {
             pt_text: this.data.pt_text,
             pageId: this.pageId,
           }}
+          content={[]}
         />
         {this.content.length > 0 && this.renderContentElements(0)}
       </Layouts.SingleColumnLayout>
