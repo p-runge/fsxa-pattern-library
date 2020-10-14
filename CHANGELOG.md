@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.3...v1.3.0) (2020-10-14)
+
+
+### Features
+
+* **datasets:** add support for datasets ([5fceab3](https://github.com/e-Spirit/fsxa-pattern-library/commit/5fceab362e2b5f9f3ad4d19789844fa715a29294))
+
 ## [1.2.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.2...v1.2.3) (2020-09-24)
 
 
