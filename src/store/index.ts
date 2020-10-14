@@ -88,7 +88,9 @@ export const FSXAActions = {
   fetchSettings: `${prefix}/${Actions.fetchSettings}`,
 };
 
-const getFSXAConfiguration = (config: FSXAModuleParams): FSXAApiParams => {
+export const getFSXAConfiguration = (
+  config: FSXAModuleParams,
+): FSXAApiParams => {
   if (config.mode === "remote") return config;
   return {
     mode: config.mode,
@@ -195,6 +197,7 @@ export function getFSXAModule<R extends RootState>(
             isClient: payload.isClient,
           });
         } catch (error) {
+          console.log("Error initializing", error);
           commit("setAppState", FSXAAppState.error);
           commit("setError", {
             message: error.message,

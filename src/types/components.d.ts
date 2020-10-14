@@ -1,5 +1,12 @@
 import { Component } from "vue-tsx-support";
-import { NavigationData, PageBody, PageBodyContent } from "fsxa-api";
+import {
+  Section,
+  Dataset,
+  FSXAApi,
+  NavigationData,
+  PageBody,
+  PageBodyContent,
+} from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
 
 export type AppLocale =
@@ -22,6 +29,11 @@ export class FSXABaseComponent<Props> extends Component<Props> {
    * the current locale the content is displayed in
    */
   get locale(): string;
+
+  /**
+   * get preconfigured and ready to use FSXAApi instance
+   */
+  get fsxaApi(): FSXAApi;
 
   /**
    * the current navigation data state
@@ -63,6 +75,11 @@ export class FSXABaseSection<Payload> extends FSXABaseComponent<
    * This payload is automatically injected into your section and contains the mapped data from the CaaS
    */
   payload: Payload;
+
+  /**
+   * Hook child components into automatic render cycle
+   */
+  renderChildSection: (child: Section | Dataset) => JSX.Element;
 }
 
 export interface BaseLayoutProps<Data = {}, Meta = {}> {

@@ -2,8 +2,8 @@ import { Component as TsxComponent } from "vue-tsx-support";
 import { Component, Inject } from "vue-property-decorator";
 import { FSXA_INJECT_KEY_DEV_MODE } from "@/constants";
 import { RequestRouteChangeParams } from "@/types/components";
-import { FSXAGetters, FSXAActions } from "@/store";
-import { NavigationData } from "fsxa-api";
+import { FSXAGetters, FSXAActions, getFSXAConfiguration } from "@/store";
+import { FSXAApi, FSXAContentMode, NavigationData } from "fsxa-api";
 
 @Component
 class BaseComponent<Props> extends TsxComponent<Props> {
@@ -29,6 +29,13 @@ class BaseComponent<Props> extends TsxComponent<Props> {
 
   get navigationData(): NavigationData | null {
     return this.$store.state.fsxa.navigation;
+  }
+
+  get fsxaApi(): FSXAApi {
+    return new FSXAApi(
+      this.isEditMode ? FSXAContentMode.PREVIEW : FSXAContentMode.RELEASE,
+      getFSXAConfiguration(this.$store.state.fsxa.configuration),
+    );
   }
 
   getStoredItem(key: string) {
