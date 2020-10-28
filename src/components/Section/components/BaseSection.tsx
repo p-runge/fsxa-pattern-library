@@ -12,6 +12,7 @@ class BaseSection<Payload = {}> extends BaseComponent<
 > {
   @Prop({ required: true }) payload!: BaseSectionProps<Payload>["payload"];
   @Prop({ required: true }) content!: BaseSectionProps<Payload>["content"];
+  @Prop() id!: BaseSectionProps<Payload>["id"];
 
   renderChildSection(child: Section | Dataset): JSX.Element {
     const sectionType =

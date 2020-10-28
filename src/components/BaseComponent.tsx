@@ -4,6 +4,7 @@ import { FSXA_INJECT_KEY_DEV_MODE } from "@/constants";
 import { RequestRouteChangeParams } from "@/types/components";
 import { FSXAGetters, FSXAActions, getFSXAConfiguration } from "@/store";
 import { FSXAApi, FSXAContentMode, NavigationData } from "fsxa-api";
+import { GCAPage } from "fsxa-api/dist/types";
 
 @Component
 class BaseComponent<Props> extends TsxComponent<Props> {
@@ -29,6 +30,10 @@ class BaseComponent<Props> extends TsxComponent<Props> {
 
   get navigationData(): NavigationData | null {
     return this.$store.state.fsxa.navigation;
+  }
+
+  get settings(): GCAPage | null {
+    return this.$store.state.fsxa.settings;
   }
 
   get fsxaApi(): FSXAApi {

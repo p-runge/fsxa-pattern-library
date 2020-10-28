@@ -8,17 +8,20 @@ import {
   FSXAContentMode,
   FSXAConfiguration,
   NavigationItem,
+  LogLevel,
 } from "fsxa-api";
 
 export declare type FSXAModuleParams =
   | {
       mode: "proxy";
+      logLevel?: LogLevel;
       baseUrl: {
         client: string;
         server: string;
       };
     }
   | {
+      logLevel?: LogLevel;
       mode: "remote";
       config: FSXAConfiguration;
     };
@@ -120,6 +123,16 @@ export const FSXAGetters = {
   [GETTER_MODE]: `${prefix}/${GETTER_MODE}`,
 };
 
+const isMatchingRoute = (
+  route: string,
+  keys: Record<string, string>,
+  currentPath: string,
+) => {
+  let regexp = route;
+  Object.keys(keys).forEach(key => (regexp = regexp.replace(key, "(.*?)")));
+  return currentPath.match(regexp) !== null;
+};
+
 export function getFSXAModule<R extends RootState>(
   mode: FSXAContentMode,
   params: FSXAModuleParams,
@@ -153,11 +166,18 @@ export function getFSXAModule<R extends RootState>(
           const fsxaAPI = new FSXAApi(
             mode,
             getFSXAConfiguration(this.state.fsxa.configuration),
+            this.state.fsxa.configuration.logLevel,
           );
-          const navigationData = await fsxaAPI.fetchNavigation(
+          let navigationData = await fsxaAPI.fetchNavigation(
             path || null,
             payload.locale,
           );
+          if (!navigationData && path !== null) {
+            navigationData = await fsxaAPI.fetchNavigation(
+              null,
+              payload.locale,
+            );
+          }
           if (!navigationData) {
             commit("setError", {
               appState: FSXAAppState.error,
@@ -171,23 +191,15 @@ export function getFSXAModule<R extends RootState>(
             return;
           }
           const settings = await fsxaAPI.fetchGCAPages(
-            navigationData.meta.identifier.languageId,
+            navigationData
+              ? navigationData.meta.identifier.languageId
+              : payload.locale,
             GLOBAL_SETTINGS_KEY,
           );
-          if (settings.length === 0) {
-            commit("setError", {
-              appState: FSXAAppState.error,
-              error: {
-                message: "Could not fetch global settings via GCAPage",
-                description: `Please make sure that you do have a GCAPage defined in your project. The identifier that is searched for is: [${GLOBAL_SETTINGS_KEY}]. See the documentation for more information.`,
-              },
-            });
-            return;
-          }
           commit("setGlobalData", {
             locale: navigationData.meta.identifier.languageId,
             navigationData,
-            settings: settings[0],
+            settings: settings.length !== 0 ? settings[0] : null,
           });
           // dispatch fetchPage action
           return await this.dispatch(FSXAActions.fetchPage, {
@@ -197,7 +209,6 @@ export function getFSXAModule<R extends RootState>(
             isClient: payload.isClient,
           });
         } catch (error) {
-          console.log("Error initializing", error);
           commit("setAppState", FSXAAppState.error);
           commit("setError", {
             message: error.message,
@@ -223,8 +234,39 @@ export function getFSXAModule<R extends RootState>(
           if (!payload.pageId && !payload.path)
             throw new Error("You have to pass pageId or path");
           let requestedPageId = null;
-          if (payload.path)
+          if (payload.path) {
             requestedPageId = navigationData.seoRouteMap[payload.path];
+            if (!requestedPageId) {
+              const routeId = Object.keys(navigationData.idMap).find(key => {
+                const currentRoute = navigationData.idMap[key];
+                if (!currentRoute.customData || !currentRoute.customData.fsxa)
+                  return false;
+                try {
+                  console.log(currentRoute.customData.fsxa.regexp);
+                  const fsxaData = JSON.parse(currentRoute.customData.fsxa);
+                  return isMatchingRoute(
+                    currentRoute.seoRoute,
+                    fsxaData.keys,
+                    payload.path!,
+                  );
+                  // check if regexp matches current route
+                  // eslint-disable-next-line
+                  const match = payload.path!.match(fsxaData.regexp);
+                  if (match) {
+                    console.log("Found route");
+                    return true;
+                  }
+                } catch (err) {
+                  console.log("Could not parse JSON", err);
+                  return false;
+                }
+                return false;
+              });
+              if (routeId) {
+                requestedPageId = routeId;
+              }
+            }
+          }
           if (payload.pageId) requestedPageId = payload.pageId;
 
           if (
@@ -246,6 +288,7 @@ export function getFSXAModule<R extends RootState>(
             const fsxaAPI = new FSXAApi(
               mode,
               getFSXAConfiguration(this.state.fsxa.configuration),
+              this.state.fsxa.configuration.logLevel,
             );
             const [page] = await Promise.all([
               fsxaAPI.fetchPage(contentReferenceId, locale),
@@ -297,7 +340,7 @@ export function getFSXAModule<R extends RootState>(
         { commit },
         { key, value }: { key: string; value: any },
       ) {
-        commit("setItem", { key, value });
+        commit("setStoredItem", { key, value });
       },
     },
     mutations: {

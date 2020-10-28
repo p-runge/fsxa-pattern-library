@@ -8,6 +8,7 @@ import {
   PageBodyContent,
 } from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
+import { GCAPage } from "fsxa-api/dist/types";
 
 export type AppLocale =
   | string
@@ -29,6 +30,11 @@ export class FSXABaseComponent<Props> extends Component<Props> {
    * the current locale the content is displayed in
    */
   get locale(): string;
+
+  /**
+   * The content of your globally configured GCAPage "global_settings"
+   */
+  get settings(): GCAPage | null;
 
   /**
    * get preconfigured and ready to use FSXAApi instance
@@ -67,10 +73,13 @@ export class FSXABaseComponent<Props> extends Component<Props> {
 export interface BaseSectionProps<Payload> {
   payload: Payload;
   content: JSX.Element[];
+  id?: string;
 }
 export class FSXABaseSection<Payload> extends FSXABaseComponent<
   BaseSectionProps<Payload>
 > {
+  id?: string;
+  content: JSX.Element[];
   /**
    * This payload is automatically injected into your section and contains the mapped data from the CaaS
    */

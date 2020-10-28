@@ -80,6 +80,7 @@ class Page extends BaseComponent<PageProps> {
     return this.initialize({
       locale: this.defaultLocale,
       path: this.currentPath,
+      pageId: this.id,
       isClient: false,
     });
   }
@@ -98,6 +99,7 @@ class Page extends BaseComponent<PageProps> {
       this.initialize({
         locale: this.locale || this.defaultLocale,
         path: this.currentPath,
+        pageId: this.id,
         isClient: true,
       });
     }
@@ -190,11 +192,6 @@ class Page extends BaseComponent<PageProps> {
 
   get currentPage(): CurrentPage | null {
     return this.$store.getters[FSXAGetters.currentPage];
-  }
-
-  get settings(): GCAPage {
-    console.log("Settings", this.$store.state.fsxa.settings);
-    return this.$store.state.fsxa.settings;
   }
 
   get locale() {

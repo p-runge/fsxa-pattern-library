@@ -70,6 +70,7 @@ class Section extends BaseComponent<SectionProps> {
         <Component
           payload={this.data}
           previewId={this.previewId}
+          id={this.id}
           content={this.content}
         />
         {this.isDevMode && (
