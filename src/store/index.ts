@@ -164,7 +164,7 @@ export function getFSXAModule<R extends RootState>(
         commit("startInitialization");
         try {
           const fsxaAPI = new FSXAApi(
-            this.state.fsxa.configuration.mode,
+            this.state.fsxa.mode,
             getFSXAConfiguration(this.state.fsxa.configuration),
             this.state.fsxa.configuration.logLevel,
           );
@@ -280,7 +280,7 @@ export function getFSXAModule<R extends RootState>(
             const contentReferenceId =
               navigationData.idMap[requestedPageId].caasDocumentId;
             const fsxaAPI = new FSXAApi(
-              this.state.fsxa.configuration.mode,
+              this.state.fsxa.mode,
               getFSXAConfiguration(this.state.fsxa.configuration),
               this.state.fsxa.configuration.logLevel,
             );
