@@ -22,10 +22,9 @@ import {
   Dropdown,
   Option,
   DevInfo,
-  Image,
 } from "fsxa-ui";
 import BaseComponent from "@/components/BaseComponent";
-import { GCAPage, NavigationData, Image as APIImage } from "fsxa-api";
+import { NavigationData } from "fsxa-api";
 import { isClient, mapStructureItemToNavigationItem } from "@/utils";
 import Layout from "@/components/Layout";
 import {
