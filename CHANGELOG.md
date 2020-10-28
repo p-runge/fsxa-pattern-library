@@ -1,3 +1,12 @@
+## [1.4.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.4.1...v1.4.2) (2020-10-28)
+
+
+### Bug Fixes
+
+* **deployment:** fix error where configuration and mode is "forgotten" in deployed pwas ([de08987](https://github.com/e-Spirit/fsxa-pattern-library/commit/de089870917d3bca89c35cb973f6e5de667a5e38))
+* **deployment:** use correct content mode instead of api-mode ([d92394d](https://github.com/e-Spirit/fsxa-pattern-library/commit/d92394d52918099e9f1a02affa812229ab2b10aa))
+* **typescript:** fix typescript typings and remove unused declarations from imports ([4fd6c43](https://github.com/e-Spirit/fsxa-pattern-library/commit/4fd6c43d071957508e38df15569b4e2fa6216197))
+
 ## [1.4.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.4.0...v1.4.1) (2020-10-28)
 
 
