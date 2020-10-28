@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.4.0...v1.4.1) (2020-10-28)
+
+
+### Bug Fixes
+
+* **datasets:** fix embedded datasets and add support for dynamic urls ([430e9bc](https://github.com/e-Spirit/fsxa-pattern-library/commit/430e9bcf2f9f28a83f46fed72fdff84c03911295))
+
 # [1.4.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.3.0...v1.4.0) (2020-10-14)
 
 
