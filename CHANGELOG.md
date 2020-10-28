@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.3.0...v1.4.0) (2020-10-14)
+
+
+### Features
+
+* **misc:** expose preconfigured fsxaApi through basecomponent and add method to render child comps ([1022faa](https://github.com/e-Spirit/fsxa-pattern-library/commit/1022faafef2bb636487874b1ec73ac77a152fce7))
+
 # [1.3.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.2.3...v1.3.0) (2020-10-14)
 
 
