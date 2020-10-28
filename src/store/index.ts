@@ -164,7 +164,7 @@ export function getFSXAModule<R extends RootState>(
         commit("startInitialization");
         try {
           const fsxaAPI = new FSXAApi(
-            mode,
+            this.state.fsxa.configuration.mode,
             getFSXAConfiguration(this.state.fsxa.configuration),
             this.state.fsxa.configuration.logLevel,
           );
@@ -247,15 +247,9 @@ export function getFSXAModule<R extends RootState>(
                   return isMatchingRoute(
                     currentRoute.seoRoute,
                     fsxaData.keys,
+                    // eslint-disable-next-line
                     payload.path!,
                   );
-                  // check if regexp matches current route
-                  // eslint-disable-next-line
-                  const match = payload.path!.match(fsxaData.regexp);
-                  if (match) {
-                    console.log("Found route");
-                    return true;
-                  }
                 } catch (err) {
                   console.log("Could not parse JSON", err);
                   return false;
@@ -286,7 +280,7 @@ export function getFSXAModule<R extends RootState>(
             const contentReferenceId =
               navigationData.idMap[requestedPageId].caasDocumentId;
             const fsxaAPI = new FSXAApi(
-              mode,
+              this.state.fsxa.configuration.mode,
               getFSXAConfiguration(this.state.fsxa.configuration),
               this.state.fsxa.configuration.logLevel,
             );
