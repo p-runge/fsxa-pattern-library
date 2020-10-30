@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.4.2...v1.5.0) (2020-10-30)
+
+
+### Features
+
+* **routing:** added util method to replace FS formatting in richtexts with working links ([#3](https://github.com/e-Spirit/fsxa-pattern-library/issues/3)) ([b68632e](https://github.com/e-Spirit/fsxa-pattern-library/commit/b68632ed5fffaeb31f05999ae2534f431ff8f4e8))
+
 ## [1.4.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.4.1...v1.4.2) (2020-10-28)
 
 
