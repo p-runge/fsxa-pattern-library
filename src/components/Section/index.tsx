@@ -66,7 +66,7 @@ class Section extends BaseComponent<SectionProps> {
       return null;
     }
     return (
-      <div class="relative" data-preview-id={this.previewId}>
+      <div class="relative w-full h-full" data-preview-id={this.previewId}>
         <Component
           payload={this.data}
           previewId={this.previewId}
@@ -89,7 +89,7 @@ class Section extends BaseComponent<SectionProps> {
 
   renderErrorBoundaryInfo() {
     return (
-      <div>
+      <div class="w-full h-full">
         The following payload is passed to the section:
         <Code code={JSON.stringify(this.data, undefined, 2)} />
       </div>

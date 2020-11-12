@@ -291,7 +291,11 @@ class Page extends BaseComponent<PageProps> {
       if (nextPage) this.handleRouteChange(nextPage?.seoRoute);
     };
     const links: FooterLink[] =
-      this.settings && this.settings.data.gc_footer_links
+      this.settings &&
+      this.settings.data.gc_footer_links.filter(
+        (link: any) =>
+          link.data.lt_link.referenceType && link.data.lt_link.referenceId,
+      )
         ? this.settings.data.gc_footer_links.map((link: any) => ({
             isActive:
               link.data.lt_link.referenceType === "PageRef" &&
