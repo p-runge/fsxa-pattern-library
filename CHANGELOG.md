@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.5.0...v1.5.1) (2020-11-12)
+
+
+### Bug Fixes
+
+* **misc:** fix multiple errors ([41fccb3](https://github.com/e-Spirit/fsxa-pattern-library/commit/41fccb3ff076243a6fc987225cf9dcf8a46e75b3))
+
 # [1.5.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.4.2...v1.5.0) (2020-10-30)
 
 
