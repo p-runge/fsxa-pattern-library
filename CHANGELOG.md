@@ -1,3 +1,18 @@
+# [2.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.5.1...v2.0.0) (2020-12-09)
+
+
+* Feature/refactor (#4) ([d100c6c](https://github.com/e-Spirit/fsxa-pattern-library/commit/d100c6c9d38c64252074c6d69ae32745d0f5ef4b)), closes [#4](https://github.com/e-Spirit/fsxa-pattern-library/issues/4)
+
+
+### BREAKING CHANGES
+
+* - We removed the default components. Every component must now be mapped in your
+project. (we've fully dropped fsxa-ui as dependency)
+- You now have to use the FSXAApp as
+root-wrapper.
+- The interface for providing your component map slightly changed. You now can pass
+all of your components through a single property.
+
 ## [1.5.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.5.0...v1.5.1) (2020-11-12)
 
 
