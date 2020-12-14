@@ -5,6 +5,7 @@
     :handleRouteChange="changeRoute"
     :currentPath="route"
     :components="components"
+    globalSettingsKey="global_settings"
   />
 </template>
 
@@ -17,6 +18,8 @@ import { FSXAApp } from "fsxa-pattern-library";
 import ProductDetailSection from "./components/sections/ProductDetailSection.vue";
 import ProductListSection from "./components/sections/ProductListSection.vue";
 import ProductOverview from "./components/sections/ProductOverview.vue";
+import QuoteSection from "./components/sections/QuoteSection.vue";
+import Paragraph from "./components/richtext/Paragraph.vue";
 
 @Component({
   name: "VueFSXAApp",
@@ -56,6 +59,11 @@ class App extends Vue {
         "products.product": ProductDetailSection,
         "products.category_products": ProductListSection,
         product_overview: ProductOverview,
+        text: QuoteSection,
+        teaser: QuoteSection,
+      },
+      richtext: {
+        paragraph: Paragraph,
       },
     };
   }

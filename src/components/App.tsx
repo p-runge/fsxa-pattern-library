@@ -18,6 +18,7 @@ import {
   FSXA_INJECT_KEY_LAYOUTS,
   FSXA_INJECT_KEY_SECTIONS,
   FSXA_INJECT_KEY_LOADER,
+  FSXA_INJECT_KEY_COMPONENTS,
 } from "@/constants";
 import Page from "./Page";
 import ErrorBoundary from "./internal/ErrorBoundary";
@@ -38,6 +39,9 @@ class App extends TsxComponent<AppProps> {
   @Prop({ required: true }) handleRouteChange!: AppProps["handleRouteChange"];
   @ProvideReactive("currentPath") path = this.currentPath;
   @ProvideReactive(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
+  @ProvideReactive(FSXA_INJECT_KEY_COMPONENTS) injectedComponents = this
+    .components;
+
   @ProvideReactive(FSXA_INJECT_KEY_LAYOUTS) injectedLayouts =
     this.components?.layouts || {};
   @ProvideReactive(FSXA_INJECT_KEY_SECTIONS) injectedSections =
@@ -57,6 +61,7 @@ class App extends TsxComponent<AppProps> {
 
   @Watch("components")
   onComponentsChange(nextComponents: AppProps["components"]) {
+    this.injectedComponents = nextComponents;
     this.injectedLayouts = nextComponents?.layouts || {};
     this.injectedSections = nextComponents?.sections || {};
   }

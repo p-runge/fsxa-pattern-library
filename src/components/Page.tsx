@@ -41,15 +41,19 @@ class Page extends BaseComponent<PageProps> {
       throw new Error(
         "You either have to pass already loaded pageData or the id of the page that should be loaded.",
       );
-    const page = await this.fsxaApi.fetchPage(this.id, this.locale);
-    this.setStoredItem(this.id, page);
+    try {
+      const page = await this.fsxaApi.fetchElement(this.id, this.locale);
+      this.setStoredItem(this.id, page);
+    } catch (err) {
+      this.setStoredItem(this.id, null);
+    }
   }
 
-  get loadedPage(): APIPage | undefined {
+  get loadedPage(): APIPage | null | undefined {
     return this.id ? this.getStoredItem(this.id) : undefined;
   }
 
-  get page(): APIPage | undefined {
+  get page(): APIPage | null | undefined {
     return this.pageData || this.loadedPage;
   }
 
@@ -63,6 +67,7 @@ class Page extends BaseComponent<PageProps> {
     }
     return this.page ? (
       <Layout
+        pageId={this.id!}
         previewId={this.page.previewId}
         type={this.page.layout}
         content={this.page.children}

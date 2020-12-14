@@ -5,6 +5,10 @@ import AppLayout from "./components/AppLayout";
 import StandardLayout from "./components/layouts/StandardLayout";
 import ProductDetailSection from "./components/sections/ProductDetailSection";
 import TeaserSection from "./components/sections/TeaserSection";
+import Paragraph from "./components/richtext/Paragraph";
+import Text from "./components/richtext/Text";
+import List from "./components/richtext/List";
+import ListItem from "./components/richtext/ListItem";
 
 @Component({
   name: "App",
@@ -46,6 +50,13 @@ class App extends TsxComponent<{}> {
           sections: {
             "products.product": ProductDetailSection,
             teaser: TeaserSection,
+            text: TeaserSection,
+          },
+          richtext: {
+            paragraph: Paragraph,
+            text: Text,
+            list: List,
+            listitem: ListItem,
           },
         }}
       />

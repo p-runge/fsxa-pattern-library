@@ -1,9 +1,9 @@
 import "./tailwind.css";
 import Vue from "vue";
 import TsxApp from "./../examples/tsx";
-// eslint-disable-next-line
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-import SFCApp from "./../examples/sfc";
+import SFCApp from "./../examples/sfc/index.vue";
 import createStore from "./store";
 import { getFSXAConfigFromEnvFile } from "./utils/config";
 import { FSXAContentMode } from "fsxa-api";

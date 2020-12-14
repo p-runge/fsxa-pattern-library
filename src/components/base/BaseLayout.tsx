@@ -19,6 +19,11 @@ class BaseLayout<
   Slots = {}
 > extends BaseComponent<BaseLayoutProps<Data, Meta>, EventsWithOn, Slots> {
   /**
+   * the id of the page that was requested
+   */
+  @Prop({ required: true })
+  pageId!: BaseLayoutProps<Data, Meta>["pageId"];
+  /**
    * data that is relevant for your page and layout
    */
   @Prop({ required: true })

@@ -1,4 +1,4 @@
-import { FSXABaseSection } from "fsxa-pattern-library";
+import { FSXABaseSection, FSXARichText } from "fsxa-pattern-library";
 import Component from "vue-class-component";
 
 @Component({
@@ -7,10 +7,9 @@ import Component from "vue-class-component";
 class TeaserSection extends FSXABaseSection {
   render() {
     return (
-      <div
-        class="mb-5 bg-white p-5 container mx-auto border-b border-gray-600"
-        domPropsInnerHTML={this.payload.st_text}
-      ></div>
+      <div class="mb-5 bg-white p-5 container mx-auto border-b border-gray-600">
+        <FSXARichText content={this.payload.st_text} />
+      </div>
     );
   }
 }

@@ -1,7 +1,13 @@
 import { Component } from "vue-tsx-support";
-import { FSXAApi, NavigationData, Page as APIPage } from "fsxa-api";
+import {
+  FSXAApi,
+  NavigationData,
+  Page as APIPage,
+  RichTextElement,
+} from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
-import { GCAPage } from "fsxa-api/dist/types";
+import { GCAPage } from "fsxa-api";
+import { VNode } from "vue";
 
 export class FSXABaseComponent<
   Props = {},
@@ -82,6 +88,10 @@ export class FSXABaseComponent<
 
 export interface BaseLayoutProps<Data = {}, Meta = {}> {
   /**
+   * the id of the page that was requested
+   */
+  pageId: string;
+  /**
    * data that is relevant for your page and layout
    */
   data: Data;
@@ -95,6 +105,10 @@ export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
   {},
   {}
 > {
+  /**
+   * the id of the page that was requested
+   */
+  pageId: string;
   /**
    * Data that is relevant for your page and layout
    */
@@ -192,34 +206,37 @@ export class FSXABaseAppLayout extends FSXABaseComponent<
   appError: BaseAppLayoutProps["appError"];
 }
 
+export interface AppComponents {
+  /**
+   * Your component that will render the overall AppLayout.
+   *
+   * If no appLayout is passed the rendered content Layout + Sections is returned
+   */
+  appLayout?: any;
+  /**
+   * Pass a component that should get rendered, when no matching route was found
+   *
+   * If no 404 page is passed nothing will be rendered
+   */
+  page404?: any;
+  loader?: any;
+  /**
+   * Pass your sections that will be mapped through the provided record key
+   *
+   * Nothing will be rendered, if no matching section was found and devMode is not active
+   */
+  sections?: Record<string, any>;
+  /**
+   * Pass your layouts that will be mapped through the provided record key
+   *
+   * Nothing will be rendered, if no matching layout was found and devMode is not active
+   */
+  layouts?: Record<string, any>;
+  richtext?: Record<string, any>;
+}
+
 export interface AppProps {
-  components?: {
-    /**
-     * Your component that will render the overall AppLayout.
-     *
-     * If no appLayout is passed the rendered content Layout + Sections is returned
-     */
-    appLayout?: any;
-    /**
-     * Pass a component that should get rendered, when no matching route was found
-     *
-     * If no 404 page is passed nothing will be rendered
-     */
-    page404?: any;
-    loader?: any;
-    /**
-     * Pass your sections that will be mapped through the provided record key
-     *
-     * Nothing will be rendered, if no matching section was found and devMode is not active
-     */
-    sections?: Record<string, any>;
-    /**
-     * Pass your layouts that will be mapped through the provided record key
-     *
-     * Nothing will be rendered, if no matching layout was found and devMode is not active
-     */
-    layouts?: Record<string, any>;
-  };
+  components?: AppComponents;
   /**
    * You can specify the path of the page that should be displayed
    */
@@ -291,6 +308,26 @@ export interface PageProps {
   pageData?: APIPage;
 }
 export class FSXAPage extends FSXABaseComponent<PageProps> {}
+
+export interface BaseRichTextElementProps<Data = Record<string, any>> {
+  content: RichTextElement[];
+  data: Data;
+}
+export class FSXABaseRichTextElement extends FSXABaseComponent<
+  BaseRichTextElementProps
+> {
+  content: BaseRichTextElementProps["content"];
+  data: BaseRichTextElementProps["data"];
+}
+
+export interface RichTextProps {
+  content: RichTextElement[];
+}
+export class FSXARichText extends FSXABaseComponent<
+  RichTextProps,
+  {},
+  Record<string, any>
+> {}
 
 export interface RequestRouteChangeParams {
   /**

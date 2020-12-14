@@ -26,7 +26,7 @@ class InfoBox extends BaseComponent<InfoBoxProps> {
       <div
         class={`w-full ${
           this.isOverlay ? "h-full w-full lg:w-12/12 xl:w-3/4" : "bg-gray-100"
-        } p-4 md:p-6 lg:p-10`}
+        } p-4 md:p-6 lg:p-10 text-base`}
       >
         <div
           class={`pointer-events-auto w-full max-h-full rounded-lg shadow-md bg-white border flex flex-col items-center justify-start overflow-hidden ${

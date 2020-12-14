@@ -8,6 +8,7 @@ import {
   FSXAConfiguration,
   LogLevel,
   GCAPage,
+  ComparisonQueryOperatorEnum,
 } from "fsxa-api";
 
 export declare type FSXAModuleParams =
@@ -168,11 +169,22 @@ export function getFSXAModule<R extends RootState>(
           }
           let settings = null;
           if (payload.globalSettingsKey) {
-            settings = await fsxaAPI.fetchGCAPages(
+            settings = await fsxaAPI.fetchByFilter(
+              [
+                {
+                  field: "fsType",
+                  value: "GCAPage",
+                  operator: ComparisonQueryOperatorEnum.EQUALS,
+                },
+                {
+                  field: "uid",
+                  value: payload.globalSettingsKey,
+                  operator: ComparisonQueryOperatorEnum.EQUALS,
+                },
+              ],
               navigationData
                 ? navigationData.meta.identifier.languageId
                 : payload.defaultLocale,
-              payload.globalSettingsKey,
             );
           }
           commit("setAppAsInitialized", {

@@ -37,7 +37,11 @@ class Dataset extends RenderUtils<DatasetProps> {
 
   fetchPage() {
     if (!this.pageId) return null;
-    return this.fsxaApi.fetchPage(this.pageId, this.locale);
+    try {
+      return this.fsxaApi.fetchElement(this.pageId, this.locale);
+    } catch (err) {
+      return null;
+    }
   }
 
   async fetchDataset() {

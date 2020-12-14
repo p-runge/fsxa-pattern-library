@@ -10,7 +10,6 @@ import {
 import { RequestRouteChangeParams } from "@/types/components";
 import { FSXA_INJECT_KEY_DEV_MODE } from "@/constants";
 import { findNavigationItemInNavigationData } from "@/utils/getters";
-import { extractLinkMarkup } from "@/utils/dom";
 
 @Component({
   name: "BaseComponent",
@@ -75,47 +74,6 @@ class BaseComponent<
         pageId,
       })?.seoRoute || null
     );
-  }
-
-  /**
-   * The current RichText structure encapsulates linking logic. To make sure, that the contained links are clickable,
-   * invoke this method. The links will then be transformed.
-   */
-  createLinksInRichText(
-    text: string,
-    handleLinkData?: (
-      type: string,
-      data: Record<string, string>,
-    ) => {
-      isInternalLink: boolean;
-      linkAttributes: Record<string, any>;
-    } | null,
-  ): string {
-    return extractLinkMarkup(text, (type, data) => {
-      if (handleLinkData) {
-        const result = handleLinkData(type, data);
-        if (result) {
-          return {
-            "data-link-internal": result.isInternalLink ? "true" : null,
-            ...result.linkAttributes,
-          };
-        }
-      }
-      switch (type) {
-        case "internal_link":
-          return {
-            "data-link-internal": "true",
-            href: this.getUrlByPageId(data.lt_link.value.identifier),
-          };
-        case "external_link":
-          return {
-            href: data.lt_url.value || null,
-            target: data.lt_link_behavior.value.identifier || null,
-          };
-        default:
-          return {};
-      }
-    });
   }
 
   /**

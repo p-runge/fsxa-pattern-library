@@ -4,7 +4,7 @@ import Component from "vue-class-component";
 import { Inject, InjectReactive, Prop } from "vue-property-decorator";
 
 import {
-  FSXA_INJECT_KEY_LAYOUTS,
+  FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
 } from "@/constants";
 
@@ -13,8 +13,10 @@ import Code from "./internal/Code";
 import InfoBox from "./internal/InfoBox";
 import TabbedContent from "./internal/TabbedContent";
 import RenderUtils from "./base/RenderUtils";
+import { AppComponents } from "@/types/components";
 
 export interface LayoutProps<Data, Meta> {
+  pageId: string;
   previewId: string;
   data: Data;
   meta: Meta;
@@ -27,13 +29,14 @@ export interface LayoutProps<Data, Meta> {
 class Layout<Data = {}, Meta = {}> extends RenderUtils<
   LayoutProps<Data, Meta>
 > {
+  @Prop({ required: true }) pageId!: LayoutProps<Data, Meta>["pageId"];
   @Prop({ required: true }) previewId!: LayoutProps<Data, Meta>["previewId"];
   @Prop({ required: true }) content!: LayoutProps<Data, Meta>["content"];
   @Prop({ required: true }) data!: LayoutProps<Data, Meta>["data"];
   @Prop({ required: true }) meta!: LayoutProps<Data, Meta>["meta"];
   @Prop({ required: true }) type!: LayoutProps<Data, Meta>["type"];
-  @InjectReactive({ from: FSXA_INJECT_KEY_LAYOUTS })
-  layouts!: Record<string, any>;
+  @InjectReactive({ from: FSXA_INJECT_KEY_COMPONENTS })
+  components!: AppComponents;
 
   @Inject({
     from: FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
@@ -168,6 +171,10 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
     );
   }
 
+  get layouts() {
+    return this.components.layouts || {};
+  }
+
   get mappedLayout() {
     return this.layouts ? this.layouts[this.type] || null : null;
   }
@@ -185,6 +192,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
       );
       content = (
         <MappedLayout
+          pageId={this.pageId}
           data={this.data}
           meta={this.meta}
           scopedSlots={this.$slots.default ? {} : slots}
