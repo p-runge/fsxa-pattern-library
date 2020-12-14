@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.0.0...v2.1.0) (2020-12-14)
+
+
+### Features
+
+* **richtext:** we upgraded the fsxa-api dependency and switched to the new RichText JSON structure ([e41bb9d](https://github.com/e-Spirit/fsxa-pattern-library/commit/e41bb9d9d89816074237a5f8ce3353b8f50ded04))
+
 # [2.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v1.5.1...v2.0.0) (2020-12-09)
 
 
