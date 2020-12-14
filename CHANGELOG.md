@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.0...v2.1.1) (2020-12-14)
+
+
+### Bug Fixes
+
+* **richtext:** change devMode appearance for RichText-Elements ([12bc7b4](https://github.com/e-Spirit/fsxa-pattern-library/commit/12bc7b4ba980f2b618f57ea8d8a4d02d02cba496))
+
 # [2.1.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.0.0...v2.1.0) (2020-12-14)
 
 
