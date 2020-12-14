@@ -27,7 +27,7 @@ module.exports = {
   theme: {
     extend: {},
     namedGroupHover: {
-      groups: ["l", "s"],
+      groups: ["l", "s", "r"],
     },
   },
   variants: {
