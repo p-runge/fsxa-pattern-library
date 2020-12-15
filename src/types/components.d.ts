@@ -3,6 +3,7 @@ import {
   FSXAApi,
   NavigationData,
   Page as APIPage,
+  PageBodyContent,
   RichTextElement,
 } from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
@@ -122,6 +123,10 @@ export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
    * @param name string
    */
   renderContentByName(name: string): any;
+  /**
+   * You can render any PageBodyContent through that method
+   */
+  renderContentElement: (content: PageBodyContent) => JSX.Element | null;
 }
 
 export interface BaseSectionProps<Payload> {
@@ -147,6 +152,10 @@ export class FSXABaseSection<
    * The payload that is passed to the section
    */
   payload: Payload;
+  /**
+   * You can render any PageBodyContent through that method
+   */
+  renderContentElement: (content: PageBodyContent) => JSX.Element | null;
 }
 
 export interface BaseAppLayoutProps {
@@ -312,11 +321,11 @@ export interface BaseRichTextElementProps<Data = Record<string, any>> {
   content: RichTextElement[];
   data: Data;
 }
-export class FSXABaseRichTextElement extends FSXABaseComponent<
-  BaseRichTextElementProps
-> {
-  content: BaseRichTextElementProps["content"];
-  data: BaseRichTextElementProps["data"];
+export class FSXABaseRichTextElement<
+  Data = Record<string, any>
+> extends FSXABaseComponent<BaseRichTextElementProps<Data>> {
+  content: BaseRichTextElementProps<Data>["content"];
+  data: BaseRichTextElementProps<Data>["data"];
   renderContent: () => JSX.Element[];
 }
 

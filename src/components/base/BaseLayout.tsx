@@ -1,6 +1,6 @@
-import { BaseLayoutProps } from "@/types/components";
 import { Component, Prop } from "vue-property-decorator";
-import BaseComponent from "./BaseComponent";
+import { BaseLayoutProps } from "@/types/components";
+import RenderUtils from "./RenderUtils";
 
 /**
  * The FSXABaseLayout can be used to extend from
@@ -17,7 +17,7 @@ class BaseLayout<
   Meta = {},
   EventsWithOn = {},
   Slots = {}
-> extends BaseComponent<BaseLayoutProps<Data, Meta>, EventsWithOn, Slots> {
+> extends RenderUtils<BaseLayoutProps<Data, Meta>, EventsWithOn, Slots> {
   /**
    * the id of the page that was requested
    */

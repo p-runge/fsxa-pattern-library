@@ -1,6 +1,6 @@
 import { BaseSectionProps } from "@/types/components";
 import { Prop } from "vue-property-decorator";
-import BaseComponent from "./BaseComponent";
+import RenderUtils from "./RenderUtils";
 
 class BaseSection<
   Payload = any,
@@ -8,7 +8,7 @@ class BaseSection<
   Slots = {
     content?: {};
   }
-> extends BaseComponent<BaseSectionProps<Payload>, EventsWithOn, Slots> {
+> extends RenderUtils<BaseSectionProps<Payload>, EventsWithOn, Slots> {
   /**
    * The payload that is passed to the section
    */
