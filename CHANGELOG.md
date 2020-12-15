@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.2...v2.1.3) (2020-12-15)
+
+
+### Bug Fixes
+
+* **richtext:** switched back to easier syntax for rendering richtext-content ([ed782c0](https://github.com/e-Spirit/fsxa-pattern-library/commit/ed782c091f86d63c865f4e9840ce711a9f7aef52))
+
 ## [2.1.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.1...v2.1.2) (2020-12-15)
 
 
