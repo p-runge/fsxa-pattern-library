@@ -6,12 +6,13 @@ import Component from "vue-class-component";
 })
 class Text extends FSXABaseRichTextElement {
   render() {
-    if (this.data.format === "bold") return <strong>{this.content}</strong>;
-    if (this.data.format === "italic") return <em>{this.content}</em>;
+    if (this.data.format === "bold")
+      return <strong>{this.renderContent()}</strong>;
+    if (this.data.format === "italic") return <em>{this.renderContent()}</em>;
     return typeof this.content === "string" ? (
       <span domPropsInnerHTML={this.content} />
     ) : (
-      <span>{this.content}</span>
+      <span>{this.renderContent()}</span>
     );
   }
 }

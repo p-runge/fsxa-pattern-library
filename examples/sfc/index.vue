@@ -20,6 +20,9 @@ import ProductListSection from "./components/sections/ProductListSection.vue";
 import ProductOverview from "./components/sections/ProductOverview.vue";
 import QuoteSection from "./components/sections/QuoteSection.vue";
 import Paragraph from "./components/richtext/Paragraph.vue";
+import Text from "./components/richtext/Text.vue";
+import List from "./components/richtext/List.vue";
+import ListItem from "./components/richtext/ListItem.vue";
 
 @Component({
   name: "VueFSXAApp",
@@ -64,6 +67,9 @@ class App extends Vue {
       },
       richtext: {
         paragraph: Paragraph,
+        text: Text,
+        list: List,
+        listitem: ListItem,
       },
     };
   }

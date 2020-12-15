@@ -1,5 +1,4 @@
 import { PageBody, PageBodyContent } from "fsxa-api";
-import { Fragment } from "vue-fragment";
 import Component from "vue-class-component";
 import { Inject, InjectReactive, Prop } from "vue-property-decorator";
 
@@ -156,10 +155,10 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
 // Usage in Vue SFC:
 <slot name="${content.name}" />
 
-// Usage in Vue Tsx (if you extend FSXABaseLayout)
+// Usage in Vue JSX/TSX (if you extend FSXABaseLayout)
 {this.renderContentByName("${content.name}")}
 
-// Usage in Vue Tsx (without extending FSXABaseLayout)
+// Usage in Vue JSX/TSX (without extending FSXABaseLayout)
 {this.$scopedSlots.${content.name}({})}
 `}
                 </Code>
@@ -209,7 +208,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
         title={`Error rendering Layout: ${this.mappedLayout &&
           this.mappedLayout.name}`}
       >
-        <Fragment>
+        <div>
           <div data-preview-id={this.previewId}>{content}</div>
           {this.isDevMode ? (
             <a
@@ -224,7 +223,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
               ?
             </a>
           ) : null}
-        </Fragment>
+        </div>
       </ErrorBoundary>
     );
   }

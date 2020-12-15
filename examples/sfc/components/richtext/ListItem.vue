@@ -1,15 +1,14 @@
 <template
-  ><p>
-    <render-content /></p
+  ><li>
+    <render-content /></li
 ></template>
-
 <script lang="ts">
 import { FSXABaseRichTextElement } from "fsxa-pattern-library";
 import { Component } from "vue-property-decorator";
 
 @Component({
-  name: "Paragraph",
+  name: "ListItem",
 })
-class Paragraph extends FSXABaseRichTextElement {}
-export default Paragraph;
+class ListItem extends FSXABaseRichTextElement {}
+export default ListItem;
 </script>

@@ -27,6 +27,7 @@ import Code from "./internal/Code";
 import { FSXAApi, FSXAContentMode } from "fsxa-api";
 import { AppProps } from "@/types/components";
 import PortalProvider from "./internal/PortalProvider";
+
 @Component({
   name: "FSXAApp",
 })

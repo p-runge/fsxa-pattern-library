@@ -1,6 +1,5 @@
 import Component from "vue-class-component";
 import { Component as TsxComponent } from "vue-tsx-support";
-import { Fragment } from "vue-fragment";
 import { Provide, Watch } from "vue-property-decorator";
 import { FSXA_INJECT_KEY_SET_PORTAL_CONTENT } from "@/constants";
 
@@ -23,7 +22,7 @@ class PortalProvider extends TsxComponent<{}> {
 
   render() {
     return (
-      <Fragment>
+      <div>
         {this.$slots.default}
         {this.portalContent && (
           <div class="fixed w-full h-screen top-0 left-0 flex items-start justify-center z-50">
@@ -39,7 +38,7 @@ class PortalProvider extends TsxComponent<{}> {
             </div>
           </div>
         )}
-      </Fragment>
+      </div>
     );
   }
 }

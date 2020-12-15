@@ -1,4 +1,4 @@
-import { FSXABaseRichTextElement, FSXARichText } from "fsxa-pattern-library";
+import { FSXABaseRichTextElement } from "fsxa-pattern-library";
 import Component from "vue-class-component";
 
 @Component({
@@ -6,11 +6,7 @@ import Component from "vue-class-component";
 })
 class Paragraph extends FSXABaseRichTextElement {
   render() {
-    return (
-      <p>
-        <FSXARichText content={this.content} />
-      </p>
-    );
+    return <p>{this.renderContent()}</p>;
   }
 }
 export default Paragraph;

@@ -7,7 +7,6 @@ import {
 } from "fsxa-api";
 import { FSXAAppState, FSXAAppError } from "./../store";
 import { GCAPage } from "fsxa-api";
-import { VNode } from "vue";
 
 export class FSXABaseComponent<
   Props = {},
@@ -318,16 +317,13 @@ export class FSXABaseRichTextElement extends FSXABaseComponent<
 > {
   content: BaseRichTextElementProps["content"];
   data: BaseRichTextElementProps["data"];
+  renderContent: () => JSX.Element[];
 }
 
 export interface RichTextProps {
-  content: RichTextElement[];
+  content: RichTextElement;
 }
-export class FSXARichText extends FSXABaseComponent<
-  RichTextProps,
-  {},
-  Record<string, any>
-> {}
+export class FSXARichText extends FSXABaseComponent<RichTextProps> {}
 
 export interface RequestRouteChangeParams {
   /**

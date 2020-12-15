@@ -1,5 +1,5 @@
 import {
-  FSXA_INJECT_KEY_SECTIONS,
+  FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
 } from "@/constants";
 import Component from "vue-class-component";
@@ -9,7 +9,7 @@ import ErrorBoundary from "./internal/ErrorBoundary";
 import Code from "./internal/Code";
 import InfoBox from "./internal/InfoBox";
 import TabbedContent from "./internal/TabbedContent";
-import { Fragment } from "vue-fragment";
+import { AppComponents } from "@/types/components";
 
 export interface SectionProps<Data> {
   type: string;
@@ -27,10 +27,8 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
   @Prop({ required: true }) data!: SectionProps<Data>["data"];
   @Prop({ required: true }) content!: SectionProps<Data>["content"];
   @Prop({ required: true }) type!: SectionProps<Data>["type"];
-  @InjectReactive({ from: FSXA_INJECT_KEY_SECTIONS }) sections!: Record<
-    string,
-    any
-  >;
+  @InjectReactive({ from: FSXA_INJECT_KEY_COMPONENTS })
+  components!: AppComponents;
 
   @Inject({
     from: FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
@@ -129,7 +127,7 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
 // Usage in Vue SFC:
 <slot name="content" />
 
-// Usage in Vue Tsx: 
+// Usage in JSX/TSX: 
 {this.$scopedSlots.content({})}
 `}
                 </Code>
@@ -139,6 +137,10 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
         />
       </InfoBox>
     );
+  }
+
+  get sections() {
+    return this.components.sections || {};
   }
 
   get mappedSection() {
@@ -163,7 +165,7 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
           title={`Error rendering Section: ${MappedSection &&
             MappedSection.name}`}
         >
-          <Fragment>
+          <div>
             {this.isEditMode ? (
               <div data-preview-id={this.previewId}>{content}</div>
             ) : (
@@ -182,7 +184,7 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
                 ?
               </a>
             ) : null}
-          </Fragment>
+          </div>
         </ErrorBoundary>
       );
     }

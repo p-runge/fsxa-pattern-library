@@ -11,12 +11,18 @@ import {
 import InfoBox from "./internal/InfoBox";
 import Code from "./internal/Code";
 import TabbedContent from "./internal/TabbedContent";
-import { Fragment } from "vue-fragment";
+import { CreateElement, RenderContext } from "vue";
+
+export const VNodeHelper = {
+  functional: true,
+  render: (h: CreateElement, ctx: RenderContext) => ctx.props.vnodes,
+};
+
 @Component({
   name: "FSXARichText",
 })
 class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
-  @Prop({ required: true }) content!: RichTextElement[];
+  @Prop({ required: true }) content!: RichTextElement;
   @InjectReactive({ from: FSXA_INJECT_KEY_COMPONENTS })
   components!: AppComponents;
 
@@ -93,9 +99,24 @@ class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
                   <Code key="content" language="tsx">
                     {`/**
 * This property contains the JSON for the RichText-elements children.
-* Use an embedded FSXARichText component for rendering the child-elements
+* You can render it via the following methods:
 **/
 
+/**
+ * Vue SFC:
+ * The content component is already injected for you and will render the content elements for you
+ **/
+<render-content />
+
+/**
+ * JSX/TSX:
+ * You can use the renderContent method provided by the FSXABaseRichTextElement
+ **/
+{this.renderContent()}
+
+/**
+ * Content-JSON
+ **/
 ${JSON.stringify(this.content, null, 2)}
 `}
                   </Code>
@@ -141,7 +162,34 @@ ${JSON.stringify(this.content, null, 2)}
   }
 
   render() {
-    return <Fragment>{this.content.map(this.renderElement)}</Fragment>;
+    const element = this.content;
+    if (this.elements[element.type]) {
+      const Element = this.elements[element.type];
+      return <Element content={element.content} data={element.data} />;
+    }
+    if (this.isDevMode) {
+      return (
+        <span class="block my-2">
+          <a
+            href="#"
+            class="group-r inline-flex pl-1 py-1 bg-blue-200 rounded-lg group  border border-blue-400 hover:bg-blue-100 text-sm text-blue-900 font-sans items-center justify-center"
+            onClick={event => {
+              event.preventDefault();
+              this.renderDevInfoPortal(element);
+            }}
+          >
+            <span class="flex w-6 h-6 items-center justify-center bg-blue-500 text-gray-100 rounded-full group-r-hover:bg-blue-400">
+              ?
+            </span>
+            <span class="inline-block text-xs px-2">
+              <span>Missing RichText-Component:</span>
+              <strong class="inline-block ml-1">{element.type}</strong>
+            </span>
+          </a>
+        </span>
+      );
+    }
+    return null;
   }
 }
 export default RichText;
