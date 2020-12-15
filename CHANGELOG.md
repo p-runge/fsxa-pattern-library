@@ -1,3 +1,10 @@
+## [2.1.4](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.3...v2.1.4) (2020-12-15)
+
+
+### Bug Fixes
+
+* **rendercontentelement:** we readded the renderContentElement method ([8ffebc9](https://github.com/e-Spirit/fsxa-pattern-library/commit/8ffebc915ecac81b8919294b63c92a40cfd43277))
+
 ## [2.1.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.2...v2.1.3) (2020-12-15)
 
 
