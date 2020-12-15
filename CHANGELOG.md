@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.1...v2.1.2) (2020-12-15)
+
+
+### Bug Fixes
+
+* **fragments:** we've removed vue-fragment as dependency since this can break SSR ([04ceaf5](https://github.com/e-Spirit/fsxa-pattern-library/commit/04ceaf511c1976123b6ac9c8a90164602e770bd3))
+
 ## [2.1.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.0...v2.1.1) (2020-12-14)
 
 
