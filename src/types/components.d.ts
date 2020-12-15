@@ -321,7 +321,7 @@ export class FSXABaseRichTextElement extends FSXABaseComponent<
 }
 
 export interface RichTextProps {
-  content: RichTextElement;
+  content: RichTextElement[];
 }
 export class FSXARichText extends FSXABaseComponent<RichTextProps> {}
 

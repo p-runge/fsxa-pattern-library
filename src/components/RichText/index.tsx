@@ -1,28 +1,21 @@
 import Component from "vue-class-component";
 import { Inject, InjectReactive, Prop } from "vue-property-decorator";
-import BaseComponent from "./base/BaseComponent";
+import BaseComponent from "@/components/base/BaseComponent";
 import { AppComponents, RichTextProps } from "@/types/components";
-import { VNode } from "vue";
 import { RichTextElement } from "fsxa-api";
 import {
   FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
 } from "@/constants";
-import InfoBox from "./internal/InfoBox";
-import Code from "./internal/Code";
-import TabbedContent from "./internal/TabbedContent";
-import { CreateElement, RenderContext } from "vue";
-
-export const VNodeHelper = {
-  functional: true,
-  render: (h: CreateElement, ctx: RenderContext) => ctx.props.vnodes,
-};
+import InfoBox from "@/components/internal/InfoBox";
+import Code from "@/components/internal/Code";
+import TabbedContent from "@/components/internal/TabbedContent";
 
 @Component({
   name: "FSXARichText",
 })
 class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
-  @Prop({ required: true }) content!: RichTextElement;
+  @Prop({ required: true }) content!: RichTextProps["content"];
   @InjectReactive({ from: FSXA_INJECT_KEY_COMPONENTS })
   components!: AppComponents;
 
@@ -129,9 +122,7 @@ ${JSON.stringify(this.content, null, 2)}
     );
   }
 
-  renderElement(
-    element: RichTextElement,
-  ): VNode[] | VNode | undefined | null | string {
+  renderElement(element: RichTextElement) {
     if (this.elements[element.type]) {
       const Element = this.elements[element.type];
       return <Element content={element.content} data={element.data} />;
@@ -162,34 +153,7 @@ ${JSON.stringify(this.content, null, 2)}
   }
 
   render() {
-    const element = this.content;
-    if (this.elements[element.type]) {
-      const Element = this.elements[element.type];
-      return <Element content={element.content} data={element.data} />;
-    }
-    if (this.isDevMode) {
-      return (
-        <span class="block my-2">
-          <a
-            href="#"
-            class="group-r inline-flex pl-1 py-1 bg-blue-200 rounded-lg group  border border-blue-400 hover:bg-blue-100 text-sm text-blue-900 font-sans items-center justify-center"
-            onClick={event => {
-              event.preventDefault();
-              this.renderDevInfoPortal(element);
-            }}
-          >
-            <span class="flex w-6 h-6 items-center justify-center bg-blue-500 text-gray-100 rounded-full group-r-hover:bg-blue-400">
-              ?
-            </span>
-            <span class="inline-block text-xs px-2">
-              <span>Missing RichText-Component:</span>
-              <strong class="inline-block ml-1">{element.type}</strong>
-            </span>
-          </a>
-        </span>
-      );
-    }
-    return null;
+    return <div>{this.content.map(this.renderElement)}</div>;
   }
 }
 export default RichText;

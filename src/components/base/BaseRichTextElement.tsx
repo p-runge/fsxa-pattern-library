@@ -1,8 +1,14 @@
-import { Component, Prop, Provide } from "vue-property-decorator";
+import {
+  Component,
+  InjectReactive,
+  Prop,
+  Provide,
+} from "vue-property-decorator";
 import BaseComponent from "./BaseComponent";
-import { BaseRichTextElementProps } from "@/types/components";
-import RichText from "./../RichText";
+import { AppComponents, BaseRichTextElementProps } from "@/types/components";
 import { CreateElement, RenderContext } from "vue";
+import { FSXA_INJECT_KEY_COMPONENTS } from "@/constants";
+import MissingRichTextComponent from "../RichText/MissingRichTextComponent";
 
 export const ContentHelper = {
   functional: true,
@@ -32,10 +38,23 @@ class BaseRichTextElement<Data = Record<string, any>> extends BaseComponent<
   @Prop({ required: true }) data!: BaseRichTextElementProps<Data>["data"];
   @Prop({ required: true }) content!: BaseRichTextElementProps<Data>["content"];
 
+  @InjectReactive({ from: FSXA_INJECT_KEY_COMPONENTS })
+  components!: AppComponents;
+
+  get elements(): Record<string, any> {
+    return this.components.richtext || {};
+  }
+
   @Provide("renderContent")
   renderContent() {
     if (typeof this.content === "string") return this.content;
-    return this.content.map(element => <RichText content={element} />);
+    return this.content.map(element => {
+      if (this.elements[element.type]) {
+        const Element = this.elements[element.type];
+        return <Element content={element.content} data={element.data} />;
+      }
+      return <MissingRichTextComponent element={element} />;
+    });
   }
 
   render() {

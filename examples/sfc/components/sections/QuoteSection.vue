@@ -1,10 +1,6 @@
 <template>
   <div>
-    <rich-text
-      v-for="(element, index) in payload.st_text"
-      :content="element"
-      :key="index"
-    />
+    <rich-text :content="payload.st_text" />
   </div>
 </template>
 
