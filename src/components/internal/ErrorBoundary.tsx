@@ -32,7 +32,7 @@ class ErrorBoundary extends BaseComponent<ErrorBoundaryProps> {
     return this.error ? (
       this.renderError()
     ) : (
-      <div class="relative">{this.$slots.default}</div>
+      <div class="relative w-full h-full">{this.$slots.default}</div>
     );
   }
 }

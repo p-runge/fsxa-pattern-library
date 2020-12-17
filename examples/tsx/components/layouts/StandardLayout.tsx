@@ -7,9 +7,9 @@ import { FSXABaseLayout } from "fsxa-pattern-library";
 class StandardLayout extends FSXABaseLayout {
   render() {
     return (
-      <div>
-        {this.renderContentByName("default")}
-        {this.renderContentByName("content")}
+      <div class="w-full h-full">
+        <div class="w-1/2 my-10">{this.renderContentByName("default")}</div>
+        <div class="w-1/2 my-10">{this.renderContentByName("content")}</div>
       </div>
     );
   }

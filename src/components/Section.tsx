@@ -8,12 +8,13 @@ import BaseComponent from "./base/BaseComponent";
 import ErrorBoundary from "./internal/ErrorBoundary";
 import Code from "./internal/Code";
 import InfoBox from "./internal/InfoBox";
-import TabbedContent from "./internal/TabbedContent";
+import TabbedContent, { TabbedContentItem } from "./internal/TabbedContent";
 import { AppComponents } from "@/types/components";
 
-export interface SectionProps<Data> {
+export interface SectionProps<Data, Meta> {
   type: string;
   data: Data;
+  meta: Meta;
   id?: string;
   previewId?: string;
   content: Array<JSX.Element | null> | JSX.Element[] | null;
@@ -21,12 +22,16 @@ export interface SectionProps<Data> {
 @Component({
   name: "Section",
 })
-class Section<Data> extends BaseComponent<SectionProps<Data>> {
-  @Prop() id: SectionProps<Data>["id"];
-  @Prop() previewId: SectionProps<Data>["previewId"];
-  @Prop({ required: true }) data!: SectionProps<Data>["data"];
-  @Prop({ required: true }) content!: SectionProps<Data>["content"];
-  @Prop({ required: true }) type!: SectionProps<Data>["type"];
+class Section<
+  Data = Record<string, any>,
+  Meta = Record<string, any>
+> extends BaseComponent<SectionProps<Data, Meta>> {
+  @Prop() id: SectionProps<Data, Meta>["id"];
+  @Prop() previewId: SectionProps<Data, Meta>["previewId"];
+  @Prop({ required: true }) data!: SectionProps<Data, Meta>["data"];
+  @Prop({ required: true }) meta!: SectionProps<Data, Meta>["meta"];
+  @Prop({ required: true }) content!: SectionProps<Data, Meta>["content"];
+  @Prop({ required: true }) type!: SectionProps<Data, Meta>["type"];
   @InjectReactive({ from: FSXA_INJECT_KEY_COMPONENTS })
   components!: AppComponents;
 
@@ -106,22 +111,31 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
         )}
         Your custom section will receive the following properties:
         <TabbedContent
-          tabs={[
-            {
-              title: "payload",
-              content: (
-                <Code key="payload" language="json">
-                  {JSON.stringify(this.data, null, 2)}
-                </Code>
-              ),
-            },
-            {
-              title: "[Slot] content",
-              content: (
-                <Code key="content" language="tsx">
-                  {`/**
+          tabs={
+            [
+              {
+                title: "payload",
+                content: (
+                  <Code key="payload" language="json">
+                    {JSON.stringify(this.data, null, 2)}
+                  </Code>
+                ),
+              },
+              {
+                title: "meta",
+                content: (
+                  <Code key="meta" language="json">
+                    {JSON.stringify(this.meta, null, 2)}
+                  </Code>
+                ),
+              },
+              this.content && this.content.length > 0
+                ? {
+                    title: "[Slot] content",
+                    content: (
+                      <Code key="content" language="tsx">
+                        {`/**
 * This slot contains the already prerendered content elements of the section ${this.content}.
-* This is optional and will only be used, if the content section contains child sections.
 **/
 
 // Usage in Vue SFC:
@@ -130,10 +144,12 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
 // Usage in JSX/TSX: 
 {this.$scopedSlots.content({})}
 `}
-                </Code>
-              ),
-            },
-          ]}
+                      </Code>
+                    ),
+                  }
+                : undefined,
+            ].filter(Boolean) as TabbedContentItem[]
+          }
         />
       </InfoBox>
     );
@@ -153,10 +169,16 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
       const content = (
         <MappedSection
           id={this.id}
+          data-preview-id={this.isEditMode ? this.previewId : undefined}
+          meta={this.meta}
           payload={this.data}
-          scopedSlots={{
-            content: () => this.content,
-          }}
+          scopedSlots={
+            this.content && this.content.length > 0
+              ? {
+                  content: () => this.content,
+                }
+              : {}
+          }
         />
       );
       return (
@@ -165,36 +187,24 @@ class Section<Data> extends BaseComponent<SectionProps<Data>> {
           title={`Error rendering Section: ${MappedSection &&
             MappedSection.name}`}
         >
-          <div>
-            {this.isEditMode ? (
-              <div data-preview-id={this.previewId}>{content}</div>
-            ) : (
-              content
-            )}
-            {this.isDevMode ? (
-              <a
-                href="#"
-                title={`Section: ${this.type}`}
-                onClick={event => {
-                  event.preventDefault();
-                  this.renderDevInfoPortal();
-                }}
-                class="hidden group-hover:flex pointer-events-auto w-6 h-6 items-center justify-center bg-gray-900 text-gray-100 rounded-full absolute top-0 right-0 mr-5 mt-5 hover:bg-gray-700"
-              >
-                ?
-              </a>
-            ) : null}
-          </div>
+          {content}
+          {this.isDevMode ? (
+            <a
+              href="#"
+              title={`Section: ${this.type}`}
+              onClick={event => {
+                event.preventDefault();
+                this.renderDevInfoPortal();
+              }}
+              class="hidden group-hover:flex pointer-events-auto w-6 h-6 items-center justify-center bg-gray-900 text-gray-100 rounded-full absolute top-0 right-0 mr-5 mt-5 hover:bg-gray-700"
+            >
+              ?
+            </a>
+          ) : null}
         </ErrorBoundary>
       );
     }
-    return this.isEditMode ? (
-      <div data-preview-id={this.previewId}>
-        {this.isDevMode ? this.renderDevInfo() : null}
-      </div>
-    ) : this.isDevMode ? (
-      this.renderDevInfo()
-    ) : null;
+    return this.isEditMode && this.isDevMode ? this.renderDevInfo() : null;
   }
 }
 export default Section;

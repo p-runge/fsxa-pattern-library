@@ -129,7 +129,7 @@ export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
   renderContentElement: (content: PageBodyContent) => JSX.Element | null;
 }
 
-export interface BaseSectionProps<Payload> {
+export interface BaseSectionProps<Payload, Meta> {
   /**
    * The id of the section
    */
@@ -138,12 +138,21 @@ export interface BaseSectionProps<Payload> {
    * The payload that is passed to the section
    */
   payload: Payload;
+  /**
+   * Additional meta data that is provided to the section
+   */
+  meta: Meta;
 }
 export class FSXABaseSection<
-  Payload = any,
+  Payload = Record<string, any>,
+  Meta = Record<string, any>,
   EventsWithOn = {},
   Slots = {}
-> extends FSXABaseComponent<BaseSectionProps<Payload>, EventsWithOn, Slots> {
+> extends FSXABaseComponent<
+  BaseSectionProps<Payload, Meta>,
+  EventsWithOn,
+  Slots
+> {
   /**
    * The id of the section
    */
@@ -152,6 +161,10 @@ export class FSXABaseSection<
    * The payload that is passed to the section
    */
   payload: Payload;
+  /**
+   * Additional meta data that is provided to the section
+   */
+  meta: Meta;
   /**
    * You can render any PageBodyContent through that method
    */

@@ -92,15 +92,7 @@ class Dataset extends RenderUtils<DatasetProps> {
         />
       );
     } else if (!this.pageId && this.dataset) {
-      return (
-        <Section
-          type={this.dataset.template}
-          data={this.dataset.data}
-          id={this.dataset.id}
-          previewId={this.dataset.previewId}
-          content={this.dataset.children.map(this.renderContentElement)}
-        />
-      );
+      return this.renderContentElement(this.dataset);
     }
   }
 }

@@ -49,7 +49,9 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
   renderContent(content: PageBody) {
     const sections = this.renderContentElements(content.children);
     return this.isDevMode ? (
-      <div data-preview-id={content.previewId}>{sections}</div>
+      <div data-preview-id={content.previewId} class="w-full h-full">
+        {sections}
+      </div>
     ) : (
       sections
     );
@@ -204,26 +206,25 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
     }
     return (
       <ErrorBoundary
-        class="relative group-l"
+        class="group-l"
+        data-preview-id={this.isEditMode ? this.previewId : undefined}
         title={`Error rendering Layout: ${this.mappedLayout &&
           this.mappedLayout.name}`}
       >
-        <div>
-          <div data-preview-id={this.previewId}>{content}</div>
-          {this.isDevMode ? (
-            <a
-              href="#"
-              title={`Layout: ${this.type}`}
-              onClick={event => {
-                event.preventDefault();
-                this.renderDevInfoPortal();
-              }}
-              class="hidden group-l-hover:flex pointer-events-auto w-6 h-6 items-center justify-center bg-gray-600 text-gray-100 rounded-full absolute top-0 right-0 mr-12 mt-5 hover:bg-gray-500"
-            >
-              ?
-            </a>
-          ) : null}
-        </div>
+        {content}
+        {this.isDevMode ? (
+          <a
+            href="#"
+            title={`Layout: ${this.type}`}
+            onClick={event => {
+              event.preventDefault();
+              this.renderDevInfoPortal();
+            }}
+            class="hidden group-l-hover:flex pointer-events-auto w-6 h-6 items-center justify-center bg-gray-600 text-gray-100 rounded-full absolute top-0 right-0 mr-12 mt-5 hover:bg-gray-500"
+          >
+            ?
+          </a>
+        ) : null}
       </ErrorBoundary>
     );
   }

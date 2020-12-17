@@ -17,17 +17,12 @@ class RenderUtils<
         return (
           <Section
             type={content.sectionType}
+            meta={{
+              previewId: content.previewId,
+            }}
             data={content.data}
             id={content.id}
             previewId={content.previewId}
-            content={content.children.map(this.renderContentElement)}
-          />
-        );
-      case "Content2Section":
-        return (
-          <Section
-            type={content.sectionType}
-            data={content.data}
             content={content.children.map(this.renderContentElement)}
           />
         );
@@ -36,12 +31,21 @@ class RenderUtils<
           <Section
             type={content.template}
             data={content.data}
+            meta={{
+              route: content.route,
+              entityType: content.entityType,
+              schema: content.schema,
+            }}
             id={content.id}
             previewId={content.previewId}
             content={content.children.map(this.renderContentElement)}
           />
         );
       default:
+        console.log(
+          "Missing render-functionality for given ContentElement",
+          content,
+        );
         return null;
     }
   }
