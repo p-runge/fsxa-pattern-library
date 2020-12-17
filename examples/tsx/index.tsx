@@ -46,6 +46,7 @@ class App extends TsxComponent<{}> {
           appLayout: AppLayout,
           layouts: {
             standard: StandardLayout,
+            newsroom_detailpage: StandardLayout,
           },
           sections: {
             "products.product": ProductDetailSection,

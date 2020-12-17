@@ -3,9 +3,10 @@ import {
   Page as APIPage,
   Dataset as APIDataset,
   ComparisonQueryOperatorEnum,
+  PageBodyContent,
+  Section,
 } from "fsxa-api";
 import Page from "./Page";
-import Section from "./Section";
 import RenderUtils from "./base/RenderUtils";
 import { DatasetProps } from "@/types/components";
 
@@ -75,19 +76,34 @@ class Dataset extends RenderUtils<DatasetProps> {
     return this.identifier ? this.getStoredItem(this.identifier) : undefined;
   }
 
+  replaceContent2Section(children: PageBodyContent[]) {
+    if (!this.dataset) return children;
+    const content2SectionIndex = children.findIndex(
+      child =>
+        child.data.entityType === this.dataset?.entityType &&
+        child.data.schema === this.dataset?.schema,
+    );
+    if (content2SectionIndex !== -1) {
+      const nextChildren = children.slice(0);
+      nextChildren[content2SectionIndex] = {
+        ...this.dataset,
+        template: (children[content2SectionIndex] as Section).sectionType,
+      };
+      return nextChildren;
+    }
+    return children;
+  }
+
   render() {
     if (this.page && this.dataset) {
       return (
         <Page
           pageData={{
             ...this.page,
-            children: [
-              {
-                ...this.page.children[0],
-                // replace children of content with dataset
-                children: [this.dataset],
-              },
-            ],
+            children: this.page.children.map(body => ({
+              ...body,
+              children: this.replaceContent2Section(body.children),
+            })),
           }}
         />
       );
