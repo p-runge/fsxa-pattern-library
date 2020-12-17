@@ -1,3 +1,10 @@
+## [2.1.5](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.4...v2.1.5) (2020-12-17)
+
+
+### Bug Fixes
+
+* **rendering:** reduced wrapper divs as much as possible and added styling to required ones ([9e5bc78](https://github.com/e-Spirit/fsxa-pattern-library/commit/9e5bc7853a8bce23d2905d2dfefcb08b785128aa))
+
 ## [2.1.4](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.3...v2.1.4) (2020-12-15)
 
 
