@@ -1,3 +1,10 @@
+## [2.1.6](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.5...v2.1.6) (2020-12-17)
+
+
+### Bug Fixes
+
+* **datasets:** fix display of dataset element in dynamic route ([aa20eea](https://github.com/e-Spirit/fsxa-pattern-library/commit/aa20eeac4ee0328b9fc4d33c08782daecfa28ffc))
+
 ## [2.1.5](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.4...v2.1.5) (2020-12-17)
 
 
