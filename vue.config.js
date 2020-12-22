@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 const path = require("path");
+
 module.exports = {
   chainWebpack: config => {
     config.resolve.symlinks(false);
@@ -8,5 +9,7 @@ module.exports = {
       "fsxa-pattern-library",
       path.resolve("./src/index.ts"),
     );
+    if (process.env.NODE_ENV === "production")
+      config.externals({ "fsxa-api": "FSXAApi" });
   },
 };

@@ -85,6 +85,9 @@
     "vue-template-compiler": "^2.6.11",
     "vue-tsx-support": "^2.3.3"
   },
+  "peerDependencies": {
+    "fsxa-api": "^4.0.5"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"

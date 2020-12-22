@@ -1,0 +1,2 @@
+- lazy load components in nuxt-module / pattern-lib
+- fix error, when using index - folder structures (nuxt-module)
