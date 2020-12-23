@@ -1,3 +1,10 @@
+## [2.1.8](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.7...v2.1.8) (2020-12-23)
+
+
+### Bug Fixes
+
+* **fsxa-api:** fix wrong reference of external fsxa-api dependency ([4ae8cab](https://github.com/e-Spirit/fsxa-pattern-library/commit/4ae8cab55f1c5f0c4b9146973d4d7c58bd47864a))
+
 ## [2.1.7](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.6...v2.1.7) (2020-12-23)
 
 
