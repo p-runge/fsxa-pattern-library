@@ -10,6 +10,6 @@ module.exports = {
       path.resolve("./src/index.ts"),
     );
     if (process.env.NODE_ENV === "production")
-      config.externals({ "fsxa-api": "FSXAApi" });
+      config.externals({ "fsxa-api": "fsxa-api" });
   },
 };
