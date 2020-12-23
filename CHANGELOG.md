@@ -1,3 +1,10 @@
+## [2.1.7](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.6...v2.1.7) (2020-12-23)
+
+
+### Bug Fixes
+
+* **fsxa-api:** set fsxa-api as external dependency so it is not added to the bundle ([77ec92e](https://github.com/e-Spirit/fsxa-pattern-library/commit/77ec92e9c023de5e4d1b16f14f3f4155120d98f8))
+
 ## [2.1.6](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.5...v2.1.6) (2020-12-17)
 
 
