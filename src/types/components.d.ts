@@ -2,6 +2,7 @@ import { Component } from "vue-tsx-support";
 import {
   FSXAApi,
   NavigationData,
+  NavigationItem,
   Page as APIPage,
   PageBodyContent,
   RichTextElement,
@@ -34,6 +35,12 @@ export class FSXABaseComponent<
    * Will return null if no page was found
    */
   getUrlByPageId(pageId: string): string | null;
+  /**
+   * Get the NavigationItem that is matching the current path
+   *
+   * If null is returned, no current route could be matched to the current path
+   */
+  get currentPage(): NavigationItem | null;
 
   /**
    * The current RichText structure encapsulates linking logic. To make sure, that the contained links are clickable,

@@ -1,7 +1,13 @@
 import { Component as TsxComponent } from "vue-tsx-support";
 import { Component, Inject, InjectReactive } from "vue-property-decorator";
 import { FSXAGetters, getFSXAConfiguration } from "@/store";
-import { FSXAApi, FSXAContentMode, GCAPage, NavigationData } from "fsxa-api";
+import {
+  FSXAApi,
+  FSXAContentMode,
+  GCAPage,
+  NavigationData,
+  NavigationItem,
+} from "fsxa-api";
 import {
   getStoredItem,
   setStoredItem,
@@ -10,6 +16,7 @@ import {
 import { RequestRouteChangeParams } from "@/types/components";
 import { FSXA_INJECT_KEY_DEV_MODE } from "@/constants";
 import { findNavigationItemInNavigationData } from "@/utils/getters";
+import { determineCurrentRoute } from "@/utils/navigation";
 
 @Component({
   name: "BaseComponent",
@@ -74,6 +81,20 @@ class BaseComponent<
         pageId,
       })?.seoRoute || null
     );
+  }
+
+  /**
+   * Get the NavigationItem that is matching the current path
+   *
+   * If null is returned, no current route could be matched to the current path
+   */
+  get currentPage(): NavigationItem | null {
+    try {
+      return determineCurrentRoute(this.navigationData, this.currentPath);
+    } catch (err) {
+      // page could not be found
+      return null;
+    }
   }
 
   /**
