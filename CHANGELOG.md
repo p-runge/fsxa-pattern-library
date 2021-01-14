@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.0...v2.2.1) (2021-01-14)
+
+
+### Bug Fixes
+
+* **tailwindcss:** add prefix to tailwindcss ([dc7556a](https://github.com/e-Spirit/fsxa-pattern-library/commit/dc7556a260533473b411a3c470a4e44d0233d5d0))
+
 # [2.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.8...v2.2.0) (2021-01-14)
 
 
