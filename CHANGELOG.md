@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.8...v2.2.0) (2021-01-14)
+
+
+### Features
+
+* **basecomponent:** add currentPage getter to BaseComponent ([918ea88](https://github.com/e-Spirit/fsxa-pattern-library/commit/918ea88a71040b60dedd8bc610eb18b3f62a7f69))
+
 ## [2.1.8](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.1.7...v2.1.8) (2020-12-23)
 
 
