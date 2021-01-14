@@ -1,7 +1,7 @@
 .Code[class*="language-"] {
-  @apply text-xs bg-gray-900 my-4;
+  @apply pl-text-xs pl-bg-gray-900 pl-my-4;
 }
 
 :not(pre) > code[class*="language-"].Code {
-  @apply px-2 py-1;
+  @apply pl-px-2 pl-py-1;
 }

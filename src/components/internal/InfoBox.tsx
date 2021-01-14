@@ -24,33 +24,35 @@ class InfoBox extends BaseComponent<InfoBoxProps> {
   render() {
     return (
       <div
-        class={`w-full ${
-          this.isOverlay ? "h-full w-full lg:w-12/12 xl:w-3/4" : "bg-gray-100"
-        } p-4 md:p-6 lg:p-10 text-base`}
+        class={`pl-w-full ${
+          this.isOverlay
+            ? "pl-h-full pl-w-full lg:pl-w-12/12 xl:pl-w-3/4"
+            : "pl-bg-gray-100"
+        } pl-p-4 md:pl-p-6 lg:pl-p-10 pl-text-base`}
       >
         <div
-          class={`pointer-events-auto w-full max-h-full rounded-lg shadow-md bg-white border flex flex-col items-center justify-start overflow-hidden ${
-            this.type === "info" ? "border-blue-400" : "border-red-400"
+          class={`pl-pointer-events-auto pl-w-full pl-max-h-full pl-rounded-lg pl-shadow-md pl-bg-white pl-border pl-flex pl-flex-col pl-items-center pl-justify-start pl-overflow-hidden ${
+            this.type === "info" ? "pl-border-blue-400" : "pl-border-red-400"
           }`}
         >
           <div
-            class={`w-full flex items-center justify-center px-4 lg:px-6 py-3 lg:py-5 ${
-              this.collapsed ? "" : "border-b"
+            class={`pl-w-full pl-flex pl-items-center pl-justify-center pl-px-4 lg:pl-px-6 pl-py-3 lg:pl-py-5 ${
+              this.collapsed ? "" : "pl-border-b"
             } ${
               this.type === "info"
-                ? "border-blue-400 bg-blue-200 text-blue-900"
-                : "border-red-400 bg-red-200 text-red-900"
-            } rounded-t-md`}
+                ? "pl-border-blue-400 pl-bg-blue-200 pl-text-blue-900"
+                : "pl-border-red-400 pl-bg-red-200 pl-text-red-900"
+            } pl-rounded-t-md`}
           >
-            <div class="flex-grow">
+            <div class="pl-flex-grow">
               <h3>{this.headline}</h3>
-              <p class="text-xs mt-1">{this.subheadline}</p>
+              <p class="pl-text-xs pl-mt-1">{this.subheadline}</p>
             </div>
-            <div class="flex-shrink-0 ml-4">
+            <div class="pl-flex-shrink-0 pl-ml-4">
               <a
                 href="#"
-                class={`flex items-center justify-center w-10 h-10 hover:bg-gray-200 rounded-full duration-200 transition-transform transform ${
-                  this.collapsed ? "-rotate-90" : ""
+                class={`pl-flex pl-items-center pl-justify-center pl-w-10 pl-h-10 hover:pl-bg-gray-200 pl-rounded-full pl-duration-200 pl-transition-transform pl-transform ${
+                  this.collapsed ? "-pl-rotate-90" : ""
                 }`}
                 onClick={event => {
                   event.preventDefault();
@@ -62,7 +64,7 @@ class InfoBox extends BaseComponent<InfoBoxProps> {
                 }}
               >
                 <svg
-                  class="w-6 h-6"
+                  class="pl-w-6 pl-h-6"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -86,8 +88,8 @@ class InfoBox extends BaseComponent<InfoBoxProps> {
           </div>
           {!this.collapsed && (
             <div
-              class={`w-full px-4 lg:px-6 py-3 lg:py-5 text-sm ${
-                this.isOverlay ? "overflow-x-auto flex-grow" : ""
+              class={`pl-w-full pl-px-4 lg:pl-px-6 pl-py-3 lg:pl-py-5 pl-text-sm ${
+                this.isOverlay ? "pl-overflow-x-auto pl-flex-grow" : ""
               }`}
             >
               {this.$slots.default}

@@ -22,25 +22,25 @@ class TabbedContent extends BaseComponent<TabbedContentProps> {
 
   renderDropdown() {
     return (
-      <div class="sm:hidden">
-        <div class="mt-1 relative">
+      <div class="sm:pl-hidden">
+        <div class="pl-mt-1 pl-relative">
           <button
             type="button"
             aria-haspopup="listbox"
             aria-expanded="true"
             aria-labelledby="listbox-label"
-            class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="pl-bg-white pl-relative pl-w-full pl-border pl-border-gray-300 pl-rounded-md pl-shadow-sm pl-pl-3 pl-pr-10 pl-py-2 pl-text-left pl-cursor-default focus:pl-outline-none focus:pl-ring-1 focus:pl-ring-indigo-500 focus:pl-border-indigo-500 sm:pl-text-sm"
             onClick={event => {
               event.preventDefault();
               this.showDropdownMenu = !this.showDropdownMenu;
             }}
           >
-            <span class="block truncate">
+            <span class="pl-block pl-truncate">
               {this.tabs[this.activeTab].title}
             </span>
-            <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <span class="pl-absolute pl-inset-y-0 pl-right-0 pl-flex pl-items-center pl-pr-2 pl-pointer-events-none">
               <svg
-                class="h-5 w-5 text-gray-400"
+                class="pl-h-5 pl-w-5 pl-text-gray-400"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -55,32 +55,32 @@ class TabbedContent extends BaseComponent<TabbedContentProps> {
             </span>
           </button>
           {this.showDropdownMenu ? (
-            <div class="absolute mt-1 w-full rounded-md bg-white shadow-lg">
+            <div class="pl-absolute pl-mt-1 pl-w-full pl-rounded-md pl-bg-white pl-shadow-lg">
               <ul
                 tabindex={-1}
                 role="listbox"
                 aria-labelledby="listbox-label"
                 aria-activedescendant="listbox-item-3"
-                class="max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                class="pl-max-h-60 pl-rounded-md pl-py-1 pl-text-base pl-ring-1 pl-ring-black pl-ring-opacity-5 pl-overflow-auto focus:pl-outline-none sm:pl-text-sm"
               >
                 {this.tabs.map((tab, index) => (
                   <li
                     id="listbox-option-0"
                     role="option"
-                    class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9"
+                    class="pl-text-gray-900 pl-cursor-default pl-select-none pl-relative pl-py-2 pl-pl-3 pl-pr-9"
                     onClick={event => {
                       event.preventDefault();
                       this.activeTab = index;
                       this.showDropdownMenu = false;
                     }}
                   >
-                    <span class="font-normal block truncate text-xs">
+                    <span class="pl-font-normal pl-block pl-truncate pl-text-xs">
                       {tab.title}
                     </span>
                     {this.activeTab === index ? (
-                      <span class="text-blue-600 absolute inset-y-0 right-0 flex items-center pr-4">
+                      <span class="pl-text-blue-600 pl-absolute pl-inset-y-0 pl-right-0 pl-flex pl-items-center pl-pr-4">
                         <svg
-                          class="h-5 w-5"
+                          class="pl-h-5 pl-w-5"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
@@ -106,19 +106,19 @@ class TabbedContent extends BaseComponent<TabbedContentProps> {
 
   render() {
     return (
-      <div class="w-full mt-4 first-child:mt-0">
+      <div class="pl-w-full pl-mt-4 first-child:pl-mt-0">
         {this.renderDropdown()}
-        <div class="hidden sm:block">
-          <nav class="flex space-x-4" aria-label="Tabs">
+        <div class="pl-hidden sm:pl-block">
+          <nav class="pl-flex pl-space-x-4" aria-label="Tabs">
             {this.tabs.map((tab, index) => {
               const isActive = this.activeTab === index;
               return (
                 <a
                   href="#"
-                  class={`block px-2 py-1 text-sm rounded-md active:bg-transparent ${
+                  class={`pl-block pl-px-2 pl-py-1 pl-text-sm pl-rounded-md active:pl-bg-transparent ${
                     isActive
-                      ? "text-gray-700 bg-gray-300"
-                      : "text-gray-900 hover:text-gray-700"
+                      ? "pl-text-gray-700 pl-bg-gray-300"
+                      : "pl-text-gray-900 hover:pl-text-gray-700"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                   onClick={event => {
@@ -132,7 +132,7 @@ class TabbedContent extends BaseComponent<TabbedContentProps> {
             })}
           </nav>
         </div>
-        <div class="w-full mt-2">{this.tabs[this.activeTab].content}</div>
+        <div class="pl-w-full pl-mt-2">{this.tabs[this.activeTab].content}</div>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto py-10">
-    <span class="inline-block">{{ payload.tt_abstract }}</span>
+  <div class="pl-container pl-mx-auto pl-py-10">
+    <span class="pl-inline-block">{{ payload.tt_abstract }}</span>
   </div>
 </template>
 

@@ -7,8 +7,8 @@ import { FSXABaseSection } from "fsxa-pattern-library";
 class ProductDetailSection extends FSXABaseSection {
   render() {
     return (
-      <div class="container mx-auto py-10">
-        <span class="inline-block">{this.payload.tt_abstract}</span>
+      <div class="pl-container pl-mx-auto pl-py-10">
+        <span class="pl-inline-block">{this.payload.tt_abstract}</span>
       </div>
     );
   }

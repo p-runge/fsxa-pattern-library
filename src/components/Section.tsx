@@ -65,7 +65,7 @@ class Section<
             <span>
               The following component is loaded:{" "}
               {this.mappedSection!.name ? (
-                <span class="font-bold">{this.mappedSection!.name}</span>
+                <span class="pl-font-bold">{this.mappedSection!.name}</span>
               ) : (
                 <i>Component.name not defined</i>
               )}
@@ -73,7 +73,7 @@ class Section<
           ) : (
             <span>
               We were unable to find a mapped section component for the given
-              key: <span class="font-bold">{this.type}</span>
+              key: <span class="pl-font-bold">{this.type}</span>
             </span>
           )
         }
@@ -85,7 +85,7 @@ class Section<
               components
             </Code>{" "}
             map.
-            <Code class="mt-4" language="tsx">
+            <Code class="pl-mt-4" language="tsx">
               {`import YourCustomComponent from "...";
 
 <FSXAApp
@@ -101,7 +101,7 @@ class Section<
             <br />
             <br />
             You can extend the
-            <Code class="mx-1" inline language="tsx">
+            <Code class="pl-mx-1" inline language="tsx">
               FSXABaseSection
             </Code>
             to get access to many useful utility methods.
@@ -196,7 +196,7 @@ class Section<
                 event.preventDefault();
                 this.renderDevInfoPortal();
               }}
-              class="hidden group-hover:flex pointer-events-auto w-6 h-6 items-center justify-center bg-gray-900 text-gray-100 rounded-full absolute top-0 right-0 mr-5 mt-5 hover:bg-gray-700"
+              class="pl-hidden group-hover:pl-flex pl-pointer-events-auto pl-w-6 pl-h-6 pl-items-center pl-justify-center pl-bg-gray-900 pl-text-gray-100 pl-rounded-full pl-absolute pl-top-0 pl-right-0 pl-mr-5 pl-mt-5 hover:pl-bg-gray-700"
             >
               ?
             </a>

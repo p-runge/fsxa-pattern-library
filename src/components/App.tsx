@@ -236,8 +236,8 @@ class App extends TsxComponent<AppProps> {
           {this.appError.stacktrace ? (
             <Code language="js">{this.appError?.stacktrace}</Code>
           ) : (
-            <div class="text-gray-900">
-              <h2 class="text-lg font-medium text-gray-900">
+            <div class="pl-text-gray-900">
+              <h2 class="pl-text-lg pl-font-medium pl-text-gray-900">
                 {this.appError?.message}
               </h2>
               {this.appError.description && (

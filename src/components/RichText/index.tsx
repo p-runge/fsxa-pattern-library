@@ -43,7 +43,7 @@ class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
         subheadline={
           <span>
             We were unable to find a mapped RichText-Component for the given
-            key: <span class="font-bold">{element.type}</span>
+            key: <span class="pl-font-bold">{element.type}</span>
           </span>
         }
       >
@@ -53,7 +53,7 @@ class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
             components
           </Code>{" "}
           map.
-          <Code class="mt-4" language="tsx">
+          <Code class="pl-mt-4" language="tsx">
             {`import YourCustomRichTextComponent from "...";
 
 <FSXAApp
@@ -69,7 +69,7 @@ class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
           <br />
           <br />
           You can extend the
-          <Code class="mx-1" inline language="tsx">
+          <Code class="pl-mx-1" inline language="tsx">
             FSXABaseRichTextElement
           </Code>
           to get access to provided properties.
@@ -129,21 +129,21 @@ ${JSON.stringify(this.content, null, 2)}
     }
     if (this.isDevMode) {
       return (
-        <span class="block my-2">
+        <span class="pl-block pl-my-2">
           <a
             href="#"
-            class="group-r inline-flex pl-1 py-1 bg-blue-200 rounded-lg group  border border-blue-400 hover:bg-blue-100 text-sm text-blue-900 font-sans items-center justify-center"
+            class="group-r pl-inline-flex pl-pl-1 pl-py-1 pl-bg-blue-200 pl-rounded-lg group pl-border pl-border-blue-400 hover:pl-bg-blue-100 pl-text-sm pl-text-blue-900 pl-font-sans pl-items-center pl-justify-center"
             onClick={event => {
               event.preventDefault();
               this.renderDevInfoPortal(element);
             }}
           >
-            <span class="flex w-6 h-6 items-center justify-center bg-blue-500 text-gray-100 rounded-full group-r-hover:bg-blue-400">
+            <span class="pl-flex pl-w-6 pl-h-6 pl-items-center pl-justify-center pl-bg-blue-500 pl-text-gray-100 pl-rounded-full group-r-hover:pl-bg-blue-400">
               ?
             </span>
-            <span class="inline-block text-xs px-2">
+            <span class="pl-inline-block pl-text-xs pl-px-2">
               <span>Missing RichText-Component:</span>
-              <strong class="inline-block ml-1">{element.type}</strong>
+              <strong class="pl-inline-block pl-ml-1">{element.type}</strong>
             </span>
           </a>
         </span>

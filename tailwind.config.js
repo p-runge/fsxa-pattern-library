@@ -24,6 +24,7 @@ module.exports = {
     "./examples/**/*.tsx",
     "./examples/**/*.vue",
   ],
+  prefix: "pl-",
   theme: {
     extend: {},
     namedGroupHover: {

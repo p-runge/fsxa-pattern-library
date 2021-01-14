@@ -8,16 +8,16 @@ class AppLayout extends FSXABaseAppLayout {
   render() {
     return (
       <div>
-        <div class="bg-gray-200">
-          <div class="w-full flex items-center justify-center px-4 md:px-6 lg:px-10 py-3">
-            <div class="flex-shrink-0 font-bold">TSX App</div>
-            <div class="flex-1 text-right">
+        <div class="pl-bg-gray-200">
+          <div class="pl-w-full pl-flex pl-items-center pl-justify-center pl-px-4 md:pl-px-6 lg:pl-px-10 pl-py-3">
+            <div class="pl-flex-shrink-0 pl-font-bold">TSX App</div>
+            <div class="pl-flex-1 pl-text-right">
               {this.navigationData && (
-                <ul class="inline-block">
+                <ul class="pl-nline-block">
                   {this.navigationData.structure.map(item => (
-                    <li class="inline-block px-2 text-sm">
+                    <li class="pl-inline-block pl-px-2 pl-text-sm">
                       <a
-                        class="hover:underline"
+                        class="hover:pl-underline"
                         href={this.navigationData!.idMap[item.id].seoRoute}
                         onClick={event => {
                           event.preventDefault();
@@ -31,11 +31,11 @@ class AppLayout extends FSXABaseAppLayout {
                 </ul>
               )}
             </div>
-            <div class="flex-shrink-0 ml-3 text-xs space-x-2">
+            <div class="pl-flex-shrink-0 pl-ml-3 pl-text-xs pl-space-x-2">
               <a
                 href="#"
-                class={`inline-block ${
-                  this.locale === "en_GB" ? "underline" : ""
+                class={`pl-inline-block ${
+                  this.locale === "en_GB" ? "pl-underline" : ""
                 }`}
                 onClick={event => {
                   event.preventDefault();
@@ -48,8 +48,8 @@ class AppLayout extends FSXABaseAppLayout {
               </a>
               <a
                 href="#"
-                class={`inline-block ${
-                  this.locale === "de_DE" ? "underline" : ""
+                class={`pl-inline-block ${
+                  this.locale === "de_DE" ? "pl-underline" : ""
                 }`}
                 onClick={event => {
                   event.preventDefault();

@@ -49,7 +49,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
   renderContent(content: PageBody) {
     const sections = this.renderContentElements(content.children);
     return this.isDevMode ? (
-      <div data-preview-id={content.previewId} class="w-full h-full">
+      <div data-preview-id={content.previewId} class="pl-w-full pl-h-full">
         {sections}
       </div>
     ) : (
@@ -81,7 +81,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
             <span>
               The following component is loaded:{" "}
               {this.mappedLayout!.name ? (
-                <span class="font-bold">{this.mappedLayout!.name}</span>
+                <span class="pl-font-bold">{this.mappedLayout!.name}</span>
               ) : (
                 <i>Component.name not defined</i>
               )}
@@ -89,7 +89,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
           ) : (
             <span>
               We were unable to find a mapped layout component for the given
-              key: <span class="font-bold">{this.type}</span>
+              key: <span class="pl-font-bold">{this.type}</span>
             </span>
           )
         }
@@ -101,7 +101,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
               components.layouts
             </Code>{" "}
             map.
-            <Code class="mt-4" language="tsx">
+            <Code class="pl-mt-4" language="tsx">
               {`import YourCustomComponent from "...";
 
 <FSXAApp
@@ -117,7 +117,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
             <br />
             <br />
             You can extend the
-            <Code class="mx-1" inline language="tsx">
+            <Code class="pl-mx-1" inline language="tsx">
               FSXABaseLayout
             </Code>
             to get access to many useful utility methods.
@@ -220,7 +220,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
               event.preventDefault();
               this.renderDevInfoPortal();
             }}
-            class="hidden group-l-hover:flex pointer-events-auto w-6 h-6 items-center justify-center bg-gray-600 text-gray-100 rounded-full absolute top-0 right-0 mr-12 mt-5 hover:bg-gray-500"
+            class="pl-hidden group-l-hover:pl-flex pl-pointer-events-auto pl-w-6 pl-h-6 pl-items-center pl-justify-center pl-bg-gray-600 pl-text-gray-100 pl-rounded-full pl-absolute pl-top-0 pl-right-0 pl-mr-12 pl-mt-5 hover:pl-bg-gray-500"
           >
             ?
           </a>

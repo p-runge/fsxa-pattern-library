@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div class="bg-gray-200">
+    <div class="pl-bg-gray-200">
       <div
-        class="w-full flex items-center justify-center px-4 md:px-6 lg:px-10 py-3"
+        class="pl-w-full pl-flex pl-items-center pl-justify-center pl-px-4 md:pl-px-6 lg:pl-px-10 pl-py-3"
         v-if="navigationData"
       >
-        <div class="flex-shrink-0 font-bold">SFC App</div>
-        <div class="flex-1 text-right">
-          <ul class="inline-block">
+        <div class="pl-flex-shrink-0 pl-font-bold">SFC App</div>
+        <div class="pl-flex-1 pl-text-right">
+          <ul class="pl-inline-block">
             <li
-              class="inline-block px-2 text-sm"
+              class="pl-inline-block pl-px-2 pl-text-sm"
               v-for="item in navigationData.structure"
               :key="item.id"
             >
               <a
-                class="hover:underline"
+                class="hover:pl-underline"
                 :href="navigationData.idMap[item.id].seoRoute"
                 @click.prevent="
                   triggerRouteChange({
@@ -27,12 +27,12 @@
             </li>
           </ul>
         </div>
-        <div class="flex-shrink-0 ml-3 text-xs space-x-2">
+        <div class="pl-flex-shrink-0 pl-ml-3 pl-text-xs pl-space-x-2">
           <a
             href="#"
             :class="[
-              isActiveLocale('en_GB') ? 'underline' : '',
-              'inline-block',
+              isActiveLocale('en_GB') ? 'pl-underline' : '',
+              'pl-inline-block',
             ]"
             @click.prevent="
               triggerRouteChange({
@@ -45,8 +45,8 @@
           <a
             href="#"
             :class="[
-              isActiveLocale('de_DE') ? 'underline' : '',
-              'inline-block',
+              isActiveLocale('de_DE') ? 'pl-underline' : '',
+              'pl-inline-block',
             ]"
             @click.prevent="
               triggerRouteChange({
