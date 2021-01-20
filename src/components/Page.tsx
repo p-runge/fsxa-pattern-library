@@ -33,6 +33,19 @@ class Page extends BaseComponent<PageProps> {
     if (!this.pageData && !this.loadedPage) {
       this.fetchPage();
     }
+    if (this.isEditMode && this.page) {
+      // eslint-disable-next-line
+      const TPP_SNAP = require("fs-tpp-api/snap");
+      TPP_SNAP.setPreviewElement(this.page.previewId);
+    }
+  }
+
+  updated() {
+    if (this.isEditMode && this.page) {
+      // eslint-disable-next-line
+      const TPP_SNAP = require("fs-tpp-api/snap");
+      TPP_SNAP.setPreviewElement(this.page.previewId);
+    }
   }
 
   async fetchPage() {

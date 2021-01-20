@@ -92,7 +92,6 @@ class App extends TsxComponent<AppProps> {
         return false;
       });
     }
-    window.addEventListener("click", this.handleInternalClick);
   }
 
   /**
@@ -146,14 +145,6 @@ class App extends TsxComponent<AppProps> {
 
   @ProvideReactive("requestRouteChange")
   async requestRouteChange(newRoute: string | null) {
-    if (this.isEditMode && newRoute) {
-      // eslint-disable-next-line
-      const TPP_SNAP = require("fs-tpp-api/snap");
-      const currentRoute = determineCurrentRoute(this.navigationData, newRoute);
-      if (currentRoute) {
-        TPP_SNAP.setPreviewElement(`${currentRoute.id}.${this.locale}`);
-      }
-    }
     if (newRoute) this.handleRouteChange(newRoute);
   }
 
