@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.1...v2.2.2) (2021-01-20)
+
+
+### Bug Fixes
+
+* **tpp-snap:** move setPreviewElement invocation to Page.tsx ([e3f0bc3](https://github.com/e-Spirit/fsxa-pattern-library/commit/e3f0bc315b8640ab7e36083f1b077ad36f9c07f6))
+
 ## [2.2.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.0...v2.2.1) (2021-01-14)
 
 
