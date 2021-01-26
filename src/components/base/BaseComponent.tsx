@@ -66,6 +66,7 @@ class BaseComponent<
             : this.currentPath,
         },
         this.locale,
+        this.$store.getters[FSXAGetters.getGlobalSettingsKey],
       ),
     );
   }
