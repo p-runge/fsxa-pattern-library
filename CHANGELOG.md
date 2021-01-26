@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.2...v2.2.3) (2021-01-26)
+
+
+### Bug Fixes
+
+* **global settings:** fix error, where globalSettings would be lost after locale change ([a64c080](https://github.com/e-Spirit/fsxa-pattern-library/commit/a64c08076dad30a9dabc0933834f189e12cb492c))
+
 ## [2.2.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.1...v2.2.2) (2021-01-20)
 
 
