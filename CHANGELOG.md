@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.3...v3.0.0) (2021-02-26)
+
+
+### Features
+
+* **fetchprojectproperties:** updated fsxa-api and implemented fetchprojectproperties ([1251218](https://github.com/e-Spirit/fsxa-pattern-library/commit/1251218295108819d19aa5c4e4572a8011d2540a))
+
+
+### BREAKING CHANGES
+
+* **fetchprojectproperties:** This version only works with CaaSConnect module version 3.3.0 onwards.
+
 ## [2.2.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.2...v2.2.3) (2021-01-26)
 
 
