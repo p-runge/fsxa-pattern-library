@@ -19,6 +19,7 @@ import {
   FSXA_INJECT_KEY_SECTIONS,
   FSXA_INJECT_KEY_LOADER,
   FSXA_INJECT_KEY_COMPONENTS,
+  FSXA_INJECT_KEY_TPP_VERSION,
 } from "@/constants";
 import Page from "./Page";
 import ErrorBoundary from "./internal/ErrorBoundary";
@@ -27,7 +28,9 @@ import Code from "./internal/Code";
 import { FSXAApi, FSXAContentMode } from "fsxa-api";
 import { AppProps } from "@/types/components";
 import PortalProvider from "./internal/PortalProvider";
+import { getTPPSnap, importTPPSnapAPI } from "@/utils";
 
+const DEFAULT_TPP_SNAP_VERSION = "2.2.1";
 @Component({
   name: "FSXAApp",
 })
@@ -37,6 +40,7 @@ class App extends TsxComponent<AppProps> {
   @Prop({ default: false }) devMode!: AppProps["devMode"];
   @Prop({ required: true }) defaultLocale!: AppProps["defaultLocale"];
   @Prop({ required: true }) handleRouteChange!: AppProps["handleRouteChange"];
+  @Prop() fsTppVersion: AppProps["fsTppVersion"];
   @ProvideReactive("currentPath") path = this.currentPath;
   @ProvideReactive(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
   @ProvideReactive(FSXA_INJECT_KEY_COMPONENTS) injectedComponents = this
@@ -70,26 +74,37 @@ class App extends TsxComponent<AppProps> {
     return this.initialize();
   }
 
+  @ProvideReactive(FSXA_INJECT_KEY_TPP_VERSION)
+  get tppVersion() {
+    return this.fsTppVersion || DEFAULT_TPP_SNAP_VERSION;
+  }
+
   mounted() {
     if (this.appState === FSXAAppState.not_initialized) this.initialize();
-
     // we will load tpp-snap, if we are in devMode
     if (this.isEditMode) {
-      // eslint-disable-next-line
-      const TPP_SNAP = require("fs-tpp-api/snap");
-      TPP_SNAP.onRequestPreviewElement((previewId: string) => {
-        const pageId = previewId.split(".")[0];
-        const nextPage = this.navigationData?.idMap[pageId];
-        if (nextPage) this.requestRouteChange(nextPage.seoRoute);
-      });
-      TPP_SNAP.onRerenderView(() => {
-        window.setTimeout(() => this.initialize(), 300);
-        return false;
-      });
-      TPP_SNAP.onNavigationChange(() => {
-        window.setTimeout(() => this.initialize(), 300);
-        return false;
-      });
+      importTPPSnapAPI(this.tppVersion)
+        .then(() => {
+          const TPP_SNAP = getTPPSnap();
+          TPP_SNAP.onRequestPreviewElement((previewId: string) => {
+            const pageId = previewId.split(".")[0];
+            const nextPage = this.navigationData?.idMap[pageId];
+            if (nextPage) this.requestRouteChange(nextPage.seoRoute);
+          });
+          TPP_SNAP.onRerenderView(() => {
+            window.setTimeout(() => this.initialize(), 300);
+            return false;
+          });
+          TPP_SNAP.onNavigationChange(() => {
+            window.setTimeout(() => this.initialize(), 300);
+            return false;
+          });
+        })
+        .catch(() => {
+          console.error(
+            `Could not load correct fs-tpp-api version: ${this.tppVersion}. Please make sure that it exists.`,
+          );
+        });
     }
   }
 
@@ -104,15 +119,15 @@ class App extends TsxComponent<AppProps> {
       nextAppState === FSXAAppState.ready &&
       typeof window !== "undefined"
     ) {
-      // eslint-disable-next-line
-      const TPP_SNAP = require("fs-tpp-api/snap");
       try {
         const currentRoute = determineCurrentRoute(
           this.navigationData,
           this.currentPath,
         );
         if (currentRoute) {
-          TPP_SNAP.setPreviewElement(`${currentRoute.id}.${this.locale}`);
+          (window as any).TPP_SNAP.setPreviewElement(
+            `${currentRoute.id}.${this.locale}`,
+          );
         }
         // eslint-disable-next-line
       } catch (err) {}

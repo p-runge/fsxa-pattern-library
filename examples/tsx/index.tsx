@@ -42,7 +42,6 @@ class App extends TsxComponent<{}> {
         currentPath={this.route}
         devMode
         handleRouteChange={this.changeRoute}
-        globalSettingsKey="global_settings"
         components={{
           appLayout: AppLayout,
           layouts: {

@@ -19,6 +19,14 @@ export class FSXABaseComponent<
    * Check wether devMode is active
    */
   isDevMode: boolean;
+
+  /**
+   * The currently used ts-tpp-api version.
+   *
+   * *Hint:* If you want to work with specific features make sure that the current version supports them. The fs-tpp-api will only be injected, when isEditMode = true
+   */
+  fsTppVersion: string;
+
   /**
    * This method will trigger a route change request
    *
@@ -41,21 +49,6 @@ export class FSXABaseComponent<
    * If null is returned, no current route could be matched to the current path
    */
   get currentPage(): NavigationItem | null;
-
-  /**
-   * The current RichText structure encapsulates linking logic. To make sure, that the contained links are clickable,
-   * invoke this method. The links will then be transformed.
-   */
-  createLinksInRichText(
-    text: string,
-    handleLinkData?: (
-      type: string,
-      data: Record<string, string>,
-    ) => {
-      isInternalLink: boolean;
-      linkAttributes: Record<string, any>;
-    } | null,
-  ): string;
 
   /**
    * Check if this app is delivering preview or released data
@@ -290,18 +283,18 @@ export interface AppProps {
    */
   devMode?: boolean;
   /**
-   * It is possible to provide global content to the fsxa through a GCAPage.
-   *
-   * Provide its uid to automatically load the content of the GCAPage on initialization.
-   */
-  globalSettingsKey?: string;
-  /**
    * Required callback that will be triggered, when the route should be changed
    *
    * Info: We do not know in which context you are using our pattern-library, so we decided that you should have the last word about routing.
    * You can use your own routing technology but rely on the pattern-library to do the heavy lifting.
    */
   handleRouteChange: (nextRoute: string) => void;
+  /**
+   * You can specify which fs-tpp-api version should be loaded in preview-mode
+   *
+   * The TPP-API is used for enabling the editing experience in the OCM
+   */
+  fsTppVersion?: string;
 }
 export class FSXAApp extends Component<AppProps> {}
 

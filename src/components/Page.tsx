@@ -5,6 +5,7 @@ import BaseComponent from "@/components/base/BaseComponent";
 import { FSXA_INJECT_KEY_LOADER } from "@/constants";
 
 import Layout from "./Layout";
+import { getTPPSnap } from "@/utils";
 
 export interface PageProps {
   id?: string;
@@ -33,17 +34,15 @@ class Page extends BaseComponent<PageProps> {
     if (!this.pageData && !this.loadedPage) {
       this.fetchPage();
     }
-    if (this.isEditMode && this.page) {
-      // eslint-disable-next-line
-      const TPP_SNAP = require("fs-tpp-api/snap");
+    const TPP_SNAP = getTPPSnap();
+    if (this.isEditMode && this.page && TPP_SNAP) {
       TPP_SNAP.setPreviewElement(this.page.previewId);
     }
   }
 
   updated() {
-    if (this.isEditMode && this.page) {
-      // eslint-disable-next-line
-      const TPP_SNAP = require("fs-tpp-api/snap");
+    const TPP_SNAP = getTPPSnap();
+    if (this.isEditMode && this.page && TPP_SNAP) {
       TPP_SNAP.setPreviewElement(this.page.previewId);
     }
   }

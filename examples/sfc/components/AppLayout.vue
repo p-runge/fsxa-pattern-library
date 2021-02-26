@@ -5,7 +5,9 @@
         class="pl-w-full pl-flex pl-items-center pl-justify-center pl-px-4 md:pl-px-6 lg:pl-px-10 pl-py-3"
         v-if="navigationData"
       >
-        <div class="pl-flex-shrink-0 pl-font-bold">SFC App</div>
+        <div class="pl-flex-shrink-0 pl-font-bold">
+          SFC App
+        </div>
         <div class="pl-flex-1 pl-text-right">
           <ul class="pl-inline-block">
             <li
