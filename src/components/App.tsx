@@ -36,7 +36,6 @@ class App extends TsxComponent<AppProps> {
   @Prop() currentPath!: AppProps["currentPath"];
   @Prop({ default: false }) devMode!: AppProps["devMode"];
   @Prop({ required: true }) defaultLocale!: AppProps["defaultLocale"];
-  @Prop() globalSettingsKey: AppProps["globalSettingsKey"];
   @Prop({ required: true }) handleRouteChange!: AppProps["handleRouteChange"];
   @ProvideReactive("currentPath") path = this.currentPath;
   @ProvideReactive(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
@@ -139,7 +138,6 @@ class App extends TsxComponent<AppProps> {
     return this.$store.dispatch(FSXAActions.initializeApp, {
       defaultLocale: this.defaultLocale,
       initialPath: this.currentPath,
-      globalSettingsKey: this.globalSettingsKey,
     });
   }
 

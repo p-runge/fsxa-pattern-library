@@ -8,7 +8,6 @@ import {
   FSXAConfiguration,
   LogLevel,
   GCAPage,
-  ComparisonQueryOperatorEnum,
 } from "fsxa-api";
 
 export declare type FSXAModuleParams =
@@ -42,7 +41,6 @@ export interface FSXAVuexState {
   appState: FSXAAppState;
   navigation: NavigationData | null;
   settings: any | null;
-  settingsKey: string | null;
   error: FSXAAppError | null;
   stored: {
     [key: string]: {
@@ -99,7 +97,6 @@ const GETTER_ITEM = "item";
 const GETTER_PAGE_BY_URL = "getPageIdByUrl";
 const GETTER_MODE = "mode";
 const GETTER_REFERENCE_URL = "getReferenceUrl";
-const GETTER_GLOBAL_SETTINGS_KEY = "getGlobalSettingsKey";
 
 export const FSXAGetters = {
   [Getters.appState]: `${prefix}/${Getters.appState}`,
@@ -111,7 +108,6 @@ export const FSXAGetters = {
   [GETTER_PAGE_BY_URL]: `${prefix}/${GETTER_PAGE_BY_URL}`,
   [GETTER_MODE]: `${prefix}/${GETTER_MODE}`,
   [GETTER_REFERENCE_URL]: `${prefix}/${GETTER_REFERENCE_URL}`,
-  [GETTER_GLOBAL_SETTINGS_KEY]: `${prefix}/${GETTER_GLOBAL_SETTINGS_KEY}`,
 };
 
 export function getFSXAModule<R extends RootState>(
@@ -125,7 +121,6 @@ export function getFSXAModule<R extends RootState>(
       locale: null,
       navigation: null,
       settings: null,
-      settingsKey: null,
       appState: FSXAAppState.not_initialized,
       error: null,
       mode,
@@ -137,7 +132,6 @@ export function getFSXAModule<R extends RootState>(
         payload: {
           defaultLocale: string;
           initialPath?: string;
-          globalSettingsKey?: string;
         },
       ) {
         const path = payload.initialPath
@@ -169,31 +163,13 @@ export function getFSXAModule<R extends RootState>(
             });
             return;
           }
-          let settings = null;
-          if (payload.globalSettingsKey) {
-            settings = await fsxaAPI.fetchByFilter(
-              [
-                {
-                  field: "fsType",
-                  value: "GCAPage",
-                  operator: ComparisonQueryOperatorEnum.EQUALS,
-                },
-                {
-                  field: "uid",
-                  value: payload.globalSettingsKey,
-                  operator: ComparisonQueryOperatorEnum.EQUALS,
-                },
-              ],
-              navigationData
-                ? navigationData.meta.identifier.languageId
-                : payload.defaultLocale,
-            );
-          }
+          const settings = await fsxaAPI.fetchProjectProperties(
+            navigationData.meta.identifier.languageId,
+          );
           commit("setAppAsInitialized", {
             locale: navigationData.meta.identifier.languageId,
             navigationData,
             settings: settings && settings.length !== 0 ? settings[0] : null,
-            settingsKey: payload.globalSettingsKey,
           });
         } catch (error) {
           commit("setAppState", FSXAAppState.error);
@@ -225,14 +201,12 @@ export function getFSXAModule<R extends RootState>(
           locale: string;
           navigationData: NavigationData;
           settings: GCAPage | null;
-          settingsKey: string | null;
         },
       ) {
         state.appState = FSXAAppState.ready;
         state.navigation = payload.navigationData;
         state.settings = payload.settings;
         state.locale = payload.locale;
-        state.settingsKey = payload.settingsKey;
       },
       setLocale(state, locale: string) {
         Vue.set(state, "locale", locale);
@@ -301,7 +275,6 @@ export function getFSXAModule<R extends RootState>(
         return (navigationData as NavigationData).seoRouteMap[url] || null;
       },
       [GETTER_MODE]: (state): FSXAContentMode => state.mode as FSXAContentMode,
-      [GETTER_GLOBAL_SETTINGS_KEY]: (state): string | null => state.settingsKey,
       [GETTER_REFERENCE_URL]: state => (
         referenceId: string,
         referenceType: "PageRef",

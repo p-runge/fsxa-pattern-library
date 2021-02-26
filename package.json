@@ -30,7 +30,7 @@
     "core-js": "^2.6.10",
     "date-fns": "^2.14.0",
     "fs-tpp-api": "1.3.1",
-    "fsxa-api": "^4.0.0",
+    "fsxa-api": "^5.0.0",
     "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
     "lodash.set": "^4.3.2",
@@ -86,7 +86,7 @@
     "vue-tsx-support": "^2.3.3"
   },
   "peerDependencies": {
-    "fsxa-api": "^4.0.5"
+    "fsxa-api": "^5.0.0"
   },
   "commitlint": {
     "extends": [
