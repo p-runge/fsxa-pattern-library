@@ -14,7 +14,10 @@ import {
   triggerRouteChange,
 } from "@/utils/getters";
 import { RequestRouteChangeParams } from "@/types/components";
-import { FSXA_INJECT_KEY_DEV_MODE } from "@/constants";
+import {
+  FSXA_INJECT_KEY_DEV_MODE,
+  FSXA_INJECT_KEY_TPP_VERSION,
+} from "@/constants";
 import { findNavigationItemInNavigationData } from "@/utils/getters";
 import { determineCurrentRoute } from "@/utils/navigation";
 
@@ -30,6 +33,8 @@ class BaseComponent<
     from: "currentPath",
   })
   private currentPath!: string;
+  @InjectReactive({ from: FSXA_INJECT_KEY_TPP_VERSION })
+  fsTppVersion!: string;
   @Inject({ from: FSXA_INJECT_KEY_DEV_MODE, default: false })
   isDevMode!: boolean;
   @Inject({
