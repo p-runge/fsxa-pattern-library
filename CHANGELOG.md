@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.0.0...v3.1.0) (2021-03-09)
+
+
+### Features
+
+* **tpp-snap:** remove the bundled tpp-snap version and dynamically load specified version ([#6](https://github.com/e-Spirit/fsxa-pattern-library/issues/6)) ([8ef20e9](https://github.com/e-Spirit/fsxa-pattern-library/commit/8ef20e96b9ba1390e282a92f6fdcae09c194b6d6))
+
 # [3.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v2.2.3...v3.0.0) (2021-02-26)
 
 
