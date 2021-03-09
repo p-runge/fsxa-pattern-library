@@ -84,8 +84,10 @@ class App extends TsxComponent<AppProps> {
     // we will load tpp-snap, if we are in devMode
     if (this.isEditMode) {
       importTPPSnapAPI(this.tppVersion)
-        .then(() => {
-          const TPP_SNAP = getTPPSnap();
+        .then(TPP_SNAP => {
+          if (!TPP_SNAP) {
+            throw new Error("Could not find global TPP_SNAP object.");
+          }
           TPP_SNAP.onRequestPreviewElement((previewId: string) => {
             const pageId = previewId.split(".")[0];
             const nextPage = this.navigationData?.idMap[pageId];
@@ -125,9 +127,7 @@ class App extends TsxComponent<AppProps> {
           this.currentPath,
         );
         if (currentRoute) {
-          (window as any).TPP_SNAP.setPreviewElement(
-            `${currentRoute.id}.${this.locale}`,
-          );
+          getTPPSnap().setPreviewElement(`${currentRoute.id}.${this.locale}`);
         }
         // eslint-disable-next-line
       } catch (err) {}
