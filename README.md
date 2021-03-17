@@ -61,7 +61,7 @@ Thereupon the `state` can be typed
 
 `state: {} as RootState`
 
-Next, the patter library is included as a module.
+Next, the FSXA-Pattern-Library is included as a module.
 
 The mode should be set to `proxy`.
 Theoretically, the mode `remote` is also possible. However, this is not recommended, since the API keys are visible in the client's browser.
@@ -211,13 +211,28 @@ export default {
 }
 ```
 
-Hier wird der devMode angegeben. die Standardsprache und unter welchem Pfad die Komponenten angegeben werden.
-Zusätzlich können noch `customRoutes` und `components` angegeben werden.
+Here the `devMode` is specified. the default language and under which path the components are specified.
+Additionally, `customRoutes` and `components` can be provided.
 
-Here the `devMode` and `defaultLocale` are specified.
-Additionally `customRoutes` and `components` can be added.
+If you do not specify `components` there must be a folder in the `components` folder called `fsxa` and in this folder the 3 folders: `layouts`, `richtext`, `section`.
+<br />
+Only then the server will start without problems.
 
-If you do not specify `components` there must be a folder in the `components` folder called `fsxa` and in this folder the 3 folders: `layouts`, `richtext`, `section`:
+If you specify the `layout`, `section` and `richtest` directory you can place and name the folders anywhere you like as long as the actual path is matching the path that is written in the component object.
+
+Example: 
+```typescript
+components: {
+    sections: '~/components/my-sections',
+    layouts: '~/components/fsxa/src/fsxa-layouts',
+    richtext: '~/components/src/richtext',
+  },
+```
+
+When the `devMode` is enabled. You will see information boxes at the address the server is running on. 
+There is described which component you have to implement and which information you will be getting. 
+For more information you will soon be able to visit our getting started guide of our [FSXA-PWA](https://github.com/e-Spirit/fsxa-pwa) project for more information.
+
 
 The structure should look like this:
 
@@ -247,7 +262,23 @@ export default {
 }
 ```
 
-To get started with the development of the individual components, it is advisable to follow the [Getting-Started Guide](https://github.com/e-Spirit/fsxa-pwa#getting-started) of the FSXA-PWA.
+Finally, the Vuex store must be filled.
+For this purpose, a file named `index.ts` must be created in the `store` folder.
+There the function `nuxtServerInit` is called at server start and among other things the configuration, navigation data and project settings are loaded into the Vuex store.
+
+```typescript
+import { ActionTree } from 'vuex'
+import { RootState, FSXAActions } from 'fsxa-pattern-library'
+
+export interface State extends RootState {}
+export const actions: ActionTree<State, State> = {
+  nuxtServerInit(_, { store }) {
+    this.dispatch(FSXAActions.hydrateClient, store.state.fsxa)
+  },
+}
+```
+
+To get started with the development of the individual components, we recommend following the [Getting-Started Guide](https://github.com/e-Spirit/fsxa-pwa#getting-started) of the FSXA-PWA.
 
 
 ## Project setup
