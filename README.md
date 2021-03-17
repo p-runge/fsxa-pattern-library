@@ -13,6 +13,8 @@ a demo [online](https://www.e-spirit.com/us/specialpages/forms/on-demand-demo/).
 
 ## Getting Started
 
+This guide describes how to add the FSXA-Pattern-Library to your Vue.js or Nuxt.js project.
+
 ### Vue.js
 
 Requirements:
