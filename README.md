@@ -121,11 +121,11 @@ Next, the FSXAApp can be used in the template, passing different parameters ther
 
 | Parameter  | Explanation  |
 |---|---|
-| defaultLocale  |  Provide the locale your content should be displayed in, if no initial path is passed | 
-| devMode  | When activated, you will be shown useful information with which you can start developing your ui.  |     
-| handleRouteChange  | Required callback that will be triggered, when the route should be changed  |     
-| currentPath  | You can specify the path of the page that should be displayed  |     
-| components  |  Mapping of the FirstSpirit components |     
+| defaultLocale  |  Provide the locale your content should be displayed in, if no initial path is passed |
+| devMode  | When activated, you will be shown useful information with which you can start developing your ui.  |
+| handleRouteChange  | Required callback that will be triggered, when the route should be changed  |
+| currentPath  | You can specify the path of the page that should be displayed  |
+| components  |  Mapping of the FirstSpirit components |
 
 This is what the component looks like:
 
@@ -213,16 +213,15 @@ export default {
 }
 ```
 
-Here the `devMode` is specified. the default language and under which path the components are specified.
-Additionally, `customRoutes` and `components` can be provided.
+In this file multiple settings can be specified
+- devMode: boolean if the development mode is active or not
+- defaultLocale: provided default language i.e. `'en_EN'`
+- customRoutes: path to folder to define your own api
+- component: object to define the paths to your components
 
-If you do not specify `components` there must be a folder in the `components` folder called `fsxa` and in this folder the 3 folders: `layouts`, `richtext`, `section`.
-<br />
-Only then the server will start without problems.
+To ensure that the components are all loaded without errors, you can either specify the paths to the components in the component object like this:
 
-If you specify the `layout`, `section` and `richtest` directory you can place and name the folders anywhere you like as long as the actual path is matching the path that is written in the component object.
-
-Example: 
+Example:
 ```typescript
 components: {
     sections: '~/components/my-sections',
@@ -231,10 +230,9 @@ components: {
   },
 ```
 
-When the `devMode` is enabled. You will see information boxes at the address the server is running on. 
-There is described which component you have to implement and which information you will be getting. 
-For more information you will soon be able to visit our getting started guide of our [FSXA-PWA](https://github.com/e-Spirit/fsxa-pwa) project for more information.
+Or you can follow the naming convention and create the appropriate folder structure.
 
+If you specify the `layout`, `section` and `richtest` directory you can place and name the folders anywhere you like as long as the actual path is matching the path that is written in the component object.
 
 The structure should look like this:
 
@@ -246,6 +244,10 @@ The structure should look like this:
 |             |-- section
 ```
 
+
+When the `devMode` is enabled. You will see information boxes at the address the server is running on.
+There is described which component you have to implement and which information you will be getting.
+For more information you will soon be able to visit our getting started guide of our [FSXA-PWA](https://github.com/e-Spirit/fsxa-pwa) project for more information.
 
 A complete `fsxa.config.ts` file can look like this:
 
