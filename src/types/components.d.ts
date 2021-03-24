@@ -254,6 +254,7 @@ export interface AppComponents {
    */
   layouts?: Record<string, any>;
   richtext?: Record<string, any>;
+  devModeInfo?: any;
 }
 
 export interface AppProps {
