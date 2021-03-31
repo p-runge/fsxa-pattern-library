@@ -149,7 +149,9 @@ class BaseComponent<
    * This will be null if no globalSettingsKey was passed to the FSXAApp or no corresponding GCAPage could be found
    */
   get globalSettings(): GCAPage | null {
-    return this.$store.state.fsxa.settings || null;
+    return this.$store.state.fsxa.settings
+      ? this.$store.state.fsxa.settings[this.locale] || null
+      : null;
   }
 
   /**
