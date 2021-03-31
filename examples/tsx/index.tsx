@@ -31,7 +31,6 @@ class App extends TsxComponent<{}> {
   }
 
   changeRoute(route: string) {
-    console.log("Next route", route);
     history.pushState(null, "Title", route);
     this.route = route;
   }

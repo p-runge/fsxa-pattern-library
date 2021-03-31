@@ -79,7 +79,6 @@ export async function triggerRouteChange(
     seoRoute: params.route,
     locale: params.locale || currentLocale,
   });
-  console.log("Found NavigationItem", navigationItem);
   if (navigationItem) return navigationItem.seoRoute;
 
   /**if (!params.locale || params.locale === currentLocale) {
