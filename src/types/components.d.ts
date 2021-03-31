@@ -7,8 +7,8 @@ import {
   PageBodyContent,
   RichTextElement,
 } from "fsxa-api";
-import { FSXAAppState, FSXAAppError } from "./../store";
 import { GCAPage } from "fsxa-api";
+import { FSXAAppError, FSXAAppState } from "@/store";
 
 export class FSXABaseComponent<
   Props = {},

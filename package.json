@@ -22,6 +22,8 @@
     "dist",
     "package.json",
     "src/types",
+    "src/store",
+    "src/utils",
     "README.md"
   ],
   "dependencies": {
