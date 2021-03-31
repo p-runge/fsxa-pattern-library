@@ -22,8 +22,6 @@
     "dist",
     "package.json",
     "src/types",
-    "src/constants.ts",
-    "src/store",
     "README.md"
   ],
   "dependencies": {
