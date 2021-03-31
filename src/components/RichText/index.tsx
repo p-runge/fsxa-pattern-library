@@ -33,6 +33,36 @@ class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
     this.setPortalContent(this.renderDevInfo(element));
   }
 
+  renderImportInformation(element: RichTextElement) {
+    const DevModeInfoComponent = this.components.devModeInfo || null;
+    if (DevModeInfoComponent)
+      return (
+        <DevModeInfoComponent type="richtext" componentName={element.type} />
+      );
+    return (
+      <div>
+        You can pass your own component by adding it to the{" "}
+        <Code inline language="js">
+          components
+        </Code>{" "}
+        map.
+        <Code class="pl-mt-4" language="tsx">
+          {`import YourCustomRichTextComponent from "...";
+
+<FSXAApp
+  components={{
+    richtext: {
+      "${element.type}": YourCustomRichTextComponent,
+    }
+  }}
+/>`}
+        </Code>
+        If you are not using the fsxa-pattern-library directly make sure to
+        check the documentation of your project specific integration.
+      </div>
+    );
+  }
+
   renderDevInfo(element: RichTextElement) {
     return (
       <InfoBox
@@ -48,26 +78,7 @@ class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
         }
       >
         <div>
-          You can pass your own component by adding it to the{" "}
-          <Code inline language="js">
-            components
-          </Code>{" "}
-          map.
-          <Code class="pl-mt-4" language="tsx">
-            {`import YourCustomRichTextComponent from "...";
-
-<FSXAApp
-  components={{
-    richtext: {
-      "${element.type}": YourCustomRichTextComponent,
-    }
-  }}
-/>`}
-          </Code>
-          If you are not using the fsxa-pattern-library directly make sure to
-          check the documentation of your project specific integration.
-          <br />
-          <br />
+          {this.renderImportInformation(element)}
           You can extend the
           <Code class="pl-mx-1" inline language="tsx">
             FSXABaseRichTextElement

@@ -20,6 +20,7 @@ import {
   FSXA_INJECT_KEY_LOADER,
   FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_TPP_VERSION,
+  FSXA_INJECT_DEV_MODE_INFO,
 } from "@/constants";
 import Page from "./Page";
 import ErrorBoundary from "./internal/ErrorBoundary";
@@ -53,6 +54,8 @@ class App extends TsxComponent<AppProps> {
     this.components?.sections || {};
   @ProvideReactive(FSXA_INJECT_KEY_LOADER) injectedLoader =
     this.components?.loader || null;
+  @ProvideReactive(FSXA_INJECT_DEV_MODE_INFO) injectedInfoError =
+    this.components?.devModeInfo || null;
 
   @Watch("currentPath")
   onCurrentPathChange(nextPath: string) {

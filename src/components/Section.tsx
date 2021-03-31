@@ -45,6 +45,43 @@ class Section<
     this.setPortalContent(this.renderDevInfo(true));
   }
 
+  renderImportInformation() {
+    const DevModeInfoComponent = this.components.devModeInfo || null;
+    if (DevModeInfoComponent)
+      return <DevModeInfoComponent type="section" componentName={this.type} />;
+    return (
+      <div>
+        You can pass your own component by adding it to the{" "}
+        <Code inline language="js">
+          components
+        </Code>{" "}
+        map.
+        <Code class="pl-mt-4" language="tsx">
+          {`import YourCustomComponent from "...";
+
+<FSXAApp
+  components={{
+    sections: {
+      "${this.type}": YourCustomComponent,
+    }
+  }}
+/>`}
+        </Code>
+        If you are not using the fsxa-pattern-library directly make sure to
+        check the documentation of your project specific integration.
+        <br />
+        <br />
+        You can extend the
+        <Code class="pl-mx-1" inline language="tsx">
+          FSXABaseSection
+        </Code>
+        to get access to many useful utility methods.
+        <br />
+        <br />
+      </div>
+    );
+  }
+
   renderDevInfo(isOverlay = false) {
     return (
       <InfoBox
@@ -78,37 +115,7 @@ class Section<
           )
         }
       >
-        {!isOverlay && (
-          <div>
-            You can pass your own component by adding it to the{" "}
-            <Code inline language="js">
-              components
-            </Code>{" "}
-            map.
-            <Code class="pl-mt-4" language="tsx">
-              {`import YourCustomComponent from "...";
-
-<FSXAApp
-  components={{
-    sections: {
-      "${this.type}": YourCustomComponent,
-    }
-  }}
-/>`}
-            </Code>
-            If you are not using the fsxa-pattern-library directly make sure to
-            check the documentation of your project specific integration.
-            <br />
-            <br />
-            You can extend the
-            <Code class="pl-mx-1" inline language="tsx">
-              FSXABaseSection
-            </Code>
-            to get access to many useful utility methods.
-            <br />
-            <br />
-          </div>
-        )}
+        {!isOverlay && this.renderImportInformation()}
         Your custom section will receive the following properties:
         <TabbedContent
           tabs={
