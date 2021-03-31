@@ -290,6 +290,15 @@ export interface AppProps {
    */
   handleRouteChange: (nextRoute: string) => void;
   /**
+   *
+   * You can define all locales that should be available in the application
+   *
+   * *Attention*: This will automatically load the navigation data of all locales.
+   * So if you want to support a lot of languages with your application, it is better not to use this option.
+   * If availableLocales is undefined, the application will dynamically load the required navigation data.
+   */
+  availableLocales?: string[];
+  /**
    * You can specify which fs-tpp-api version should be loaded in preview-mode
    *
    * The TPP-API is used for enabling the editing experience in the OCM
@@ -364,3 +373,30 @@ export interface RequestRouteChangeParams {
    */
   locale?: string;
 }
+
+export interface LinkProps {
+  /**
+   * The pageId that should be routed to
+   * - Optional
+   */
+  pageId?: string;
+  /**
+   * The seoRoute that should be routed to
+   * - Optional
+   */
+  seoRoute?: string;
+  /**
+   * The locale that should be switched to
+   * If no pageId is passed the link will route to the currentPage in another language
+   */
+  nextLocale?: string;
+  /**
+   * css classes that will be applied to the link
+   */
+  class?: string;
+  /**
+   * css classes that will be applied to the active link
+   */
+  activeClass?: string;
+}
+export class FSXALink extends FSXABaseComponent<LinkProps> {}

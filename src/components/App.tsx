@@ -25,7 +25,7 @@ import Page from "./Page";
 import ErrorBoundary from "./internal/ErrorBoundary";
 import InfoBox from "./internal/InfoBox";
 import Code from "./internal/Code";
-import { FSXAApi, FSXAContentMode } from "fsxa-api";
+import { FSXAApi, FSXAContentMode, NavigationData } from "fsxa-api";
 import { AppProps } from "@/types/components";
 import PortalProvider from "./internal/PortalProvider";
 import { getTPPSnap, importTPPSnapAPI } from "@/utils";
@@ -40,6 +40,7 @@ class App extends TsxComponent<AppProps> {
   @Prop({ default: false }) devMode!: AppProps["devMode"];
   @Prop({ required: true }) defaultLocale!: AppProps["defaultLocale"];
   @Prop({ required: true }) handleRouteChange!: AppProps["handleRouteChange"];
+  @Prop() availableLocales: AppProps["availableLocales"];
   @Prop() fsTppVersion: AppProps["fsTppVersion"];
   @ProvideReactive("currentPath") path = this.currentPath;
   @ProvideReactive(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
@@ -119,15 +120,19 @@ class App extends TsxComponent<AppProps> {
     if (
       this.isEditMode &&
       nextAppState === FSXAAppState.ready &&
-      typeof window !== "undefined"
+      typeof window !== "undefined" &&
+      this.currentPath &&
+      this.currentPath !== "/"
     ) {
       try {
         const currentRoute = determineCurrentRoute(
-          this.navigationData,
+          this.$store.state.fsxa.navigationData,
           this.currentPath,
         );
-        if (currentRoute) {
-          getTPPSnap().setPreviewElement(`${currentRoute.id}.${this.locale}`);
+        if (currentRoute?.item) {
+          getTPPSnap().setPreviewElement(
+            `${currentRoute.item.id}.${currentRoute.locale}`,
+          );
         }
         // eslint-disable-next-line
       } catch (err) {}
@@ -153,6 +158,7 @@ class App extends TsxComponent<AppProps> {
     return this.$store.dispatch(FSXAActions.initializeApp, {
       defaultLocale: this.defaultLocale,
       initialPath: this.currentPath,
+      availableLocales: this.availableLocales,
     });
   }
 
@@ -184,8 +190,8 @@ class App extends TsxComponent<AppProps> {
     return this.$store.state.fsxa.error;
   }
 
-  get navigationData() {
-    return this.$store.state.fsxa.navigation;
+  get navigationData(): NavigationData {
+    return this.$store.getters[FSXAGetters.navigationData];
   }
 
   renderContent() {
@@ -203,18 +209,24 @@ class App extends TsxComponent<AppProps> {
     }
     try {
       const currentNode = determineCurrentRoute(
-        this.navigationData,
-        this.currentPath,
+        this.$store.state.fsxa.navigation,
+        this.currentPath && this.currentPath !== "/"
+          ? this.currentPath
+          : (this.$store.state.fsxa.navigation as Record<
+              string,
+              NavigationData
+            >)[this.defaultLocale].pages.index,
       );
-      if (currentNode && (currentNode as any).seoRouteRegex !== null) {
+
+      if (currentNode && currentNode.item.seoRouteRegex !== null) {
         return this.currentPath ? (
           <Dataset
             route={this.currentPath}
-            pageId={currentNode.caasDocumentId}
+            pageId={currentNode.item.caasDocumentId}
           />
         ) : null;
       } else {
-        return <Page id={currentNode?.caasDocumentId} />;
+        return <Page id={currentNode?.item.caasDocumentId} />;
       }
     } catch (error) {
       // We will render a 404 page if this is passed as a component

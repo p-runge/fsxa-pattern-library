@@ -36,6 +36,7 @@ export function setStoredItem(
 export function findNavigationItemInNavigationData(
   $store: Store<RootState>,
   params: {
+    locale: string;
     seoRoute?: string;
     pageId?: string;
   },
@@ -47,14 +48,17 @@ export function findNavigationItemInNavigationData(
     return null;
   }
   const navigationData: NavigationData =
-    $store.getters[FSXAGetters.navigationData];
-  if (params.pageId) {
-    return navigationData.idMap[params.pageId] || null;
-  }
+    $store.state.fsxa.navigation[params.locale];
+  if (params.pageId) return navigationData.idMap[params.pageId] || null;
+  // we will try to match the data directly through the seoRoute, if not possible, we iterate over the dynamic pages as well
   if (params.seoRoute) {
-    const pageId = navigationData.seoRouteMap[params.seoRoute];
-    if (!pageId) return null;
-    return navigationData.idMap[pageId] || null;
+    const navigationItemId = navigationData.seoRouteMap[params.seoRoute];
+    if (navigationItemId) return navigationData.idMap[navigationItemId];
+    return (
+      Object.values(navigationData.idMap)
+        .filter((item: any) => item.seoRouteRegex)
+        .find((item: any) => params.seoRoute!.match(item.seoRouteRegex)) || null
+    );
   }
   return null;
 }
@@ -69,9 +73,16 @@ export async function triggerRouteChange(
   $fsxaApi: FSXAApi,
   params: TriggerRouteChangeParams,
   currentLocale: string,
-  globalSettingsKey?: string,
 ): Promise<string | null> {
-  if (!params.locale || params.locale === currentLocale) {
+  const navigationItem = findNavigationItemInNavigationData($store, {
+    pageId: params.pageId,
+    seoRoute: params.route,
+    locale: params.locale || currentLocale,
+  });
+  console.log("Found NavigationItem", navigationItem);
+  if (navigationItem) return navigationItem.seoRoute;
+
+  /**if (!params.locale || params.locale === currentLocale) {
     if (params.route) return params.route;
     if (params.pageId)
       return (
@@ -79,24 +90,28 @@ export async function triggerRouteChange(
           pageId: params.pageId,
         })?.seoRoute || null
       );
-  }
+  }**/
+
   if (params.locale && params.locale !== currentLocale) {
     // we will store the possible old datasetId, so that we can fetch the translated one as well and redirect to the new seoRoute
+    const storedData = $store.state.fsxa.stored;
     const currentDatasetId =
       (params.route
-        ? ($store.state.fsxa.stored[params.route]?.value as Dataset) || null
+        ? (storedData[currentLocale] &&
+            (storedData[currentLocale][params.route]?.value as Dataset)) ||
+          null
         : null
       )?.id || null;
     const currentPageId =
       findNavigationItemInNavigationData($store, {
         pageId: params.pageId,
         seoRoute: params.route,
+        locale: params.locale,
       })?.id || null;
 
     // We throw away the old state and reinitialize the app with the new locale
     await $store.dispatch(FSXAActions.initializeApp, {
       defaultLocale: params.locale,
-      globalSettingsKey,
     });
 
     if (currentDatasetId) {
@@ -125,6 +140,7 @@ export async function triggerRouteChange(
       return (
         findNavigationItemInNavigationData($store, {
           pageId: currentPageId,
+          locale: params.locale,
         })?.seoRoute || null
       );
     }

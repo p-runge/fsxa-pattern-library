@@ -31,6 +31,7 @@ class App extends TsxComponent<{}> {
   }
 
   changeRoute(route: string) {
+    console.log("Next route", route);
     history.pushState(null, "Title", route);
     this.route = route;
   }
@@ -41,6 +42,7 @@ class App extends TsxComponent<{}> {
         defaultLocale="de_DE"
         currentPath={this.route}
         devMode
+        availableLocales={["de_DE", "en_GB"]}
         handleRouteChange={this.changeRoute}
         components={{
           appLayout: AppLayout,

@@ -19,15 +19,15 @@ const store = createStore(process.env.VUE_APP_MODE as FSXAContentMode, {
   mode: "remote",
   config: getFSXAConfigFromEnvFile(),
 });
-const store2 = createStore(process.env.VUE_APP_MODE as FSXAContentMode, {
+/**const store2 = createStore(process.env.VUE_APP_MODE as FSXAContentMode, {
   mode: "remote",
   config: getFSXAConfigFromEnvFile(),
-});
+});**/
 new Vue({
   store,
   render: h => h(TsxApp),
 }).$mount("#app");
-new Vue({
+/**new Vue({
   store: store2,
   render: h => h(SFCApp),
-}).$mount("#app2");
+}).$mount("#app2");**/

@@ -2,28 +2,31 @@ import { NavigationData, NavigationItem } from "fsxa-api";
 
 export const NAVIGATION_ERROR_404 = "Could not find route with given path";
 export const determineCurrentRoute = (
-  navigationData: NavigationData | null,
-  currentPath?: string,
-): NavigationItem | null => {
-  if (!navigationData) return null;
+  navigationData: Record<string, NavigationData>,
+  currentPath: string,
+): { item: NavigationItem; locale: string } | null => {
+  if (!navigationData || !currentPath || currentPath === "/") return null;
   const path = decodeURIComponent(currentPath || "");
-  // we will check if the path is set
-  if (path && path !== "/") {
+  const availableLocales: string[] = Object.keys(navigationData);
+  for (let i = 0; i < availableLocales.length; i++) {
     let node: NavigationItem | null =
-      navigationData.idMap[navigationData.seoRouteMap[path]] || null;
+      navigationData[availableLocales[i]].idMap[
+        navigationData[availableLocales[i]].seoRouteMap[path]
+      ] || null;
     if (!node) {
       // the path is not mapped in the seoRouteMap
       // we will check for dynamic routes
       node =
-        Object.values(navigationData.idMap)
+        Object.values(navigationData[availableLocales[i]].idMap)
           .filter((item: any) => item.seoRouteRegex)
           .find((item: any) => path.match(item.seoRouteRegex)) || null;
     }
-    if (node) return node;
-    // we will throw an error, when no route was found, so the callee can show an error page
-    throw new Error(NAVIGATION_ERROR_404);
+    if (node)
+      return {
+        item: node,
+        locale: availableLocales[i],
+      };
   }
-  return navigationData.idMap[
-    navigationData.seoRouteMap[navigationData.pages.index]
-  ];
+  // we will throw an error, when no route was found, so the callee can show an error page
+  throw new Error(NAVIGATION_ERROR_404);
 };

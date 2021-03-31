@@ -58,21 +58,22 @@ class BaseComponent<
    */
   async triggerRouteChange(params: RequestRouteChangeParams) {
     this.handleRouteChangeRequest(
-      await triggerRouteChange(
-        this.$store,
-        this.fsxaApi,
-        {
-          locale: params.locale,
-          pageId: params.pageId,
-          route: params.route
-            ? params.route
-            : params.pageId
-            ? undefined
-            : this.currentPath,
-        },
-        this.locale,
-        this.$store.getters[FSXAGetters.getGlobalSettingsKey],
-      ),
+      params.route
+        ? params.route
+        : await triggerRouteChange(
+            this.$store,
+            this.fsxaApi,
+            {
+              locale: params.locale,
+              pageId: params.pageId,
+              route: params.route
+                ? params.route
+                : params.pageId
+                ? undefined
+                : this.currentPath,
+            },
+            this.locale,
+          ),
     );
   }
 
@@ -81,10 +82,11 @@ class BaseComponent<
    *
    * Will return null if no page was found
    */
-  getUrlByPageId(pageId: string) {
+  getUrlByPageId(pageId: string, locale?: string) {
     return (
       findNavigationItemInNavigationData(this.$store, {
         pageId,
+        locale: locale || this.locale,
       })?.seoRoute || null
     );
   }
@@ -94,9 +96,14 @@ class BaseComponent<
    *
    * If null is returned, no current route could be matched to the current path
    */
-  get currentPage(): NavigationItem | null {
+  get currentPage() {
     try {
-      return determineCurrentRoute(this.navigationData, this.currentPath);
+      return (
+        determineCurrentRoute(
+          this.$store.state.fsxa.navigation,
+          this.currentPath,
+        )?.item || null
+      );
     } catch (err) {
       // page could not be found
       return null;

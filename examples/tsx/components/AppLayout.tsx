@@ -1,5 +1,5 @@
 import { Component } from "vue-property-decorator";
-import { FSXABaseAppLayout } from "fsxa-pattern-library";
+import { FSXABaseAppLayout, FSXALink } from "fsxa-pattern-library";
 
 @Component({
   name: "AppLayout",
@@ -16,50 +16,31 @@ class AppLayout extends FSXABaseAppLayout {
                 <ul class="pl-nline-block">
                   {this.navigationData.structure.map(item => (
                     <li class="pl-inline-block pl-px-2 pl-text-sm">
-                      <a
-                        class="hover:pl-underline"
-                        href={this.navigationData!.idMap[item.id].seoRoute}
-                        onClick={event => {
-                          event.preventDefault();
-                          this.triggerRouteChange({ pageId: item.id });
-                        }}
-                      >
+                      <FSXALink class="hover:pl-underline" pageId={item.id}>
                         {this.navigationData!.idMap[item.id].label}
-                      </a>
+                      </FSXALink>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
             <div class="pl-flex-shrink-0 pl-ml-3 pl-text-xs pl-space-x-2">
-              <a
-                href="#"
-                class={`pl-inline-block ${
-                  this.locale === "en_GB" ? "pl-underline" : ""
-                }`}
-                onClick={event => {
-                  event.preventDefault();
-                  this.triggerRouteChange({
-                    locale: "en_GB",
-                  });
-                }}
+              <FSXALink
+                class="pl-inline-block hover:pl-underline"
+                activeClass="pl-underline"
+                pageId={this.currentPage?.id}
+                nextLocale="en_GB"
               >
                 en_GB
-              </a>
-              <a
-                href="#"
-                class={`pl-inline-block ${
-                  this.locale === "de_DE" ? "pl-underline" : ""
-                }`}
-                onClick={event => {
-                  event.preventDefault();
-                  this.triggerRouteChange({
-                    locale: "de_DE",
-                  });
-                }}
+              </FSXALink>
+              <FSXALink
+                class="pl-inline-block hover:pl-underline"
+                activeClass="pl-underline"
+                pageId={this.currentPage?.id}
+                nextLocale="de_DE"
               >
                 de_DE
-              </a>
+              </FSXALink>
             </div>
           </div>
         </div>
