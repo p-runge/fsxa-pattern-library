@@ -1,3 +1,11 @@
+# [3.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.1.0...v3.2.0) (2021-03-31)
+
+
+### Features
+
+* added support for richtext ([099d65d](https://github.com/e-Spirit/fsxa-pattern-library/commit/099d65da502aae69d4a11fca053eabe758a68262))
+* **devmodeinfo:** added the possibility to display a custom component to declare missing components ([2c0d452](https://github.com/e-Spirit/fsxa-pattern-library/commit/2c0d452c1522b464d0d5332afc69f069751a60ad))
+
 # [3.1.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.0.0...v3.1.0) (2021-03-09)
 
 
