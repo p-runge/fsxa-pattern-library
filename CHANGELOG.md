@@ -1,3 +1,11 @@
+# [3.3.0-alpha.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.0...v3.3.0-alpha.1) (2021-03-31)
+
+
+### Features
+
+* **fsxalink:** we've added a new FSXALink Component. It will help you routing through your app ([ed61ae0](https://github.com/e-Spirit/fsxa-pattern-library/commit/ed61ae01a63b5c8bdd7f84df6c04f39a8fd7a1d0))
+* **i18n:** add availableLocales as property to the FSXAApp ([ebb6d25](https://github.com/e-Spirit/fsxa-pattern-library/commit/ebb6d252c7a3f12e840bd534107c17ab91397eeb))
+
 # [3.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.1.0...v3.2.0) (2021-03-31)
 
 
