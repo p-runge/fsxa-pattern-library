@@ -1,3 +1,10 @@
+# [3.3.0-alpha.5](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.4...v3.3.0-alpha.5) (2021-04-01)
+
+
+### Bug Fixes
+
+* fix error, where index page was not returned from currentPage ([550a946](https://github.com/e-Spirit/fsxa-pattern-library/commit/550a9464fbf3ee5da707a6cee28d1a3e798536f4))
+
 # [3.3.0-alpha.4](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.3...v3.3.0-alpha.4) (2021-04-01)
 
 
