@@ -98,6 +98,11 @@ class BaseComponent<
    */
   get currentPage() {
     try {
+      if (this.currentPath === "/" || this.currentPath === "") {
+        return this.navigationData?.idMap[
+          this.navigationData?.seoRouteMap[this.navigationData?.pages.index]
+        ];
+      }
       return (
         determineCurrentRoute(
           this.$store.state.fsxa.navigation,
