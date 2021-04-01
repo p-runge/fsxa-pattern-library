@@ -1,3 +1,10 @@
+# [3.3.0-alpha.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.2...v3.3.0-alpha.3) (2021-03-31)
+
+
+### Bug Fixes
+
+* **settings:** fix getter for settings to return the current locales global settings ([3d753ab](https://github.com/e-Spirit/fsxa-pattern-library/commit/3d753abb8e765eee7c532df54e553085d90aee86))
+
 # [3.3.0-alpha.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.1...v3.3.0-alpha.2) (2021-03-31)
 
 
