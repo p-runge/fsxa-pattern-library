@@ -163,7 +163,7 @@ export function getFSXAModule<R extends RootState>(
           const navigation: Record<string, NavigationData> = {};
           const settings: Record<string, any> = {};
           if (payload.availableLocales) {
-            // check if data is already set
+            // TODO: check if data is already set
             const [navigationData, settingsData] = await Promise.all([
               Promise.all(
                 payload.availableLocales.map(locale =>
@@ -182,8 +182,9 @@ export function getFSXAModule<R extends RootState>(
             });
             settingsData.forEach(
               (localSettings, index) =>
-                (settings[payload.availableLocales![index]] =
-                  localSettings || null),
+                (settings[payload.availableLocales![index]] = localSettings
+                  ? localSettings[0]
+                  : null),
             );
             // we will get the current locale by the route
           } else {
