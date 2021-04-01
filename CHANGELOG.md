@@ -1,3 +1,10 @@
+# [3.3.0-alpha.4](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.3...v3.3.0-alpha.4) (2021-04-01)
+
+
+### Bug Fixes
+
+* **settings:** fix error, where settings were returned as an array instead of an object ([224c8d2](https://github.com/e-Spirit/fsxa-pattern-library/commit/224c8d24148ceaf1f445fecf3a44e8b28ec571ce))
+
 # [3.3.0-alpha.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.2...v3.3.0-alpha.3) (2021-03-31)
 
 
