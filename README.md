@@ -59,7 +59,7 @@ interface RootState {
 }
 ```
 
-Thereupon the `state` can be typed
+Afterwards the `state` can be typed
 
 `state: {} as RootState`
 
@@ -119,7 +119,7 @@ export default class App extends Vue {}
 Next, the FSXAApp can be used in the template, passing different parameters there:
 
 
-| Parameter  | Explanation  |
+| **Parameter**  | **Explanation**  |
 |---|---|
 | defaultLocale  |  Provide the locale your content should be displayed in, if no initial path is passed |
 | devMode  | When activated, you will be shown useful information with which you can start developing your ui.  |
