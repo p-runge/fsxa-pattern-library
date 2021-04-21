@@ -382,6 +382,10 @@ export interface LinkProps {
    */
   pageId?: string;
   /**
+   * The datasetId that should be routed to. If you pass a pageId as well, this will be used in the first place
+   */
+  datasetId?: string;
+  /**
    * The seoRoute that should be routed to
    * - Optional
    */

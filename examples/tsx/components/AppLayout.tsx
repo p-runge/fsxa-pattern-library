@@ -1,11 +1,13 @@
 import { Component } from "vue-property-decorator";
 import { FSXABaseAppLayout, FSXALink } from "fsxa-pattern-library";
+import { FSXAAppState } from "@/store";
 
 @Component({
   name: "AppLayout",
 })
 class AppLayout extends FSXABaseAppLayout {
   render() {
+    if (this.appState !== FSXAAppState.ready) return <div />;
     return (
       <div>
         <div class="pl-bg-gray-200">
@@ -16,7 +18,11 @@ class AppLayout extends FSXABaseAppLayout {
                 <ul class="pl-nline-block">
                   {this.navigationData.structure.map(item => (
                     <li class="pl-inline-block pl-px-2 pl-text-sm">
-                      <FSXALink class="hover:pl-underline" pageId={item.id}>
+                      <FSXALink
+                        class="hover:pl-underline"
+                        activeClass="pl-underline"
+                        pageId={item.id}
+                      >
                         {this.navigationData!.idMap[item.id].label}
                       </FSXALink>
                     </li>
@@ -28,7 +34,8 @@ class AppLayout extends FSXABaseAppLayout {
               <FSXALink
                 class="pl-inline-block hover:pl-underline"
                 activeClass="pl-underline"
-                pageId={this.currentPage?.id}
+                pageId={this.currentPage?.item.id}
+                datasetId={this.currentPage?.datasetId}
                 nextLocale="en_GB"
               >
                 en_GB
@@ -36,7 +43,8 @@ class AppLayout extends FSXABaseAppLayout {
               <FSXALink
                 class="pl-inline-block hover:pl-underline"
                 activeClass="pl-underline"
-                pageId={this.currentPage?.id}
+                pageId={this.currentPage?.item.id}
+                datasetId={this.currentPage?.datasetId}
                 nextLocale="de_DE"
               >
                 de_DE

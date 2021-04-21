@@ -1,4 +1,4 @@
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 import {
   Page as APIPage,
   Dataset as APIDataset,
@@ -15,7 +15,7 @@ import { DatasetProps } from "@/types/components";
 })
 class Dataset extends RenderUtils<DatasetProps> {
   @Prop() id: DatasetProps["id"];
-  @Prop() route!: DatasetProps["route"];
+  @Prop() route: DatasetProps["route"];
   @Prop() pageId!: DatasetProps["pageId"];
 
   serverPrefetch() {
@@ -26,42 +26,61 @@ class Dataset extends RenderUtils<DatasetProps> {
     if (!this.page || !this.dataset) this.fetchData();
   }
 
-  async fetchData() {
-    if (!this.locale) return;
-    const [page, dataset] = await Promise.all([
-      this.fetchPage(),
-      this.fetchDataset(),
-    ]);
-    if (page) this.setStoredItem(this.pageId!, page);
-    if (dataset) this.setStoredItem(this.id ? this.id : this.route!, dataset);
+  @Watch("id")
+  handleIdChange(id: string, prevId: string) {
+    if (id !== prevId && id != null) {
+      this.fetchData();
+    }
   }
 
-  fetchPage() {
-    if (!this.pageId) return null;
+  @Watch("locale")
+  handleLocaleChange(locale: string, prevLocale: string) {
+    if (locale !== prevLocale && locale != null) {
+      this.fetchData();
+    }
+  }
+
+  async fetchData() {
+    if (!this.locale) return;
+    await Promise.all([this.fetchPage(), this.fetchDataset()]);
+  }
+
+  async fetchPage() {
+    if (!this.pageId || this.page) return null;
+    // check if the page was already loaded
     try {
-      return this.fsxaApi.fetchElement(this.pageId, this.locale);
+      const page = await this.fsxaApi.fetchElement(this.pageId, this.locale);
+      this.setStoredItem(this.pageId!, page);
     } catch (err) {
       return null;
     }
   }
 
   async fetchDataset() {
+    if (this.dataset) return;
     if (!this.id && !this.route) {
       throw new Error(
         "You either have to provide an id or the route of a dataset",
       );
     }
-    const response = await this.fsxaApi.fetchByFilter(
-      [
-        {
-          field: this.id ? "identifier" : "route",
-          operator: ComparisonQueryOperatorEnum.EQUALS,
-          value: this.id ? this.id : this.route!,
-        },
-      ],
-      this.locale,
-    );
-    return response.length ? response[0] : null;
+    let dataset: APIDataset | null = null;
+    if (this.id) {
+      dataset = await this.fsxaApi.fetchElement(this.id, this.locale);
+    } else {
+      // we will use the route instead
+      const response = await this.fsxaApi.fetchByFilter(
+        [
+          {
+            field: this.id ? "identifier" : "route",
+            operator: ComparisonQueryOperatorEnum.EQUALS,
+            value: this.id ? this.id : this.route!,
+          },
+        ],
+        this.locale,
+      );
+      if (response && response.length > 0) dataset = response[0] as APIDataset;
+    }
+    if (dataset) this.setStoredItem(this.id ? this.id : this.route!, dataset);
   }
 
   get page(): APIPage | undefined {

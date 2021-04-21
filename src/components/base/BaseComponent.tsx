@@ -1,6 +1,6 @@
 import { Component as TsxComponent } from "vue-tsx-support";
 import { Component, Inject, InjectReactive } from "vue-property-decorator";
-import { FSXAGetters, getFSXAConfiguration } from "@/store";
+import { CurrentPage, FSXAGetters, getFSXAConfiguration } from "@/store";
 import {
   FSXAApi,
   FSXAContentMode,
@@ -29,10 +29,6 @@ class BaseComponent<
   EventsWithOn = {},
   Slots = {}
 > extends TsxComponent<Props, EventsWithOn, Slots> {
-  @InjectReactive({
-    from: "currentPath",
-  })
-  private currentPath!: string;
   @InjectReactive({ from: FSXA_INJECT_KEY_TPP_VERSION })
   fsTppVersion!: string;
   @Inject({ from: FSXA_INJECT_KEY_DEV_MODE, default: false })
@@ -66,11 +62,7 @@ class BaseComponent<
             {
               locale: params.locale,
               pageId: params.pageId,
-              route: params.route
-                ? params.route
-                : params.pageId
-                ? undefined
-                : this.currentPath,
+              route: params.route || undefined,
             },
             this.locale,
           ),
@@ -96,23 +88,8 @@ class BaseComponent<
    *
    * If null is returned, no current route could be matched to the current path
    */
-  get currentPage() {
-    try {
-      if (this.currentPath === "/" || this.currentPath === "") {
-        return this.navigationData?.idMap[
-          this.navigationData?.seoRouteMap[this.navigationData?.pages.index]
-        ];
-      }
-      return (
-        determineCurrentRoute(
-          this.$store.state.fsxa.navigation,
-          this.currentPath,
-        )?.item || null
-      );
-    } catch (err) {
-      // page could not be found
-      return null;
-    }
+  get currentPage(): CurrentPage {
+    return this.$store.getters[FSXAGetters.currentPage];
   }
 
   /**

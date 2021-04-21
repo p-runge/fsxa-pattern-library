@@ -4,11 +4,9 @@ import {
   FSXAAppState,
   FSXAGetters,
   getFSXAConfiguration,
+  CurrentPage,
 } from "@/store";
-import {
-  determineCurrentRoute,
-  NAVIGATION_ERROR_404,
-} from "@/utils/navigation";
+import { NAVIGATION_ERROR_404 } from "@/utils/navigation";
 import Component from "vue-class-component";
 import { Prop, ProvideReactive, Watch } from "vue-property-decorator";
 import Dataset from "./Dataset";
@@ -29,7 +27,7 @@ import Code from "./internal/Code";
 import { FSXAApi, FSXAContentMode, NavigationData } from "fsxa-api";
 import { AppProps } from "@/types/components";
 import PortalProvider from "./internal/PortalProvider";
-import { getTPPSnap, importTPPSnapAPI } from "@/utils";
+import { importTPPSnapAPI } from "@/utils";
 
 const DEFAULT_TPP_SNAP_VERSION = "2.2.1";
 @Component({
@@ -43,7 +41,6 @@ class App extends TsxComponent<AppProps> {
   @Prop({ required: true }) handleRouteChange!: AppProps["handleRouteChange"];
   @Prop() availableLocales: AppProps["availableLocales"];
   @Prop() fsTppVersion: AppProps["fsTppVersion"];
-  @ProvideReactive("currentPath") path = this.currentPath;
   @ProvideReactive(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
   @ProvideReactive(FSXA_INJECT_KEY_COMPONENTS) injectedComponents = this
     .components;
@@ -59,7 +56,7 @@ class App extends TsxComponent<AppProps> {
 
   @Watch("currentPath")
   onCurrentPathChange(nextPath: string) {
-    this.path = nextPath;
+    this.$store.dispatch(FSXAActions.determineCurrentPage, { route: nextPath });
   }
 
   @Watch("devMode")
@@ -127,7 +124,7 @@ class App extends TsxComponent<AppProps> {
       this.currentPath &&
       this.currentPath !== "/"
     ) {
-      try {
+      /**try {
         const currentRoute = determineCurrentRoute(
           this.$store.state.fsxa.navigationData,
           this.currentPath,
@@ -138,7 +135,7 @@ class App extends TsxComponent<AppProps> {
           );
         }
         // eslint-disable-next-line
-      } catch (err) {}
+      } catch (err) {}**/
     }
   }
 
@@ -193,6 +190,10 @@ class App extends TsxComponent<AppProps> {
     return this.$store.state.fsxa.error;
   }
 
+  get currentPage(): CurrentPage | null {
+    return this.$store.getters[FSXAGetters.currentPage];
+  }
+
   get navigationData(): NavigationData {
     return this.$store.getters[FSXAGetters.navigationData];
   }
@@ -200,9 +201,11 @@ class App extends TsxComponent<AppProps> {
   renderContent() {
     if (this.$slots.default) return this.$slots.default || null;
     if (
-      [FSXAAppState.not_initialized, FSXAAppState.initializing].includes(
-        this.appState,
-      )
+      [
+        FSXAAppState.not_initialized,
+        FSXAAppState.initializing,
+        FSXAAppState.routing,
+      ].includes(this.appState)
     ) {
       if (this.components?.loader) {
         const Loader = this.components.loader;
@@ -210,38 +213,22 @@ class App extends TsxComponent<AppProps> {
       }
       return null;
     }
-    try {
-      const currentNode = determineCurrentRoute(
-        this.$store.state.fsxa.navigation,
-        this.currentPath && this.currentPath !== "/"
-          ? this.currentPath
-          : (this.$store.state.fsxa.navigation as Record<
-              string,
-              NavigationData
-            >)[this.defaultLocale].pages.index,
+    if (this.currentPage && this.currentPage.datasetId) {
+      return (
+        <Dataset
+          id={this.currentPage.datasetId}
+          pageId={this.currentPage.item.caasDocumentId}
+        />
       );
-
-      if (currentNode && currentNode.item.seoRouteRegex !== null) {
-        return this.currentPath ? (
-          <Dataset
-            route={this.currentPath}
-            pageId={currentNode.item.caasDocumentId}
-          />
-        ) : null;
-      } else {
-        return <Page id={currentNode?.item.caasDocumentId} />;
+    } else if (this.currentPage) {
+      return <Page id={this.currentPage?.item.caasDocumentId} />;
+    } else {
+      if (this.components?.page404) {
+        const Page404Layout = this.components.page404;
+        return <Page404Layout currentPath={this.currentPath} />;
       }
-    } catch (error) {
-      // We will render a 404 page if this is passed as a component
-      if (error.message === NAVIGATION_ERROR_404) {
-        if (this.components?.page404) {
-          const Page404Layout = this.components.page404;
-          return <Page404Layout currentPath={this.currentPath} />;
-        }
-        return null;
-      }
+      return null;
     }
-    return null;
   }
 
   render() {

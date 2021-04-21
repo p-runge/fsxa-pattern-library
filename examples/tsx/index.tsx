@@ -9,6 +9,7 @@ import Paragraph from "./components/richtext/Paragraph";
 import Text from "./components/richtext/Text";
 import List from "./components/richtext/List";
 import ListItem from "./components/richtext/ListItem";
+import Block from "./components/richtext/Block";
 
 @Component({
   name: "App",
@@ -46,6 +47,7 @@ class App extends TsxComponent<{}> {
         components={{
           appLayout: AppLayout,
           layouts: {
+            homepage: StandardLayout,
             standard: StandardLayout,
             newsroom_detailpage: StandardLayout,
           },
@@ -59,6 +61,7 @@ class App extends TsxComponent<{}> {
             text: Text,
             list: List,
             listitem: ListItem,
+            block: Block,
           },
         }}
       />

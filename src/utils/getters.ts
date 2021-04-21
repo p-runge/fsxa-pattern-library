@@ -81,16 +81,7 @@ export async function triggerRouteChange(
   });
   if (navigationItem) return navigationItem.seoRoute;
 
-  /**if (!params.locale || params.locale === currentLocale) {
-    if (params.route) return params.route;
-    if (params.pageId)
-      return (
-        findNavigationItemInNavigationData($store, {
-          pageId: params.pageId,
-        })?.seoRoute || null
-      );
-  }**/
-
+  // rework this
   if (params.locale && params.locale !== currentLocale) {
     // we will store the possible old datasetId, so that we can fetch the translated one as well and redirect to the new seoRoute
     const storedData = $store.state.fsxa.stored;

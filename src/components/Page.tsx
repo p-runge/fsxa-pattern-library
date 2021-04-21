@@ -30,6 +30,13 @@ class Page extends BaseComponent<PageProps> {
     }
   }
 
+  @Watch("locale")
+  handleLocaleChange(locale: string, prevLocale: string) {
+    if (locale !== prevLocale && locale != null) {
+      this.fetchPage();
+    }
+  }
+
   mounted() {
     if (!this.pageData && !this.loadedPage) {
       this.fetchPage();
@@ -80,6 +87,7 @@ class Page extends BaseComponent<PageProps> {
     return this.page ? (
       <Layout
         pageId={this.id!}
+        key={this.locale}
         previewId={this.page.previewId}
         type={this.page.layout}
         content={this.page.children}
