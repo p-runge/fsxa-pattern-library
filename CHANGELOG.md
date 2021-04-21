@@ -1,3 +1,10 @@
+# [3.3.0-alpha.6](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.5...v3.3.0-alpha.6) (2021-04-21)
+
+
+### Features
+
+* introduced currentPage object in Vuex Store, added FSXALink to navigate through the app ([6039360](https://github.com/e-Spirit/fsxa-pattern-library/commit/6039360a03dbc8973f170a8997008d80ded00868))
+
 # [3.3.0-alpha.5](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.4...v3.3.0-alpha.5) (2021-04-01)
 
 
