@@ -1,3 +1,16 @@
+# [4.0.0-alpha.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.6...v4.0.0-alpha.1) (2021-04-26)
+
+
+### Bug Fixes
+
+* **static:** fix static rendering and remove alias imports ([a99194d](https://github.com/e-Spirit/fsxa-pattern-library/commit/a99194df4269b915aa94fb0b79073df93cabed00))
+
+
+### BREAKING CHANGES
+
+* **static:** FSXABaseComponent.currentPage will now return an enhanced object, which slightly
+changed the methods interface. Make sure to migrate accordingly.
+
 # [3.3.0-alpha.6](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.5...v3.3.0-alpha.6) (2021-04-21)
 
 
