@@ -1,5 +1,5 @@
 import { Component, Prop } from "vue-property-decorator";
-import { BaseLayoutProps } from "@/types/components";
+import { BaseLayoutProps } from "./../../types/components";
 import RenderUtils from "./RenderUtils";
 
 /**

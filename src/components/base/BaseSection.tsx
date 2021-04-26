@@ -1,4 +1,4 @@
-import { BaseSectionProps } from "@/types/components";
+import { BaseSectionProps } from "./../../types/components";
 import { Prop } from "vue-property-decorator";
 import RenderUtils from "./RenderUtils";
 

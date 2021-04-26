@@ -5,8 +5,7 @@ import {
   FSXAGetters,
   getFSXAConfiguration,
   CurrentPage,
-} from "@/store";
-import { NAVIGATION_ERROR_404 } from "@/utils/navigation";
+} from "./../store";
 import Component from "vue-class-component";
 import { Prop, ProvideReactive, Watch } from "vue-property-decorator";
 import Dataset from "./Dataset";
@@ -19,15 +18,15 @@ import {
   FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_TPP_VERSION,
   FSXA_INJECT_DEV_MODE_INFO,
-} from "@/constants";
+} from "./../constants";
 import Page from "./Page";
 import ErrorBoundary from "./internal/ErrorBoundary";
 import InfoBox from "./internal/InfoBox";
 import Code from "./internal/Code";
 import { FSXAApi, FSXAContentMode, NavigationData } from "fsxa-api";
-import { AppProps } from "@/types/components";
+import { AppProps } from "./../types/components";
 import PortalProvider from "./internal/PortalProvider";
-import { importTPPSnapAPI } from "@/utils";
+import { importTPPSnapAPI } from "./../utils";
 
 const DEFAULT_TPP_SNAP_VERSION = "2.2.1";
 @Component({
@@ -99,7 +98,7 @@ class App extends TsxComponent<AppProps> {
             return false;
           });
           TPP_SNAP.onNavigationChange(() => {
-            window.setTimeout(() => this.initialize(), 300);
+            window.setTimeout(() => this.initialize(true), 300);
             return false;
           });
         })
@@ -154,11 +153,12 @@ class App extends TsxComponent<AppProps> {
     }
   }
 
-  initialize() {
+  initialize(forceRefresh = false) {
     return this.$store.dispatch(FSXAActions.initializeApp, {
       defaultLocale: this.defaultLocale,
       initialPath: this.currentPath,
       availableLocales: this.availableLocales,
+      forceRefresh,
     });
   }
 

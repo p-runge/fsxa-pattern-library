@@ -1,25 +1,18 @@
 import { Component as TsxComponent } from "vue-tsx-support";
 import { Component, Inject, InjectReactive } from "vue-property-decorator";
-import { CurrentPage, FSXAGetters, getFSXAConfiguration } from "@/store";
-import {
-  FSXAApi,
-  FSXAContentMode,
-  GCAPage,
-  NavigationData,
-  NavigationItem,
-} from "fsxa-api";
+import { CurrentPage, FSXAGetters, getFSXAConfiguration } from "./../../store";
+import { FSXAApi, FSXAContentMode, GCAPage, NavigationData } from "fsxa-api";
 import {
   getStoredItem,
   setStoredItem,
   triggerRouteChange,
-} from "@/utils/getters";
-import { RequestRouteChangeParams } from "@/types/components";
+} from "./../../utils/getters";
+import { RequestRouteChangeParams } from "./../../types/components";
 import {
   FSXA_INJECT_KEY_DEV_MODE,
   FSXA_INJECT_KEY_TPP_VERSION,
-} from "@/constants";
-import { findNavigationItemInNavigationData } from "@/utils/getters";
-import { determineCurrentRoute } from "@/utils/navigation";
+} from "./../../constants";
+import { findNavigationItemInNavigationData } from "./../../utils/getters";
 
 @Component({
   name: "BaseComponent",

@@ -1,4 +1,4 @@
-import { BaseAppLayoutProps } from "@/types/components";
+import { BaseAppLayoutProps } from "./../../types/components";
 import { Component, Prop } from "vue-property-decorator";
 import BaseComponent from "./BaseComponent";
 

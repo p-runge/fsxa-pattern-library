@@ -1,7 +1,7 @@
 import Component from "vue-class-component";
 import { Component as TsxComponent } from "vue-tsx-support";
 import { Provide, Watch } from "vue-property-decorator";
-import { FSXA_INJECT_KEY_SET_PORTAL_CONTENT } from "@/constants";
+import { FSXA_INJECT_KEY_SET_PORTAL_CONTENT } from "./../../constants";
 
 @Component({
   name: "PortalProvider",

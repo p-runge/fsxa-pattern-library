@@ -1,15 +1,15 @@
 import Component from "vue-class-component";
 import { Inject, InjectReactive, Prop } from "vue-property-decorator";
-import BaseComponent from "@/components/base/BaseComponent";
-import { AppComponents, RichTextProps } from "@/types/components";
+import BaseComponent from "./../base/BaseComponent";
+import { AppComponents, RichTextProps } from "./../../types/components";
 import { RichTextElement } from "fsxa-api";
 import {
   FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
-} from "@/constants";
-import InfoBox from "@/components/internal/InfoBox";
-import Code from "@/components/internal/Code";
-import TabbedContent from "@/components/internal/TabbedContent";
+} from "./../../constants";
+import InfoBox from "./../..//components/internal/InfoBox";
+import Code from "./../../components/internal/Code";
+import TabbedContent from "./../../components/internal/TabbedContent";
 
 @Component({
   name: "FSXARichText",

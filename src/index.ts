@@ -16,4 +16,4 @@ export { default as FSXADataset } from "./components/Dataset";
 export { default as FSXARichText } from "./components/RichText";
 export { default as FSXAPage } from "./components/Page";
 export { default as FSXALink } from "./components/Link";
-export { getFSXAModule, FSXAActions, FSXAGetters } from "./store";
+export { getFSXAModule, FSXAActions, FSXAAppState, FSXAGetters } from "./store";

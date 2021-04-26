@@ -1,4 +1,4 @@
-import BaseComponent from "@/components/base/BaseComponent";
+import BaseComponent from "./../base/BaseComponent";
 import { Prop, Component } from "vue-property-decorator";
 import Code from "./Code";
 import InfoBox from "./InfoBox";

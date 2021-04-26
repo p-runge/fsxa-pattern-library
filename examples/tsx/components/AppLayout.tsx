@@ -1,6 +1,9 @@
 import { Component } from "vue-property-decorator";
-import { FSXABaseAppLayout, FSXALink } from "fsxa-pattern-library";
-import { FSXAAppState } from "@/store";
+import {
+  FSXABaseAppLayout,
+  FSXALink,
+  FSXAAppState,
+} from "fsxa-pattern-library";
 
 @Component({
   name: "AppLayout",

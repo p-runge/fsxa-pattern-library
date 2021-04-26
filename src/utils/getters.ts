@@ -1,4 +1,4 @@
-import { FSXAActions, FSXAGetters, RootState } from "@/store";
+import { FSXAActions, FSXAGetters, RootState } from "./../store";
 import {
   ComparisonQueryOperatorEnum,
   Dataset,

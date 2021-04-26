@@ -1,4 +1,4 @@
-import { FSXA_INJECT_KEY_SET_PORTAL_CONTENT } from "@/constants";
+import { FSXA_INJECT_KEY_SET_PORTAL_CONTENT } from "./../../constants";
 import { RichTextElement } from "fsxa-api/dist/types";
 import Component from "vue-class-component";
 import { Inject, Prop } from "vue-property-decorator";

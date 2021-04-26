@@ -1,6 +1,6 @@
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import BaseComponent from "@/components/base/BaseComponent";
+import BaseComponent from "./../base/BaseComponent";
 
 export interface TabbedContentItem {
   title: string;

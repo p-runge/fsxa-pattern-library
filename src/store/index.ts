@@ -158,7 +158,7 @@ export function getFSXAModule<R extends RootState>(
           settings: Record<string, any>;
         },
       ) {
-        commit("setGlobalData", payload);
+        return commit("setGlobalData", payload);
       },
       [Actions.initializeApp]: async function(
         { commit, dispatch },

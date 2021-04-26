@@ -1,6 +1,5 @@
-import { LinkProps } from "@/types/components";
-import { findNavigationItemInNavigationData } from "@/utils/getters";
-import { isThisQuarter } from "date-fns";
+import { LinkProps } from "./../types/components";
+import { findNavigationItemInNavigationData } from "./../utils/getters";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import BaseComponent from "./base/BaseComponent";

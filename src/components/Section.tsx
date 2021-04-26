@@ -1,7 +1,7 @@
 import {
   FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
-} from "@/constants";
+} from "./../constants";
 import Component from "vue-class-component";
 import { Inject, InjectReactive, Prop } from "vue-property-decorator";
 import BaseComponent from "./base/BaseComponent";
@@ -9,7 +9,7 @@ import ErrorBoundary from "./internal/ErrorBoundary";
 import Code from "./internal/Code";
 import InfoBox from "./internal/InfoBox";
 import TabbedContent, { TabbedContentItem } from "./internal/TabbedContent";
-import { AppComponents } from "@/types/components";
+import { AppComponents } from "./../types/components";
 
 export interface SectionProps<Data, Meta> {
   type: string;

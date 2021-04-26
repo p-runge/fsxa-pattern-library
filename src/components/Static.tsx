@@ -1,4 +1,4 @@
-import { FSXAActions } from "@/store";
+import { FSXAActions } from "./../store";
 import { NavigationData } from "fsxa-api/dist/types";
 import { Component, Prop } from "vue-property-decorator";
 import { Component as TsxComponent } from "vue-tsx-support";
@@ -14,9 +14,8 @@ class Static extends TsxComponent<StaticProps> {
   @Prop({ required: true }) navigationData!: StaticProps["navigationData"];
   @Prop() globalSettings: StaticProps["globalSettings"];
 
-  created() {
-    // we will dispatch the action that will set navigationData and globalSettings
-    this.$store.dispatch(FSXAActions.setGlobalData, {
+  serverPrefetch() {
+    return this.$store.dispatch(FSXAActions.setGlobalData, {
       navigation: this.navigationData,
       settings: this.globalSettings,
     });

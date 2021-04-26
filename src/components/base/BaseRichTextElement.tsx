@@ -5,9 +5,12 @@ import {
   Provide,
 } from "vue-property-decorator";
 import BaseComponent from "./BaseComponent";
-import { AppComponents, BaseRichTextElementProps } from "@/types/components";
+import {
+  AppComponents,
+  BaseRichTextElementProps,
+} from "./../../types/components";
 import { CreateElement, RenderContext } from "vue";
-import { FSXA_INJECT_KEY_COMPONENTS } from "@/constants";
+import { FSXA_INJECT_KEY_COMPONENTS } from "./../../constants";
 import MissingRichTextComponent from "../RichText/MissingRichTextComponent";
 
 export const ContentHelper = {

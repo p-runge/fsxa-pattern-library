@@ -5,14 +5,14 @@ import { Inject, InjectReactive, Prop } from "vue-property-decorator";
 import {
   FSXA_INJECT_KEY_COMPONENTS,
   FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
-} from "@/constants";
+} from "./../constants";
 
 import ErrorBoundary from "./internal/ErrorBoundary";
 import Code from "./internal/Code";
 import InfoBox from "./internal/InfoBox";
 import TabbedContent from "./internal/TabbedContent";
 import RenderUtils from "./base/RenderUtils";
-import { AppComponents } from "@/types/components";
+import { AppComponents } from "./../types/components";
 
 export interface LayoutProps<Data, Meta> {
   pageId: string;

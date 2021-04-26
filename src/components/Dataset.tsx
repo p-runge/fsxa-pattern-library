@@ -8,7 +8,7 @@ import {
 } from "fsxa-api";
 import Page from "./Page";
 import RenderUtils from "./base/RenderUtils";
-import { DatasetProps } from "@/types/components";
+import { DatasetProps } from "./../types/components";
 
 @Component({
   name: "FSXADataset",

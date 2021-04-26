@@ -2,13 +2,12 @@ import { Component } from "vue-tsx-support";
 import {
   FSXAApi,
   NavigationData,
-  NavigationItem,
   Page as APIPage,
   PageBodyContent,
   RichTextElement,
 } from "fsxa-api";
 import { GCAPage } from "fsxa-api";
-import { FSXAAppError, FSXAAppState } from "@/store";
+import { CurrentPage, FSXAAppError, FSXAAppState } from "./../store";
 
 export class FSXABaseComponent<
   Props = {},
@@ -48,7 +47,7 @@ export class FSXABaseComponent<
    *
    * If null is returned, no current route could be matched to the current path
    */
-  get currentPage(): NavigationItem | null;
+  get currentPage(): CurrentPage | null;
 
   /**
    * Check if this app is delivering preview or released data
