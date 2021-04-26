@@ -1,3 +1,10 @@
+# [4.0.0-alpha.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.0-alpha.1...v4.0.0-alpha.2) (2021-04-26)
+
+
+### Bug Fixes
+
+* set immediate in currentPath watcher to ensure that the currentRoute is always consumed ([bf0096a](https://github.com/e-Spirit/fsxa-pattern-library/commit/bf0096a3eacf091bc9d2c23d1177afe3babf3f16))
+
 # [4.0.0-alpha.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0-alpha.6...v4.0.0-alpha.1) (2021-04-26)
 
 
