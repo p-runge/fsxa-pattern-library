@@ -53,8 +53,8 @@ class App extends TsxComponent<AppProps> {
   @ProvideReactive(FSXA_INJECT_DEV_MODE_INFO) injectedInfoError =
     this.components?.devModeInfo || null;
 
-  @Watch("currentPath")
-  onCurrentPathChange(nextPath: string) {
+  @Watch("currentPath", { immediate: true })
+  handleCurrentPathChange(nextPath: string) {
     this.$store.dispatch(FSXAActions.determineCurrentPage, { route: nextPath });
   }
 
