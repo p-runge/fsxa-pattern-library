@@ -1,4 +1,4 @@
-== FSXA-Pattern-library
+= FSXA-Pattern-library
 
 The FSXA-Pattern-library manages the connection of the FSXA JavaScript Frontend
 to the ``outside world'', meaning it handles the data coming from the FirstSpirit
@@ -13,11 +13,11 @@ If you are interested in the FSXA check this
 https://docs.e-spirit.com/module/fsxa/overview/benefits-hybrid/index.html[Overview]. You can order
 a demo https://www.e-spirit.com/us/specialpages/forms/on-demand-demo/[online].
 
-=== Getting Started
+== Getting Started
 
 This guide describes how to add the FSXA-Pattern-Library to your Vue.js or Nuxt.js project.
 
-==== Vue.js
+=== Vue.js
 
 Requirements:
 - https://vuejs.org/[Vue.js] version 2.6.12 or https://nuxtjs.org/[Nuxt.js] version 2.14.12
@@ -303,46 +303,46 @@ export const actions: ActionTree<State, State> = {
 
 To get started with the development of the individual components, we recommend following the https://github.com/e-Spirit/fsxa-pwa#getting-started[Getting-Started Guide] of the FSXA-PWA.
 
-=== Project setup
+== Project setup
 
 ....
 npm install
 ....
 
-==== Compiles and hot-reloads for development
+=== Compiles and hot-reloads for development
 
 ....
 npm run serve
 ....
 
-==== Compiles and minifies for production
+=== Compiles and minifies for production
 
 ....
 npm run build
 ....
 
-==== Run your unit tests
+=== Run your unit tests
 
 ....
 npm run test:unit
 ....
 
-==== Lints and fixes files
+=== Lints and fixes files
 
 ....
 npm run lint
 ....
 
-==== Customize configuration
+=== Customize configuration
 
 See https://cli.vuejs.org/config/[Configuration Reference].
 
-=== Legal Notices
+== Legal Notices
 
 FSXA-Pattern-library is a product of http://www.e-spirit.com[e-Spirit AG], Dortmund, Germany.
 The FSXA-Pattern-library is subject to the Apache-2.0 license.
 
-=== Disclaimer
+== Disclaimer
 
 This document is provided for information purposes only.
 e-Spirit may change the contents hereof without notice.
