@@ -1,3 +1,5 @@
 name: fsxa-pattern-library
 title: FSXA Pattern Library
 version: '3.3.0'
+nav:
+- modules/ROOT/nav.adoc
