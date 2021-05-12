@@ -91,10 +91,21 @@ class App extends TsxComponent<AppProps> {
           if (!TPP_SNAP) {
             throw new Error("Could not find global TPP_SNAP object.");
           }
-          TPP_SNAP.onRequestPreviewElement((previewId: string) => {
-            const pageId = previewId.split(".")[0];
-            const nextPage = this.navigationData?.idMap[pageId];
-            if (nextPage) this.requestRouteChange(nextPage.seoRoute);
+          TPP_SNAP.onRequestPreviewElement(async (previewId: string) => {
+            // This event handles the initial loading of the pwa in the ocm or after a site was created or section changed
+            // Here we need to wait a few moments, so that the CaaS/Navigation-Service could be filled with the new information, before we initialize the app to get the new data.
+            new Promise<void>(resolve => {
+              const wait = setTimeout(() => {
+                clearTimeout(wait);
+                resolve();
+              }, 2000);
+            })
+              .then(this.initialize)
+              .then(() => {
+                const pageId = previewId.split(".")[0];
+                const nextPage = this.navigationData?.idMap[pageId];
+                if (nextPage) this.requestRouteChange(nextPage.seoRoute);
+              });
           });
           TPP_SNAP.onRerenderView(() => {
             window.setTimeout(() => this.initialize(), 300);
