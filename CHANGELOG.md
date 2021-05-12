@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.0...v3.2.1) (2021-05-12)
+
+
+### Bug Fixes
+
+* added a timeout when a site is created in ocm ([2fa68c6](https://github.com/e-Spirit/fsxa-pattern-library/commit/2fa68c6c543503ec0f1c69a8456a3459f689454f))
+
 # [3.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.1.0...v3.2.0) (2021-03-31)
 
 
