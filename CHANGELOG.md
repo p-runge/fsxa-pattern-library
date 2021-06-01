@@ -1,3 +1,11 @@
+## [3.2.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.1...v3.2.2) (2021-06-01)
+
+
+### Bug Fixes
+
+* updated dependencies ([#12](https://github.com/e-Spirit/fsxa-pattern-library/issues/12)) ([8d67100](https://github.com/e-Spirit/fsxa-pattern-library/commit/8d6710044d25671cb738b73154ff4931d7beebd7))
+* **section.tsx:** added missing prefix to avoid name clashing for group class ([#10](https://github.com/e-Spirit/fsxa-pattern-library/issues/10)) ([29eb01b](https://github.com/e-Spirit/fsxa-pattern-library/commit/29eb01bee718de7fa82b01b51b53b8970b681e0d))
+
 ## [3.2.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.0...v3.2.1) (2021-05-12)
 
 
