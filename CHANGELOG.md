@@ -1,3 +1,10 @@
+## [3.2.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.2...v3.2.3) (2021-07-19)
+
+
+### Bug Fixes
+
+* **tpp-snap cropping:** provide temporary fix for cropping multiple resolutions ([#13](https://github.com/e-Spirit/fsxa-pattern-library/issues/13)) ([eada971](https://github.com/e-Spirit/fsxa-pattern-library/commit/eada97172e37b705b34fd4f1f43a73b74ef25f94))
+
 ## [3.2.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.1...v3.2.2) (2021-06-01)
 
 
