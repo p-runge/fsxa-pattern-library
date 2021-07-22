@@ -5,10 +5,10 @@ import RenderUtils from "./RenderUtils";
 class BaseSection<
   Payload = Record<string, any>,
   Meta = Record<string, any>,
-  EventsWithOn = {},
+  EventsWithOn = unknown,
   Slots = {
-    content?: {};
-  }
+    content?: unknown;
+  },
 > extends RenderUtils<BaseSectionProps<Payload, Meta>, EventsWithOn, Slots> {
   /**
    * The payload that is passed to the section

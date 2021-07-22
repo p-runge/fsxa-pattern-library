@@ -48,7 +48,7 @@ class BaseRichTextElement<Data = Record<string, any>> extends BaseComponent<
   @Provide("renderContent")
   renderContent() {
     if (typeof this.content === "string") return this.content;
-    return this.content.map(element => {
+    return this.content.map((element) => {
       if (this.elements[element.type]) {
         const Element = this.elements[element.type];
         return <Element content={element.content} data={element.data} />;

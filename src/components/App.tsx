@@ -44,8 +44,8 @@ class App extends TsxComponent<AppProps> {
   @Prop() fsTppVersion: AppProps["fsTppVersion"];
   @ProvideReactive("currentPath") path = this.currentPath;
   @ProvideReactive(FSXA_INJECT_KEY_DEV_MODE) injectedDevMode = this.devMode;
-  @ProvideReactive(FSXA_INJECT_KEY_COMPONENTS) injectedComponents = this
-    .components;
+  @ProvideReactive(FSXA_INJECT_KEY_COMPONENTS) injectedComponents =
+    this.components;
 
   @ProvideReactive(FSXA_INJECT_KEY_LAYOUTS) injectedLayouts =
     this.components?.layouts || {};
@@ -87,14 +87,14 @@ class App extends TsxComponent<AppProps> {
     // we will load tpp-snap, if we are in devMode
     if (this.isEditMode) {
       importTPPSnapAPI(this.tppVersion)
-        .then(TPP_SNAP => {
+        .then((TPP_SNAP) => {
           if (!TPP_SNAP) {
             throw new Error("Could not find global TPP_SNAP object.");
           }
           TPP_SNAP.onRequestPreviewElement(async (previewId: string) => {
             // This event handles the initial loading of the pwa in the ocm or after a site was created or section changed
             // Here we need to wait a few moments, so that the CaaS/Navigation-Service could be filled with the new information, before we initialize the app to get the new data.
-            new Promise<void>(resolve => {
+            new Promise<void>((resolve) => {
               const wait = setTimeout(() => {
                 clearTimeout(wait);
                 resolve();

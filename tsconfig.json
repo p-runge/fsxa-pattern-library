@@ -4,6 +4,7 @@
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
+    "jsxFactory":"VueTsxSupport",
     "importHelpers": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -20,6 +21,7 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
+    "node_modules/vue-tsx-support/enable-check.d.ts",
     "example/**/*.ts",
     "example/**/*.tsx",
     "example/**/*.vue",

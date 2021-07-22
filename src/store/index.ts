@@ -127,7 +127,7 @@ export function getFSXAModule<R extends RootState>(
       configuration: params,
     }),
     actions: {
-      [Actions.initializeApp]: async function(
+      [Actions.initializeApp]: async function (
         { commit },
         payload: {
           defaultLocale: string;
@@ -180,10 +180,10 @@ export function getFSXAModule<R extends RootState>(
           return;
         }
       },
-      [Actions.hydrateClient]: function({ commit }, payload: FSXAVuexState) {
+      [Actions.hydrateClient]: function ({ commit }, payload: FSXAVuexState) {
         commit("setInitialStateFromServer", payload);
       },
-      [Actions.setStoredItem]: async function({ commit }, payload) {
+      [Actions.setStoredItem]: async function ({ commit }, payload) {
         commit("setStoredItem", payload);
       },
     },
@@ -253,41 +253,43 @@ export function getFSXAModule<R extends RootState>(
       },
     },
     getters: {
-      [Getters.appState]: function(state): FSXAAppState {
+      [Getters.appState]: function (state): FSXAAppState {
         return state.appState;
       },
-      [Getters.error]: function(state) {
+      [Getters.error]: function (state) {
         return state.error;
       },
-      [GETTER_NAVIGATION_DATA]: function(state) {
+      [GETTER_NAVIGATION_DATA]: function (state) {
         return state.navigation || null;
       },
-      [GETTER_CONFIGURATION]: function(state) {
+      [GETTER_CONFIGURATION]: function (state) {
         return state.configuration || null;
       },
-      [GETTER_LOCALE]: function(state) {
+      [GETTER_LOCALE]: function (state) {
         return state.locale || null;
       },
-      [GETTER_ITEM]: (state): any => (id: string) => state.stored[id] || null,
+      [GETTER_ITEM]:
+        (state): any =>
+        (id: string) =>
+          state.stored[id] || null,
       [GETTER_PAGE_BY_URL]: (state, getters) => (url: string) => {
         const navigationData = getters[FSXAGetters[GETTER_NAVIGATION_DATA]];
         if (!navigationData) return null;
         return (navigationData as NavigationData).seoRouteMap[url] || null;
       },
       [GETTER_MODE]: (state): FSXAContentMode => state.mode as FSXAContentMode,
-      [GETTER_REFERENCE_URL]: state => (
-        referenceId: string,
-        referenceType: "PageRef",
-      ) => {
-        const page =
-          referenceType === "PageRef"
-            ? state.navigation?.idMap[referenceId]
-            : null;
-        return page ? page.seoRoute : null;
-      },
+      [GETTER_REFERENCE_URL]:
+        (state) => (referenceId: string, referenceType: "PageRef") => {
+          const page =
+            referenceType === "PageRef"
+              ? state.navigation?.idMap[referenceId]
+              : null;
+          return page ? page.seoRoute : null;
+        },
     },
   };
 }
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const createStore = (mode: FSXAContentMode, params: FSXAModuleParams) => {
   const store = new Vuex.Store<RootState>({
     modules: {

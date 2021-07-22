@@ -25,9 +25,9 @@ import { determineCurrentRoute } from "@/utils/navigation";
   name: "BaseComponent",
 })
 class BaseComponent<
-  Props = {},
-  EventsWithOn = {},
-  Slots = {}
+  Props = unknown,
+  EventsWithOn = unknown,
+  Slots = unknown,
 > extends TsxComponent<Props, EventsWithOn, Slots> {
   @InjectReactive({
     from: "currentPath",

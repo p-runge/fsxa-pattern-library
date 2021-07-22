@@ -7,9 +7,9 @@ import BaseComponent from "./BaseComponent";
   name: "RenderUtils",
 })
 class RenderUtils<
-  Props = {},
-  EventsWithOn = {},
-  Slots = {}
+  Props = unknown,
+  EventsWithOn = unknown,
+  Slots = unknown,
 > extends BaseComponent<Props, EventsWithOn, Slots> {
   renderContentElement(content: PageBodyContent) {
     switch (content.type) {

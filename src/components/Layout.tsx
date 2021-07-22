@@ -25,7 +25,7 @@ export interface LayoutProps<Data, Meta> {
 @Component({
   name: "Layout",
 })
-class Layout<Data = {}, Meta = {}> extends RenderUtils<
+class Layout<Data = unknown, Meta = unknown> extends RenderUtils<
   LayoutProps<Data, Meta>
 > {
   @Prop({ required: true }) pageId!: LayoutProps<Data, Meta>["pageId"];
@@ -153,7 +153,7 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
                 </Code>
               ),
             },
-            ...this.content.map(content => ({
+            ...this.content.map((content) => ({
               title: `[Slot]: ${content.name}`,
               content: (
                 <Code language="tsx">
@@ -215,15 +215,16 @@ class Layout<Data = {}, Meta = {}> extends RenderUtils<
       <ErrorBoundary
         class="group-l"
         data-preview-id={this.isEditMode ? this.previewId : undefined}
-        title={`Error rendering Layout: ${this.mappedLayout &&
-          this.mappedLayout.name}`}
+        title={`Error rendering Layout: ${
+          this.mappedLayout && this.mappedLayout.name
+        }`}
       >
         {content}
         {this.isDevMode ? (
           <a
             href="#"
             title={`Layout: ${this.type}`}
-            onClick={event => {
+            onClick={(event) => {
               event.preventDefault();
               this.renderDevInfoPortal();
             }}

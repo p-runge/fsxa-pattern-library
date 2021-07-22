@@ -14,7 +14,11 @@ import TabbedContent from "@/components/internal/TabbedContent";
 @Component({
   name: "FSXARichText",
 })
-class RichText extends BaseComponent<RichTextProps, {}, Record<string, any>> {
+class RichText extends BaseComponent<
+  RichTextProps,
+  unknown,
+  Record<string, any>
+> {
   @Prop({ required: true }) content!: RichTextProps["content"];
   @InjectReactive({ from: FSXA_INJECT_KEY_COMPONENTS })
   components!: AppComponents;
@@ -144,7 +148,7 @@ ${JSON.stringify(this.content, null, 2)}
           <a
             href="#"
             class="group-r pl-inline-flex pl-pl-1 pl-py-1 pl-bg-blue-200 pl-rounded-lg group pl-border pl-border-blue-400 hover:pl-bg-blue-100 pl-text-sm pl-text-blue-900 pl-font-sans pl-items-center pl-justify-center"
-            onClick={event => {
+            onClick={(event) => {
               event.preventDefault();
               this.renderDevInfoPortal(element);
             }}

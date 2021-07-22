@@ -30,7 +30,7 @@ class TabbedContent extends BaseComponent<TabbedContentProps> {
             aria-expanded="true"
             aria-labelledby="listbox-label"
             class="pl-bg-white pl-relative pl-w-full pl-border pl-border-gray-300 pl-rounded-md pl-shadow-sm pl-pl-3 pl-pr-10 pl-py-2 pl-text-left pl-cursor-default focus:pl-outline-none focus:pl-ring-1 focus:pl-ring-indigo-500 focus:pl-border-indigo-500 sm:pl-text-sm"
-            onClick={event => {
+            onClick={(event) => {
               event.preventDefault();
               this.showDropdownMenu = !this.showDropdownMenu;
             }}
@@ -68,7 +68,7 @@ class TabbedContent extends BaseComponent<TabbedContentProps> {
                     id="listbox-option-0"
                     role="option"
                     class="pl-text-gray-900 pl-cursor-default pl-select-none pl-relative pl-py-2 pl-pl-3 pl-pr-9"
-                    onClick={event => {
+                    onClick={(event) => {
                       event.preventDefault();
                       this.activeTab = index;
                       this.showDropdownMenu = false;
@@ -121,7 +121,7 @@ class TabbedContent extends BaseComponent<TabbedContentProps> {
                       : "pl-text-gray-900 hover:pl-text-gray-700"
                   }`}
                   aria-current={isActive ? "page" : undefined}
-                  onClick={event => {
+                  onClick={(event) => {
                     event.preventDefault();
                     this.activeTab = index;
                   }}

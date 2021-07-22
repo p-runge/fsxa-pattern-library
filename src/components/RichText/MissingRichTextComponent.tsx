@@ -13,9 +13,7 @@ interface MissingRichTextComponentProps {
 @Component({
   name: "MissingRichTextComponent",
 })
-class MissingRichTextComponent extends BaseComponent<
-  MissingRichTextComponentProps
-> {
+class MissingRichTextComponent extends BaseComponent<MissingRichTextComponentProps> {
   @Prop({ required: true }) element!: MissingRichTextComponentProps["element"];
   @Inject({
     from: FSXA_INJECT_KEY_SET_PORTAL_CONTENT,
@@ -119,7 +117,7 @@ ${JSON.stringify(this.element.content, null, 2)}
         <a
           href="#"
           class="group-r pl-inline-flex pl-pl-1 pl-py-1 pl-bg-blue-200 pl-rounded-lg group pl-border pl-border-blue-400 hover:pl-bg-blue-100 pl-text-sm pl-text-blue-900 pl-font-sans pl-items-center pl-justify-center"
-          onClick={event => {
+          onClick={(event) => {
             event.preventDefault();
             this.renderDevInfoPortal();
           }}

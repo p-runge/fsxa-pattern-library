@@ -1,7 +1,7 @@
 import "./tailwind.css";
 import Vue from "vue";
 import TsxApp from "./../examples/tsx";
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import SFCApp from "./../examples/sfc/index.vue";
 import createStore from "./store";
@@ -25,9 +25,9 @@ const store2 = createStore(process.env.VUE_APP_MODE as FSXAContentMode, {
 });
 new Vue({
   store,
-  render: h => h(TsxApp),
+  render: (h) => h(TsxApp),
 }).$mount("#app");
 new Vue({
   store: store2,
-  render: h => h(SFCApp),
+  render: (h) => h(SFCApp),
 }).$mount("#app2");

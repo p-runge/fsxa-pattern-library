@@ -1,8 +1,10 @@
-const namedGroup = name => (name ? `group-${name}` : "group");
-const generateGroupHover = ({ e, sep, className }) => name =>
-  `.${e(namedGroup(name))}:hover .${e(
-    `${namedGroup(name)}-hover${sep}${className}`,
-  )}`;
+const namedGroup = (name) => (name ? `group-${name}` : "group");
+const generateGroupHover =
+  ({ e, sep, className }) =>
+  (name) =>
+    `.${e(namedGroup(name))}:hover .${e(
+      `${namedGroup(name)}-hover${sep}${className}`,
+    )}`;
 const namedGroupHover = ({ addVariant, e, theme }) =>
   addVariant("named-group-hover", ({ modifySelectors, separator: sep }) =>
     modifySelectors(({ className }) =>

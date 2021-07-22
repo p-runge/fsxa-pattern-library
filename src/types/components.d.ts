@@ -11,9 +11,9 @@ import { FSXAAppState, FSXAAppError } from "./../store";
 import { GCAPage } from "fsxa-api";
 
 export class FSXABaseComponent<
-  Props = {},
-  EventsWithOn = {},
-  Slots = {}
+  Props = unknown,
+  EventsWithOn = unknown,
+  Slots = unknown,
 > extends Component<Props, EventsWithOn, Slots> {
   /**
    * Check wether devMode is active
@@ -86,7 +86,7 @@ export class FSXABaseComponent<
   setStoredItem<Type = any>(key: string, value: Type, ttl?: number): void;
 }
 
-export interface BaseLayoutProps<Data = {}, Meta = {}> {
+export interface BaseLayoutProps<Data = unknown, Meta = unknown> {
   /**
    * the id of the page that was requested
    */
@@ -100,11 +100,10 @@ export interface BaseLayoutProps<Data = {}, Meta = {}> {
    */
   meta: Meta;
 }
-export class FSXABaseLayout<Data = {}, Meta = {}> extends FSXABaseComponent<
-  BaseLayoutProps<Data, Meta>,
-  {},
-  {}
-> {
+export class FSXABaseLayout<
+  Data = unknown,
+  Meta = unknown,
+> extends FSXABaseComponent<BaseLayoutProps<Data, Meta>, unknown, unknown> {
   /**
    * the id of the page that was requested
    */
@@ -146,8 +145,8 @@ export interface BaseSectionProps<Payload, Meta> {
 export class FSXABaseSection<
   Payload = Record<string, any>,
   Meta = Record<string, any>,
-  EventsWithOn = {},
-  Slots = {}
+  EventsWithOn = unknown,
+  Slots = unknown,
 > extends FSXABaseComponent<
   BaseSectionProps<Payload, Meta>,
   EventsWithOn,
@@ -195,14 +194,14 @@ export interface BaseAppLayoutProps {
 }
 export class FSXABaseAppLayout extends FSXABaseComponent<
   BaseAppLayoutProps,
-  {},
+  unknown,
   {
     /**
      * This is the content that should be displayed inside of your AppLayout
      *
      * This already contains the automatically mapped layouts and sections so make sure that you embed it
      */
-    default: {};
+    default: unknown;
   }
 > {
   /**
@@ -336,7 +335,7 @@ export interface BaseRichTextElementProps<Data = Record<string, any>> {
   data: Data;
 }
 export class FSXABaseRichTextElement<
-  Data = Record<string, any>
+  Data = Record<string, any>,
 > extends FSXABaseComponent<BaseRichTextElementProps<Data>> {
   content: BaseRichTextElementProps<Data>["content"];
   data: BaseRichTextElementProps<Data>["data"];

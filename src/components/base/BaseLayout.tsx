@@ -13,10 +13,10 @@ import RenderUtils from "./RenderUtils";
   name: "FSXABaseLayout",
 })
 class BaseLayout<
-  Data = {},
-  Meta = {},
-  EventsWithOn = {},
-  Slots = {}
+  Data = unknown,
+  Meta = unknown,
+  EventsWithOn = unknown,
+  Slots = unknown,
 > extends RenderUtils<BaseLayoutProps<Data, Meta>, EventsWithOn, Slots> {
   /**
    * the id of the page that was requested

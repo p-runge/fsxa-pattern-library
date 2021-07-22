@@ -6,7 +6,7 @@ import { FSXA_INJECT_KEY_SET_PORTAL_CONTENT } from "@/constants";
 @Component({
   name: "PortalProvider",
 })
-class PortalProvider extends TsxComponent<{}> {
+class PortalProvider extends TsxComponent<unknown> {
   portalContent: any | null = null;
 
   @Watch("portalContent")
@@ -28,7 +28,7 @@ class PortalProvider extends TsxComponent<{}> {
           <div class="pl-fixed pl-w-full pl-h-screen pl-top-0 pl-left-0 pl-flex pl-items-start pl-justify-center pl-z-50">
             <div
               class="pl-absolute pl-top-0 pl-left-0 pl-w-full pl-h-full pl-bg-gray-800 pl-bg-opacity-50 pl-z-0"
-              onClick={event => {
+              onClick={(event) => {
                 event.preventDefault();
                 this.setPortalContent(null);
               }}

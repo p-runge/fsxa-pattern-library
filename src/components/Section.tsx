@@ -24,7 +24,7 @@ export interface SectionProps<Data, Meta> {
 })
 class Section<
   Data = Record<string, any>,
-  Meta = Record<string, any>
+  Meta = Record<string, any>,
 > extends BaseComponent<SectionProps<Data, Meta>> {
   @Prop() id: SectionProps<Data, Meta>["id"];
   @Prop() previewId: SectionProps<Data, Meta>["previewId"];
@@ -191,15 +191,16 @@ class Section<
       return (
         <ErrorBoundary
           class="pl-group"
-          title={`Error rendering Section: ${MappedSection &&
-            MappedSection.name}`}
+          title={`Error rendering Section: ${
+            MappedSection && MappedSection.name
+          }`}
         >
           {content}
           {this.isDevMode ? (
             <a
               href="#"
               title={`Section: ${this.type}`}
-              onClick={event => {
+              onClick={(event) => {
                 event.preventDefault();
                 this.renderDevInfoPortal();
               }}

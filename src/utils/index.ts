@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 export const isClient = () => typeof window !== "undefined";
 
 export const getTPPSnap = (): any | null => {

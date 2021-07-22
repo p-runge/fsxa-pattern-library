@@ -79,7 +79,7 @@ class Dataset extends RenderUtils<DatasetProps> {
   replaceContent2Section(children: PageBodyContent[]) {
     if (!this.dataset) return children;
     const content2SectionIndex = children.findIndex(
-      child =>
+      (child) =>
         child.data.entityType === this.dataset?.entityType &&
         child.data.schema === this.dataset?.schema,
     );
@@ -100,7 +100,7 @@ class Dataset extends RenderUtils<DatasetProps> {
         <Page
           pageData={{
             ...this.page,
-            children: this.page.children.map(body => ({
+            children: this.page.children.map((body) => ({
               ...body,
               children: this.replaceContent2Section(body.children),
             })),

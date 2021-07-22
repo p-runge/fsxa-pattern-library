@@ -13,7 +13,7 @@ import ListItem from "./components/richtext/ListItem";
 @Component({
   name: "App",
 })
-class App extends TsxComponent<{}> {
+class App extends TsxComponent<unknown> {
   route = location.pathname;
 
   mounted() {

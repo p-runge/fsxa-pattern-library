@@ -54,7 +54,7 @@ class InfoBox extends BaseComponent<InfoBoxProps> {
                 class={`pl-flex pl-items-center pl-justify-center pl-w-10 pl-h-10 hover:pl-bg-gray-200 pl-rounded-full pl-duration-200 pl-transition-transform pl-transform ${
                   this.collapsed ? "-pl-rotate-90" : ""
                 }`}
-                onClick={event => {
+                onClick={(event) => {
                   event.preventDefault();
                   if (this.isOverlay && this.handleClose) {
                     this.handleClose();
