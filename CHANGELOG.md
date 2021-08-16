@@ -1,3 +1,10 @@
+## [3.2.4](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.3...v3.2.4) (2021-08-16)
+
+
+### Bug Fixes
+
+* update dependencies ([#15](https://github.com/e-Spirit/fsxa-pattern-library/issues/15)) ([61d1610](https://github.com/e-Spirit/fsxa-pattern-library/commit/61d1610d2b9bd6a6bcd176d49a8c12612a75a807))
+
 ## [3.2.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.2...v3.2.3) (2021-07-19)
 
 
