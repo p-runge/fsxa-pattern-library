@@ -1,3 +1,10 @@
+# [4.0.0-alpha.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.0-alpha.2...v4.0.0-alpha.3) (2021-10-01)
+
+
+### Bug Fixes
+
+* replace number with enum ([3579927](https://github.com/e-Spirit/fsxa-pattern-library/commit/3579927ebecc8cdf75dfb6ca22fbf0200dcce69e))
+
 # [4.0.0-alpha.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.0-alpha.1...v4.0.0-alpha.2) (2021-10-01)
 
 
