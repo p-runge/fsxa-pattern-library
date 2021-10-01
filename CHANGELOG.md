@@ -1,3 +1,10 @@
+# [4.0.0-alpha.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.0-alpha.1...v4.0.0-alpha.2) (2021-10-01)
+
+
+### Bug Fixes
+
+* remove unused file fsxa.config.js ([19742a2](https://github.com/e-Spirit/fsxa-pattern-library/commit/19742a26bd5f694005de771b8ce066926944ed9b))
+
 # [4.0.0-alpha.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.4...v4.0.0-alpha.1) (2021-10-01)
 
 
