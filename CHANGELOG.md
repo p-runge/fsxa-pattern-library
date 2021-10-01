@@ -1,3 +1,10 @@
+# [4.0.0-alpha.4](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.0-alpha.3...v4.0.0-alpha.4) (2021-10-01)
+
+
+### Bug Fixes
+
+* fix import path ([6a3b77f](https://github.com/e-Spirit/fsxa-pattern-library/commit/6a3b77f89462793754f9ee72da1ef80ef18f8b4e))
+
 # [4.0.0-alpha.3](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.0-alpha.2...v4.0.0-alpha.3) (2021-10-01)
 
 
