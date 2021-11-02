@@ -1,16 +1,35 @@
 import { NavigationData, NavigationItem } from "fsxa-api";
 
 export const NAVIGATION_ERROR_404 = "Could not find route with given path";
+
+const getNavigationItem = (
+  path: string,
+  navigationData: NavigationData,
+): NavigationItem | null => {
+  return navigationData.idMap[navigationData.seoRouteMap[path]] || null;
+};
+
+const findPathInSeoRouteMap = (
+  path: string,
+  navigationData: NavigationData,
+): NavigationItem | null => {
+  let node: NavigationItem | null = getNavigationItem(path, navigationData);
+  if (!node) {
+    path = path.endsWith("/") ? path.slice(0, -1) : path.concat("/");
+    node = getNavigationItem(path, navigationData);
+  }
+  return node;
+};
+
 export const determineCurrentRoute = (
   navigationData: NavigationData | null,
   currentPath?: string,
-): NavigationItem | null => {
+) => {
   if (!navigationData) return null;
   const path = decodeURIComponent(currentPath || "");
   // we will check if the path is set
   if (path && path !== "/") {
-    let node: NavigationItem | null =
-      navigationData.idMap[navigationData.seoRouteMap[path]] || null;
+    let node = findPathInSeoRouteMap(path, navigationData);
     if (!node) {
       // the path is not mapped in the seoRouteMap
       // we will check for dynamic routes
