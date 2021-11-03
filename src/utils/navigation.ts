@@ -15,6 +15,7 @@ const findPathInSeoRouteMap = (
 ): NavigationItem | null => {
   let node: NavigationItem | null = getNavigationItem(path, navigationData);
   if (!node) {
+    // if we cannot find a route we try finding one with or without a slash at the end dependent on the original path
     path = path.endsWith("/") ? path.slice(0, -1) : path.concat("/");
     node = getNavigationItem(path, navigationData);
   }
