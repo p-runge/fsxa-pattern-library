@@ -9,6 +9,7 @@ import {
   NavigationItem,
 } from "fsxa-api";
 import {
+  findNavigationItemInNavigationData,
   getStoredItem,
   setStoredItem,
   triggerRouteChange,
@@ -18,8 +19,8 @@ import {
   FSXA_INJECT_KEY_DEV_MODE,
   FSXA_INJECT_KEY_TPP_VERSION,
 } from "@/constants";
-import { findNavigationItemInNavigationData } from "@/utils/getters";
 import { determineCurrentRoute } from "@/utils/navigation";
+import { getTPPSnap } from "@/utils";
 
 @Component({
   name: "BaseComponent",
@@ -143,6 +144,13 @@ class BaseComponent<
    */
   get globalSettings(): GCAPage | null {
     return this.$store.state.fsxa.settings || null;
+  }
+
+  /**
+   * Provides the TPPSnap API
+   */
+  get tppSnap(): any {
+    return getTPPSnap();
   }
 
   /**

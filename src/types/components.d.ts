@@ -73,6 +73,10 @@ export class FSXABaseComponent<
    */
   get globalSettings(): GCAPage | null;
   /**
+   * Provides the TPPSnap API
+   */
+  get tppSnap(): any;
+  /**
    * Access your stored data in the vuex store
    */
   getStoredItem<Type = any>(key: string): Type | null;
