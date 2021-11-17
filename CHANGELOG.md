@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.4...v3.3.0) (2021-11-17)
+
+
+### Features
+
+* **tpp-snap:** provide tpp snap ([#21](https://github.com/e-Spirit/fsxa-pattern-library/issues/21)) ([5a67ea7](https://github.com/e-Spirit/fsxa-pattern-library/commit/5a67ea7f3e26bb889dff053999cbd453a4f49b51))
+
 ## [3.2.4](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.3...v3.2.4) (2021-08-16)
 
 
