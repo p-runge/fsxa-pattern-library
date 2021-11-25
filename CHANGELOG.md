@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0...v3.4.0) (2021-11-25)
+
+
+### Features
+
+* **404 page:** identify and handle not-found ([#19](https://github.com/e-Spirit/fsxa-pattern-library/issues/19)) ([c389f94](https://github.com/e-Spirit/fsxa-pattern-library/commit/c389f9412137a081decd30ee6f0aefb15ffbc430))
+
 # [3.3.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.2.4...v3.3.0) (2021-11-17)
 
 
