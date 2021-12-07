@@ -1,3 +1,17 @@
+# [4.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.4.0...v4.0.0) (2021-12-07)
+
+
+### Features
+
+* add NavigationFilter ([#27](https://github.com/e-Spirit/fsxa-pattern-library/issues/27)) ([38973fd](https://github.com/e-Spirit/fsxa-pattern-library/commit/38973fdbac8ccacccc3e44f521b3d7859ba454df)), closes [#17](https://github.com/e-Spirit/fsxa-pattern-library/issues/17) [#18](https://github.com/e-Spirit/fsxa-pattern-library/issues/18)
+
+
+### BREAKING CHANGES
+
+* The original fsxa-api class was removed and the new ones FSXAProxyApi and
+FSXARemoteApi are used. Their have a slightly different, but better, method signatures. For
+more information, please read the [migration guide in the CHANGELOG of the FSXA-API](https://github.com/e-Spirit/fsxa-api/blob/master/CHANGELOG.md#migration-guide).
+
 # [3.4.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.3.0...v3.4.0) (2021-11-25)
 
 ### Features
