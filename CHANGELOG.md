@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.0...v4.0.1) (2021-12-21)
+
+
+### Bug Fixes
+
+* **store:** fix definition of state's mode property ([#29](https://github.com/e-Spirit/fsxa-pattern-library/issues/29)) ([7ff4955](https://github.com/e-Spirit/fsxa-pattern-library/commit/7ff49551ca5d8f5fcaac1f32dca6db1e3c48849f))
+
 # [4.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v3.4.0...v4.0.0) (2021-12-07)
 
 
