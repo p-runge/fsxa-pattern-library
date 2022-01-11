@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v5.0.0...v5.1.0) (2022-01-11)
+
+
+### Features
+
+* **InEdit:** add properties for InEdit([#26](https://github.com/e-Spirit/fsxa-pattern-library/issues/26)) ([9f4c5a5](https://github.com/e-Spirit/fsxa-pattern-library/commit/9f4c5a5e3e897e23b19d5020a446d1815604e3a3))
+
 # [5.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.2...v5.0.0) (2022-01-11)
 
 
