@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.2...v5.0.0) (2022-01-11)
+
+
+### Features
+
+* update usage of fetchByFilter ([#31](https://github.com/e-Spirit/fsxa-pattern-library/issues/31)) ([263b085](https://github.com/e-Spirit/fsxa-pattern-library/commit/263b0856a6a04b77fef62a97be2c8ae0d7a88c93))
+
+
+### BREAKING CHANGES
+
+* fetchByFilter from fsxa-api now has an extended structure. Please read the fsxa-api/[CHANGELOG.md](https://github.com/e-Spirit/fsxa-api/blob/master/CHANGELOG.md#breaking-change) for more information.
+
 ## [4.0.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v4.0.1...v4.0.2) (2021-12-22)
 
 ### Bug Fixes
