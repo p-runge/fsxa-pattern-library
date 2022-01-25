@@ -251,7 +251,7 @@ class App extends TsxComponent<AppProps> {
           ) : (
             <div class="pl-text-gray-900">
               <h2 class="pl-text-lg pl-font-medium pl-text-gray-900">
-                {this.appError?.message}
+                <span role="alert">{this.appError?.message}</span>
               </h2>
               {this.appError.description && (
                 <h3>{this.appError?.description}</h3>
@@ -263,7 +263,7 @@ class App extends TsxComponent<AppProps> {
     }
     // We only want to generate the content, when the app is correctly initialized
     const content =
-      this.appState === FSXAAppState.ready ? this.renderContent() : [];
+      this.appState === FSXAAppState.ready ? this.renderContent() : null;
     if (AppLayout) {
       const appLayout = (
         <AppLayout appState={this.appState} appError={this.appError}>
