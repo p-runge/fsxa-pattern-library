@@ -69,18 +69,8 @@ export const FSXAActions = {
   setStoredItem: `${prefix}/${Actions.setStoredItem}`,
 };
 
-export const getFSXAConfiguration = (
-  options: CreateStoreProxyOptions | CreateStoreRemoteOptions,
-): CreateStoreRemoteOptions | { mode: "proxy"; baseUrl: string } => {
-  if (options.mode === "remote") return options;
-
-  return {
-    mode: options.mode,
-    baseUrl:
-      typeof window !== "undefined"
-        ? options.config.clientUrl
-        : options.config.serverUrl,
-  };
+export const getFSXAProxyApiUrl = (config: FSXAProxyApiConfig): string => {
+  return typeof window !== "undefined" ? config.clientUrl : config.serverUrl;
 };
 
 const GETTER_NAVIGATION_DATA = "navigationData";
@@ -110,8 +100,7 @@ export function getFSXAModule<R extends RootState>(
     options.mode === "remote"
       ? new FSXARemoteApi(options.config)
       : new FSXAProxyApi(
-          // TODO: make this prettier
-          (getFSXAConfiguration(options) as any).baseUrl,
+          getFSXAProxyApiUrl(options.config),
           options.config.logLevel,
         );
 

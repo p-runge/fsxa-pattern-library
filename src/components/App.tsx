@@ -4,7 +4,7 @@ import {
   FSXAAppState,
   FSXAGetters,
   FSXAVuexState,
-  getFSXAConfiguration,
+  getFSXAProxyApiUrl,
 } from "@/store";
 import {
   determineCurrentRoute,
@@ -27,7 +27,12 @@ import Page from "./Page";
 import ErrorBoundary from "./internal/ErrorBoundary";
 import InfoBox from "./internal/InfoBox";
 import Code from "./internal/Code";
-import { FSXAProxyApi, FSXARemoteApi } from "fsxa-api";
+import {
+  FSXAProxyApi,
+  FSXAProxyApiConfig,
+  FSXARemoteApi,
+  FSXARemoteApiConfig,
+} from "fsxa-api";
 import { AppProps } from "@/types/components";
 import PortalProvider from "./internal/PortalProvider";
 import { getTPPSnap, importTPPSnapAPI } from "@/utils";
@@ -181,18 +186,14 @@ class App extends TsxComponent<AppProps> {
   }
 
   get fsxaApi(): FSXAProxyApi | FSXARemoteApi {
-    const { fsxaApiMode, configuration } = this.$store.state
-      .fsxa as FSXAVuexState;
+    const { fsxaApiMode, configuration } = this.$store.state as FSXAVuexState;
 
-    // TODO: make this prettier
-    const config = getFSXAConfiguration({
-      mode: fsxaApiMode,
-      config: configuration,
-    } as any);
-
-    return config.mode === "remote"
-      ? new FSXARemoteApi(config.config)
-      : new FSXAProxyApi(config.baseUrl, configuration.logLevel);
+    return fsxaApiMode === "remote"
+      ? new FSXARemoteApi(configuration as FSXARemoteApiConfig)
+      : new FSXAProxyApi(
+          getFSXAProxyApiUrl(configuration as FSXAProxyApiConfig),
+          configuration.logLevel,
+        );
   }
 
   get locale(): string {
