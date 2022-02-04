@@ -21,10 +21,12 @@ const setup = () => {
     mode: "proxy",
     config: {
       contentMode: FSXAContentMode.PREVIEW,
-      url: API_URL,
+      clientUrl: API_URL,
+      serverUrl: API_URL,
       logLevel: LogLevel.NONE,
     },
   });
+
   return { localVue, store };
 };
 

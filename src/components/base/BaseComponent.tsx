@@ -3,9 +3,9 @@ import { Component, Inject, InjectReactive } from "vue-property-decorator";
 import { FSXAGetters, FSXAVuexState, getFSXAProxyApiUrl } from "@/store";
 import {
   FSXAProxyApi,
-  FSXAProxyApiConfig,
   FSXARemoteApi,
   FSXARemoteApiConfig,
+  FSXAProxyApiSingleton,
   GCAPage,
   NavigationData,
   NavigationItem,
@@ -123,10 +123,7 @@ class BaseComponent<
 
     return fsxaApiMode === "remote"
       ? new FSXARemoteApi(configuration as FSXARemoteApiConfig)
-      : new FSXAProxyApi(
-          getFSXAProxyApiUrl(configuration as FSXAProxyApiConfig),
-          configuration.logLevel,
-        );
+      : FSXAProxyApiSingleton.Instance;
   }
 
   /**

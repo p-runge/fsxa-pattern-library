@@ -24,7 +24,8 @@ const setup = () => {
     mode: "proxy",
     config: {
       contentMode: FSXAContentMode.PREVIEW,
-      url: "somewhere",
+      clientUrl: "somewhere",
+      serverUrl: "somewhere/else",
       logLevel: LogLevel.NONE,
     },
   });
@@ -35,6 +36,7 @@ const setup = () => {
       locale: "de",
     },
   });
+
   return { localVue, store };
 };
 

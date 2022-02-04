@@ -4,7 +4,6 @@ import {
   FSXAAppState,
   FSXAGetters,
   FSXAVuexState,
-  getFSXAProxyApiUrl,
 } from "@/store";
 import {
   determineCurrentRoute,
@@ -29,7 +28,7 @@ import InfoBox from "./internal/InfoBox";
 import Code from "./internal/Code";
 import {
   FSXAProxyApi,
-  FSXAProxyApiConfig,
+  FSXAProxyApiSingleton,
   FSXARemoteApi,
   FSXARemoteApiConfig,
 } from "fsxa-api";
@@ -190,10 +189,7 @@ class App extends TsxComponent<AppProps> {
 
     return fsxaApiMode === "remote"
       ? new FSXARemoteApi(configuration as FSXARemoteApiConfig)
-      : new FSXAProxyApi(
-          getFSXAProxyApiUrl(configuration as FSXAProxyApiConfig),
-          configuration.logLevel,
-        );
+      : FSXAProxyApiSingleton.Instance;
   }
 
   get locale(): string {

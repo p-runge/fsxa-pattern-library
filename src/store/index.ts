@@ -4,9 +4,9 @@ import {
   NavigationData,
   FSXAContentMode,
   GCAPage,
-  FSXAProxyApi,
   FSXARemoteApi,
   FSXAProxyApiConfig,
+  FSXAProxyApiSingleton,
   FSXARemoteApiConfig,
 } from "fsxa-api";
 import {
@@ -96,13 +96,22 @@ export const FSXAGetters = {
 export function getFSXAModule<R extends RootState>(
   options: CreateStoreProxyOptions | CreateStoreRemoteOptions,
 ): Module<FSXAVuexState, R> {
-  const fsxaApi =
-    options.mode === "remote"
-      ? new FSXARemoteApi(options.config)
-      : new FSXAProxyApi(
-          getFSXAProxyApiUrl(options.config),
-          options.config.logLevel,
-        );
+  let fsxaApi;
+  if (options.mode === "remote") {
+    fsxaApi = new FSXARemoteApi(options.config);
+  } else {
+    try {
+      // this is not needed for actual runtime but for cleanly running test suites
+      // since they create the store multiple times for different tests
+      fsxaApi = FSXAProxyApiSingleton.Instance;
+    } catch (_) {
+      FSXAProxyApiSingleton.init(
+        getFSXAProxyApiUrl(options.config),
+        options.config.logLevel,
+      );
+      fsxaApi = FSXAProxyApiSingleton.Instance;
+    }
+  }
 
   return {
     namespaced: true,
