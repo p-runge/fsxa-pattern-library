@@ -6,6 +6,8 @@ import {
   GCAPage,
   FSXAProxyApi,
   FSXARemoteApi,
+  FSXAProxyApiConfig,
+  FSXARemoteApiConfig,
 } from "fsxa-api";
 import {
   CreateStoreProxyOptions,
@@ -25,7 +27,8 @@ export enum FSXAAppState {
 }
 export interface FSXAVuexState {
   locale: string | null;
-  configuration: any;
+  fsxaApiMode: "proxy" | "remote";
+  configuration: FSXAProxyApiConfig | FSXARemoteApiConfig;
   appState: FSXAAppState;
   navigation: NavigationData | null;
   settings: any | null;
@@ -66,14 +69,17 @@ export const FSXAActions = {
   setStoredItem: `${prefix}/${Actions.setStoredItem}`,
 };
 
-export const getFSXAConfiguration = (config: any): any => {
-  if (config.mode === "remote") return config;
+export const getFSXAConfiguration = (
+  options: CreateStoreProxyOptions | CreateStoreRemoteOptions,
+): CreateStoreRemoteOptions | { mode: "proxy"; baseUrl: string } => {
+  if (options.mode === "remote") return options;
+
   return {
-    mode: config.mode,
+    mode: options.mode,
     baseUrl:
       typeof window !== "undefined"
-        ? config.baseUrl.client
-        : config.baseUrl.server,
+        ? options.config.clientUrl
+        : options.config.serverUrl,
   };
 };
 
@@ -103,7 +109,11 @@ export function getFSXAModule<R extends RootState>(
   const fsxaApi =
     options.mode === "remote"
       ? new FSXARemoteApi(options.config)
-      : new FSXAProxyApi(options.config.url, options.config.logLevel);
+      : new FSXAProxyApi(
+          // TODO: make this prettier
+          (getFSXAConfiguration(options) as any).baseUrl,
+          options.config.logLevel,
+        );
 
   return {
     namespaced: true,
