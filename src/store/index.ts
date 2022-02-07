@@ -4,11 +4,9 @@ import {
   NavigationData,
   FSXAContentMode,
   GCAPage,
-  FSXARemoteApi,
   FSXAProxyApiConfig,
   FSXARemoteApiConfig,
   FSXAApiSingleton,
-  FSXAProxyApi,
 } from "fsxa-api";
 import {
   CreateStoreProxyOptions,
@@ -97,7 +95,6 @@ export const FSXAGetters = {
 export function getFSXAModule<R extends RootState>(
   options: CreateStoreProxyOptions | CreateStoreRemoteOptions,
 ): Module<FSXAVuexState, R> {
-  initializeApi(options);
   return {
     namespaced: true,
     state: () => ({
@@ -242,18 +239,3 @@ const createStore = (
   return store;
 };
 export default createStore;
-
-function initializeApi(
-  options: CreateStoreProxyOptions | CreateStoreRemoteOptions,
-) {
-  if (options.mode === "remote") {
-    FSXAApiSingleton.init(new FSXARemoteApi(options.config));
-  } else {
-    FSXAApiSingleton.init(
-      new FSXAProxyApi(
-        getFSXAProxyApiUrl(options.config),
-        options.config.logLevel,
-      ),
-    );
-  }
-}
