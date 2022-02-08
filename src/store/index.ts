@@ -68,10 +68,6 @@ export const FSXAActions = {
   setStoredItem: `${prefix}/${Actions.setStoredItem}`,
 };
 
-export const getFSXAProxyApiUrl = (config: FSXAProxyApiConfig): string => {
-  return typeof window !== "undefined" ? config.clientUrl : config.serverUrl;
-};
-
 const GETTER_NAVIGATION_DATA = "navigationData";
 const GETTER_CONFIGURATION = "configuration";
 const GETTER_LOCALE = "locale";
