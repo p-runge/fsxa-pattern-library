@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.0.0...v6.0.1) (2022-02-09)
+
+
+### Bug Fixes
+
+* **initializeApp:** fix handling of path on initital pageload ([#41](https://github.com/e-Spirit/fsxa-pattern-library/issues/41)) ([eef8e26](https://github.com/e-Spirit/fsxa-pattern-library/commit/eef8e26a4f6c2065ab0807962688a19b72c61509))
+
 # [6.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v5.1.2...v6.0.0) (2022-02-08)
 
 
