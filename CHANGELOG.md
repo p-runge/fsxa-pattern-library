@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.0.1...v6.1.0) (2022-02-11)
+
+
+### Features
+
+* **fsxa-api:** update fsxa-api for references to sections ([#42](https://github.com/e-Spirit/fsxa-pattern-library/issues/42)) ([9c463c7](https://github.com/e-Spirit/fsxa-pattern-library/commit/9c463c7a67775f8e33328f805477160ed182fe91))
+
 ## [6.0.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.0.0...v6.0.1) (2022-02-09)
 
 
