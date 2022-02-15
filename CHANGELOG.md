@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.1.0...v6.2.0) (2022-02-15)
+
+
+### Features
+
+* **change stream:** accessing the FSXA API EventSource ([#32](https://github.com/e-Spirit/fsxa-pattern-library/issues/32)) ([7840e7a](https://github.com/e-Spirit/fsxa-pattern-library/commit/7840e7a37e924a14b6e2c4956fe81049c4b3807d))
+
 # [6.1.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.0.1...v6.1.0) (2022-02-11)
 
 
