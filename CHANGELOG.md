@@ -1,3 +1,10 @@
+## [6.2.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.2.1...v6.2.2) (2022-03-02)
+
+
+### Bug Fixes
+
+* **fsxa-api:** performance fix for fetch project properties ([#50](https://github.com/e-Spirit/fsxa-pattern-library/issues/50)) ([526b7f6](https://github.com/e-Spirit/fsxa-pattern-library/commit/526b7f67e88cda250f93fd66171551df062f41f4))
+
 ## [6.2.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.2.0...v6.2.1) (2022-02-22)
 
 
