@@ -1,3 +1,16 @@
+# [7.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.3.0...v7.0.0) (2022-04-21)
+
+
+### Features
+
+* **dataset:** access to current Dataset ([#56](https://github.com/e-Spirit/fsxa-pattern-library/issues/56)) ([4eea093](https://github.com/e-Spirit/fsxa-pattern-library/commit/4eea093d3eef69c09b1f0914e617dc451a3a6ec9)), closes [#53](https://github.com/e-Spirit/fsxa-pattern-library/issues/53)
+
+
+### BREAKING CHANGES
+
+* **dataset:** The latest fsxa-api version has a new return type for fetchProjectProperties and a
+new format for the ImageMap type. For details, check the the [breaking changes](https://github.com/e-Spirit/fsxa-api/blob/master/CHANGELOG.md#breaking-changes) in the fsxa-api.
+
 # [6.3.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.2.2...v6.3.0) (2022-03-24)
 
 
