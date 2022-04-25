@@ -1,3 +1,10 @@
+## [7.0.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v7.0.0...v7.0.1) (2022-04-25)
+
+
+### Bug Fixes
+
+* **projectporperties:** fix projectProperties typing  ([#60](https://github.com/e-Spirit/fsxa-pattern-library/issues/60)) ([ff52a0c](https://github.com/e-Spirit/fsxa-pattern-library/commit/ff52a0c6166b9ae5a2e19bd9fa294f35d450a4c5))
+
 # [7.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v6.3.0...v7.0.0) (2022-04-21)
 
 
