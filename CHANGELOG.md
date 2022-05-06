@@ -1,3 +1,10 @@
+## [7.0.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v7.0.1...v7.0.2) (2022-05-06)
+
+
+### Bug Fixes
+
+* **fsxa-api:** update to latest fsxa-api ([#64](https://github.com/e-Spirit/fsxa-pattern-library/issues/64)) ([553c9d7](https://github.com/e-Spirit/fsxa-pattern-library/commit/553c9d73a126010c2144043c6374ab69e2e282c3))
+
 ## [7.0.1](https://github.com/e-Spirit/fsxa-pattern-library/compare/v7.0.0...v7.0.1) (2022-04-25)
 
 
