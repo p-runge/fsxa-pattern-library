@@ -14,6 +14,7 @@ interface RenderContentElementProps {
   name: "RenderContentElement",
 })
 class RenderContentElement extends RenderUtils<RenderContentElementProps> {
+  @Prop()
   element: RenderContentElementProps["element"];
 
   render() {
