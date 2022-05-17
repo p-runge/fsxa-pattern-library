@@ -1,3 +1,16 @@
+# [8.0.0](https://github.com/e-Spirit/fsxa-pattern-library/compare/v7.0.2...v8.0.0) (2022-05-17)
+
+
+### Features
+
+* **package.json & package-lock.json:** update fsxa-api ([#65](https://github.com/e-Spirit/fsxa-pattern-library/issues/65)) ([727a76c](https://github.com/e-Spirit/fsxa-pattern-library/commit/727a76c94064f9c1c825524fe3ef6d1605588f15))
+
+
+### BREAKING CHANGES
+
+* **package.json & package-lock.json:** Links inside of RichtTextElements will now be mapped in the same way as the value
+of CMS_INPUT_LINK. Refer to FSXA-API changelog for more details.
+
 ## [7.0.2](https://github.com/e-Spirit/fsxa-pattern-library/compare/v7.0.1...v7.0.2) (2022-05-06)
 
 
